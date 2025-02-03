@@ -1,50 +1,72 @@
-# React + TypeScript + Vite
+# Portal Egressos Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Sobre
+O **Portal Egressos Frontend** é uma aplicação web desenvolvida com **React, TypeScript e Vite**, voltada para a exibição e gerenciamento de dados de egressos. O projeto segue boas práticas de desenvolvimento, incluindo ESLint para análise estática de código e Husky para garantir a execução de hooks de pré-commit.
 
-Currently, two official plugins are available:
+## Sumário
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+- [Execução em Desenvolvimento](#execução-em-desenvolvimento)
+- [Construção para Produção](#construção-para-produção)
+- [Servindo a Aplicação em Produção](#servindo-a-aplicação-em-produção)
+- [Ferramentas Adicionais](#ferramentas-adicionais)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Pré-requisitos
+Antes de começar, certifique-se de ter os seguintes softwares instalados:
 
-## Expanding the ESLint configuration
+- [Node.js (versão LTS recomendada)](https://nodejs.org/)
+- [npm](https://www.npmjs.com/) ou [Yarn](https://yarnpkg.com/)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Instalação
+Siga os passos abaixo para configurar o projeto localmente:
 
-- Configure the top-level `parserOptions` property like this:
+```sh
+# Clone este repositório
+git clone https://github.com/seu-usuario/portal-egressos-frontend.git
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# Acesse o diretório do projeto
+cd portal-egressos-frontend
+
+# Instale as dependências
+npm install # ou yarn install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Execução em Desenvolvimento
+Para iniciar o servidor de desenvolvimento, utilize o comando:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```sh
+npm run dev # ou yarn dev
 ```
+
+A aplicação estará disponível em: **[http://localhost:5173](http://localhost:5173)**
+
+## Construção para Produção
+Para gerar um build otimizado do projeto, execute:
+
+```sh
+npm run build # ou yarn build
+```
+
+Os arquivos otimizados serão gerados na pasta `dist/`.
+
+## Ferramentas Adicionais
+Este projeto utiliza ferramentas auxiliares para garantir qualidade e boas práticas:
+
+### ESLint
+Para verificar problemas de lint no código, execute:
+
+```sh
+npm run lint # ou yarn lint
+```
+
+### Husky
+Husky é utilizado para executar hooks de pré-commit. Para habilitá-lo, rode:
+
+```sh
+npm run prepare
+```
+
+## Licença
+Este projeto está licenciado sob a licença MIT. Para mais detalhes, consulte o arquivo [LICENSE](LICENSE).
