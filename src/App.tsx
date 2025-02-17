@@ -1,18 +1,37 @@
 import './App.css'
-import Header from './components/Header'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import Egressos from './pages/Egressos';
+import Noticias from './pages/Noticias';
+import Depoimentos from './pages/Depoimentos';
+import Oportunidades from './pages/Oportunidades';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <html>
-      <head>
-        <meta charSet="UTF-8"/>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
-        <link href='./index.css' rel='stylesheet'/>
-      </head>
-      <body>
-        <Header/>
-      </body>
-    </html>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+        </Route>
+        <Route path="/Egressos" element={<Layout />}>
+          <Route index element={<Egressos />} />
+        </Route>
+        <Route path="/noticias" element={<Layout />}>
+          <Route index element={<Noticias />} />
+        </Route>
+        <Route path="/depoimentos" element={<Layout />}>
+          <Route index element={<Depoimentos />} />
+        </Route>
+        <Route path="/oportunidades" element={<Layout />}>
+          <Route index element={<Oportunidades />} />
+        </Route>
+        <Route path="/login" element={<Layout />}>
+          <Route index element={<Login />} />
+        </Route>
+      </Routes>
+    </Router>
   )
 }
 
