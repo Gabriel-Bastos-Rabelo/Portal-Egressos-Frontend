@@ -22,7 +22,7 @@ const Navbar = () => {
   return (
     <>
       <nav className='flex items-center justify-center bg-blue7 py-5 px-10 md:px-0'>
-        <div className='container flex items-center justify-between bg-blue7'>
+        <div className='container flex items-center justify-between bg-blue7 mx-8'>
           <div className='flex flex-row items-center gap-10'>
             <div className="mobile hidden" onClick={handleClick}>
               <i id="bar"
