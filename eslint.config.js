@@ -3,7 +3,6 @@ import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 
-
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]},
@@ -19,7 +18,13 @@ export default [
     },
     rules: {
       "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/no-unused-vars": "warn"
+      "react/jsx-filename-extension": ["warn", { "extensions": [".tsx", ".jsx"] }],
+      "react/jsx-key": "error",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "indent": ["warn", 2],
+      "prefer-const": "warn",
+      "no-multiple-empty-lines": ["warn", { "max": 1 }],
     }
   }
 ];
