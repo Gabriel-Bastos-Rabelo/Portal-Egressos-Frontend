@@ -1,5 +1,6 @@
 import banner from '../../assets/home-banner.png';
 import formatura from '../../assets/ictq-formatura.png';
+import { NavLink } from 'react-router-dom';
 
 function Home() {
   return (
@@ -14,34 +15,35 @@ function Home() {
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-white">
           <h1 className="text-4xl font-bold">Bem-vindo ao Portal de Egressos de Ciência da Computação</h1>
         </div>
+
+        {/* Quadrados clicáveis */}
+        <div className="absolute top-90 right-55">
+          <ul className="flex justify-center gap-40">
+            <NavLink to="/">
+              <li className="w-[240px] h-[240px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition">
+                <i className="fa-solid fa-square-poll-vertical text-6xl text-[#08276F] mb-2"></i>
+                <NavLink to="/">Estatística de Egressos</NavLink>
+              </li>
+            </NavLink>
+
+            <NavLink to="/">
+              <li className="w-[240px] h-[240px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition">
+                <i className="fa-solid fa-graduation-cap text-6xl text-[#08276F] mb-2"></i>
+                Cadastre-se
+              </li>
+            </NavLink>
+
+            <NavLink to="/oportunidades">
+              <li className="w-[240px] h-[240px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition">
+                <i className="fa-solid fa-briefcase text-6xl text-[#08276F] mb-2"></i>
+                Oportunidades
+              </li>
+            </NavLink>
+          </ul>
+        </div>
       </div>
 
-      {/* Quadrados clicáveis */}
-      <div className="flex justify-center gap-40">
-        <a
-          href="#"
-          className="w-[260px] h-[260px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition"
-        >
-          <i className="fa-solid fa-square-poll-vertical text-6xl text-[#08276F] mb-2"></i>
-          Estatística de Egressos
-        </a>
-        <a
-          href="#"
-          className="w-[260px] h-[260px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition"
-        >
-          <i className="fa-solid fa-graduation-cap text-6xl text-[#08276F] mb-2"></i>
-          Cadastre-se
-        </a>
-        <a
-          href="#"
-          className="w-[260px] h-[260px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition"
-        >
-          <i className="fa-solid fa-briefcase text-6xl text-[#08276F] mb-2"></i>
-          Oportunidades
-        </a>
-      </div>
-
-      <div className="flex flex-col items-center my-10 mx-40 gap-10">
+      <div className="flex flex-col items-center mt-40 mb-10 mx-40 gap-10">
         <h1 className="text-3xl font-bold">Nossa história continua após a formatura!</h1>
         <div className="flex items-center gap-20">
           <img src={formatura} alt="Foto Formandos" className="" />
