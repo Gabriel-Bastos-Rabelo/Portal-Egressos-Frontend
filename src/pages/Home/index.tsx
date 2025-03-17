@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 function Home() {
   return (
     <div className=" ">
-      <div className="container text-center relative h-[500px]">
+      <div className="w-full text-center relative h-[500px]">
         <img src={banner} alt="Banner Home" className="w-full h-full object-cover" />
         
         {/* Película */}
@@ -17,7 +17,7 @@ function Home() {
         </div>
 
         {/* Quadrados clicáveis */}
-        <div className="absolute top-90 right-55">
+        <div className="absolute top-90 left-1/2 transform -translate-x-1/4">
           <ul className="flex justify-center gap-40">
             <NavLink to="/">
               <li className="w-[240px] h-[240px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition">
