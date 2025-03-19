@@ -8,7 +8,7 @@ export type Solicitacoes = {
 };
 
 function Solicitacoes() {
-  const [solicitacoes, setSolicitacoes] = useState<Solicitacoes[]>([
+  const [solicitacoes] = useState<Solicitacoes[]>([
     { nomeEgresso: "Anderson Lopes", texto: "Descrição aqui fdasçkfnmadofdan afjadopifjad oajfadfad pjfpadfjpadifad jadpofjadpfjadf oiadpfjadf pfjpadjf pajdpfjadf ad-jkadfpjaf ", tipo: "Descrição" },
     { nomeEgresso: "Joana Kuelvia", texto: "Descrição aqui", tipo: "Descrição" },
     { nomeEgresso: "Sabryna Rodrigues", texto: "Descrição aqui", tipo: "Descrição" },
