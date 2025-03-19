@@ -1,7 +1,11 @@
 import { NavLink } from "react-router-dom";
 import logo from '../../assets/logoUfma.png'
 
-const Footer = () => {
+type FooterProps = {
+  isCoordenador: boolean;  // Recebe a prop para verificar se é coordenador
+};
+
+const Footer = ({ isCoordenador }: FooterProps) => {
   return (
     <footer className="w-full bg-blue7 mt-auto">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -30,6 +34,16 @@ const Footer = () => {
                   </NavLink>
                 </li>
               ))}
+              {isCoordenador && (  // Se for coordenador, exibe o link de Solicitações no footer
+                <li>
+                  <NavLink
+                    to="/solicitacoes"
+                    className="block text-sm lg:text-base text-gray-200 hover:text-white transition-colors"
+                  >
+                    Solicitações
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </div>
           <div className="order-1 lg:order-2">

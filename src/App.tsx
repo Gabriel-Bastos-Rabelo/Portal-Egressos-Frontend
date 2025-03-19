@@ -7,32 +7,40 @@ import Noticias from './pages/Noticias';
 import Depoimentos from './pages/Depoimentos';
 import Oportunidades from './pages/Oportunidades';
 import Login from './pages/Login';
+import CoordHome from './pages/CoordHome';
+import Solicitacoes from './pages/Solicitacoes';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout isCoordenador={false} />}>
           <Route index element={<Home />} />
         </Route>
-        <Route path="/Egressos" element={<Layout />}>
+        <Route path="/Egressos" element={<Layout isCoordenador={false} />}>
           <Route index element={<Egressos />} />
         </Route>
-        <Route path="/noticias" element={<Layout />}>
+        <Route path="/noticias" element={<Layout isCoordenador={false} />}>
           <Route index element={<Noticias />} />
         </Route>
-        <Route path="/depoimentos" element={<Layout />}>
+        <Route path="/depoimentos" element={<Layout isCoordenador={false} />}>
           <Route index element={<Depoimentos />} />
         </Route>
-        <Route path="/oportunidades" element={<Layout />}>
+        <Route path="/oportunidades" element={<Layout isCoordenador={false} />}>
           <Route index element={<Oportunidades />} />
         </Route>
-        <Route path="/login" element={<Layout />}>
+        <Route path="/login" element={<Layout isCoordenador={false} />}>
           <Route index element={<Login />} />
+        </Route>
+        <Route path="/coordenador" element={<Layout isCoordenador={true} />}>
+          <Route index element={<CoordHome />} />
+        </Route>
+        <Route path="/solicitacoes" element={<Layout isCoordenador={true} />}>
+          <Route index element={<Solicitacoes />} />
         </Route>
       </Routes>
     </Router>
-  )
+  );
 }
 
 export default App
