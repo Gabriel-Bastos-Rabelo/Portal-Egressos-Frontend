@@ -132,12 +132,14 @@ const Navbar = ({ isCoordenador }: NavbarProps) => {
                 </li>
               )}
             </ul>
-            <Link to="/login">
-              <button className='hidden md:inline w-35 h-10 bg-[#931737] text-white rounded gap-2 text-xl font-bold ml-4 hover:bg-[#B7243E] transition-all'>
-                <i className="fa-solid fa-lock mr-2"></i>
+            {!isCoordenador && (  
+              <Link to="/login">
+                <button className='hidden md:inline w-35 h-10 bg-[#931737] text-white rounded gap-2 text-xl font-bold ml-4 hover:bg-[#B7243E] transition-all'>
+                  <i className="fa-solid fa-lock mr-2"></i>
             Acessar
-              </button>
-            </Link>
+                </button>
+              </Link>
+            )}
           </div>
 
           <div id="navbarMenu" className={clicked ? "#navbar-menu active hidden" : "navbar-menu hidden"}>
