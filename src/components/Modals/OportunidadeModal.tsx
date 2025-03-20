@@ -1,8 +1,11 @@
+import { Oportunidade } from '../Cards/OportunidadeCard.tsx';
+
 type OportunidadeModalProps = {
     onClose: () => void;
+    oportunidade: Oportunidade;
   };
   
-const OportunidadeModal = ({ onClose }: OportunidadeModalProps) => {
+const OportunidadeModal = ({ onClose, oportunidade }: OportunidadeModalProps) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg w-[500px] max-w-[90%] p-8 relative">
@@ -18,40 +21,38 @@ const OportunidadeModal = ({ onClose }: OportunidadeModalProps) => {
             &times;
         </button>
   
-        <h2 className="text-2xl font-bold text-center mb-3">Título da Oportunidade</h2>
+        <h2 className="text-2xl font-bold text-center mb-3">{oportunidade.titulo}</h2>
   
         <div className="flex flex-col gap-4 text-gray-600">
           <div className="flex justify-between w-full gap-x-8">
             <div className="flex items-center gap-2">
               <i className="fa-solid fa-briefcase"></i>
-              <p>Tipo: Integral</p>
+              <p>Tipo: {oportunidade.tipo}</p>
             </div>
             <div className="flex items-center gap-2">
               <i className="fa-solid fa-building-user"></i>
-              <p>Local: Remoto</p>
+              <p>Local: {oportunidade.local}</p>
             </div>
           </div>
   
           <div className="flex justify-between w-full gap-x-8">
             <div className="flex items-center gap-2">
               <i className="fa-solid fa-clock"></i>
-              <p>Data da Publicação: dd/mm/aaaa</p>
+              <p>Data da Expiração: {oportunidade.dataExpiracao}</p>
             </div>
             <div className="flex items-center gap-2">
               <i className="fa-solid fa-sack-dollar"></i>
-              <p>Salário: R$5.000</p>
+              <p>Salário: {oportunidade.salario}</p>
             </div>
           </div>
         </div>
   
         <p className="text-gray-600 text-justify mt-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam diam nunc,
-            facilisis vel luctus sed, venenatis sed quam. Phasellus ut hendrerit diam.
-            Aliquam egestas mauris ac arcu accumsan scelerisque.
+          {oportunidade.descricao}
         </p>
   
         <p className="mt-2 text-blue-600 underline cursor-pointer">
-            Link da oportunidade
+          {oportunidade.salario}
         </p>
       </div>
     </div>
@@ -59,4 +60,3 @@ const OportunidadeModal = ({ onClose }: OportunidadeModalProps) => {
 };
   
 export default OportunidadeModal;
-  
