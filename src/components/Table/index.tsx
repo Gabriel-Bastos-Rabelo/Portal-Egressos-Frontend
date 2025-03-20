@@ -1,26 +1,29 @@
 import { Solicitacoes } from '../../pages/Solicitacoes'; 
 
-type TabelaProps = {
-    solicitacoes: Solicitacoes[]; // Definindo o tipo da prop como um array de objetos Solicitacoes
-  };
+type TableProps = {
+    solicitacoes: Solicitacoes[];
+    selected: number[];
+    onCheckboxChange: (index: number) => void;
+    onSelectAllChange: () => void;
+    selectAll: boolean;
+};
 
-function Table({ solicitacoes }: TabelaProps) {
+function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, selectAll }: TableProps) {
   return (
     <table className="w-full table-auto border-collapse">
       <thead>
         <tr className="bg-[#F1FBFF] text-xl">
           <th className="w-1/20 px-2 py-4 border border-[#000]">
-            <input type="checkbox" className="w-5 h-5"/>
+            <input
+              type="checkbox"
+              className="w-5 h-5"
+              checked={selectAll}
+              onChange={onSelectAllChange}
+            />
           </th>
-          <th className="w-6/20 px-2 py-4 border border-[#000]">
-                    Nome Egresso
-          </th>
-          <th className="w-10/20 px-2 py-4 border border-[#000]">
-            {solicitacoes[0].tipo}
-          </th>
-          <th className="w-3/20 px-2 py-4 border border-[#000]">
-                    Ações
-          </th>
+          <th className="w-6/20 px-2 py-4 border border-[#000]">Nome Egresso</th>
+          <th className="w-10/20 px-2 py-4 border border-[#000]">{solicitacoes[0].tipo}</th>
+          <th className="w-3/20 px-2 py-4 border border-[#000]">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +31,10 @@ function Table({ solicitacoes }: TabelaProps) {
           <tr key={index} className="border-b border-[#000] text-x1">
             <td className="px-2 py-4 flex justify-center text-2xl">
               <input
-                type="checkbox" className="w-5 h-5 flex items-center"
+                type="checkbox"
+                className="w-5 h-5"
+                checked={selected.includes(index)}
+                onChange={() => onCheckboxChange(index)}
               />
             </td>
             <td className="px-2 py-4 font-bold text-center text-lg">{solicitacao.nomeEgresso}</td>
