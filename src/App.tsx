@@ -29,7 +29,7 @@ function App() {
         <Route path="/oportunidades" element={<Layout isCoordenador={false} />}>
           <Route index element={<Oportunidades />} />
         </Route>
-        <Route path="/login" element={<Layout isCoordenador={false} />}>
+        <Route path="/login">
           <Route index element={<Login />} />
         </Route>
         <Route path="/coordenador" element={<Layout isCoordenador={true} />}>

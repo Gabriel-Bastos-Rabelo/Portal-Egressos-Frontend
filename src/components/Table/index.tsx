@@ -22,7 +22,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
             />
           </th>
           <th className="w-6/20 px-2 py-4 border border-[#000]">Nome Egresso</th>
-          <th className="w-10/20 px-2 py-4 border border-[#000]">{solicitacoes[0].tipo}</th>
+          <th className="w-10/20 px-2 py-4 border border-[#000]">Descrição</th>
           <th className="w-3/20 px-2 py-4 border border-[#000]">Ações</th>
         </tr>
       </thead>
