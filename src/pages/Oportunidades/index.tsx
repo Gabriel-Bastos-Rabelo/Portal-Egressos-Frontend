@@ -6,7 +6,7 @@ function Oportunidades() {
   const [oportunidades, setOportunidades] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/egresso/buscarAprovados')
+    axios.get('http://localhost:8080/api/oportunidade/aprovadas')
       .then(response => {
         setOportunidades(response.data);
       })

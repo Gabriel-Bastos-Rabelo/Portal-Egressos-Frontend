@@ -6,7 +6,7 @@ function Depoimentos() {
   const [depoimentos, setDepoimentos] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/depoimento/listar')
+    axios.get('http://localhost:8080/api/depoimento/aprovados')
       .then(response => {
         setDepoimentos(response.data);
       })
@@ -16,7 +16,7 @@ function Depoimentos() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen justify-center">
+    <div className="flex flex-col min-h-screen w-screen justify-center">
       <h1 className="text-3xl font-bold text-center mt-12">Depoimentos</h1>
   
       <div className="flex flex-col max-w-5xl mx-auto px-4 w-full">

@@ -8,6 +8,7 @@ function Egressos() {
   useEffect(() => {
     axios.get('http://localhost:8080/api/egresso/buscarAprovados')
       .then(response => {
+        console.log(response.data);  
         setEgressos(response.data);
       })
       .catch(error => {

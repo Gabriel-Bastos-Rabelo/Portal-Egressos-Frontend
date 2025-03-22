@@ -52,7 +52,7 @@ const OportunidadeModal = ({ onClose, oportunidade }: OportunidadeModalProps) =>
         </p>
   
         <p className="mt-2 text-blue-600 underline cursor-pointer">
-          {oportunidade.salario}
+          {oportunidade.link}
         </p>
       </div>
     </div>

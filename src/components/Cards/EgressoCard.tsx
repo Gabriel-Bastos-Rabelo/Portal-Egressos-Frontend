@@ -26,30 +26,32 @@ const EgressoCard = ({ egresso }: { egresso: Egresso }) => {
       <p className="text-gray-600">{egresso.cargo}</p>
       <p className="text-gray-600">{egresso.curso}</p>
 
-      <a
-        href={egresso.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-white rounded-full shadow-xl p-2 cursor-pointer transition hover:bg-gray-100"
-      >
-        <i className="fa-brands fa-linkedin-in text-2xl text-[#000000]"></i>
-      </a>
+      <div className="flex">
+        <a
+          href={egresso.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white rounded-full shadow-xl p-2 cursor-pointer transition hover:bg-gray-100"
+        >
+          <i className="fa-brands fa-linkedin-in text-2xl text-[#000000]"></i>
+        </a>
 
-      <a
-        href={egresso.instagram}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-white rounded-full shadow-xl p-2 cursor-pointer transition hover:bg-gray-100"
-      >
-        <i className="fa-brands fa-instagram text-2xl text-[#000000]"></i>
-      </a>
+        <a
+          href={egresso.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white rounded-full shadow-xl p-2 cursor-pointer transition hover:bg-gray-100"
+        >
+          <i className="fa-brands fa-instagram text-2xl text-[#000000]"></i>
+        </a>
 
-      <a
-        href={egresso.email}
-        className="bg-white rounded-full shadow-xl p-2 cursor-pointer transition hover:bg-gray-100"
-      >
-        <i className="fa-regular fa-envelope text-2xl text-[#000000]"></i>
-      </a>
+        <a
+          href={egresso.email}
+          className="bg-white rounded-full shadow-xl p-2 cursor-pointer transition hover:bg-gray-100"
+        >
+          <i className="fa-regular fa-envelope text-2xl text-[#000000]"></i>
+        </a>
+      </div>
 
       <button className="mt-3 bg-[#0E3986] text-white px-6 py-2 rounded hover:bg-blue-700 transition" onClick={openModal}>
             Ver mais
