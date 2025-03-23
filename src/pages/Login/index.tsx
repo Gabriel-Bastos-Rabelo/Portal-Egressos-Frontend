@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import login from '../../assets/login-icon.png';
@@ -11,6 +11,20 @@ function Login() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Verifica se o token e o papel (role) estão armazenados no localStorage
+    const accessToken = localStorage.getItem("accessToken");
+    const role = localStorage.getItem("role");
+
+    if (accessToken && role) {
+      if (role === "COORDENADOR") {
+        navigate("/coordenador");
+      } else if (role === "EGRESSO") {
+        navigate("/home");  // Ou outra página do egresso
+      }
+    }
+  }, [navigate]);
+  
   // Função para lidar com o envio do formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
