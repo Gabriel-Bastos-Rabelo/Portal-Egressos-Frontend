@@ -26,9 +26,16 @@ function Login() {
 
       // Armazenando o token de acesso no localStorage ou em um contexto
       localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('role', response.data.role);
 
-      // Redirecionando para a rota de coordenador após o sucesso
-      navigate('/coordenador');
+      // Verificando o papel do usuário e redirecionando para a página correta
+      if (response.data.role === 'COORDENADOR') {
+        // Redirecionando para a página do coordenador
+        navigate('/coordenador');
+      } else if (response.data.role === 'EGRESSO') {
+        // Redirecionando para a página do egresso
+        navigate('/');
+      }
     } catch (error) {
       // Em caso de erro, exibe a mensagem de erro
       console.log(error);
