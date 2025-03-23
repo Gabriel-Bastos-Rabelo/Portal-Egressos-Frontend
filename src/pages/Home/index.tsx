@@ -26,7 +26,7 @@ function Home() {
               </li>
             </NavLink>
 
-            <NavLink to="/">
+            <NavLink to="/Egressos/cadastro">
               <li className="w-[240px] h-[240px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition">
                 <i className="fa-solid fa-graduation-cap text-6xl text-[#08276F] mb-2"></i>
                 Cadastre-se

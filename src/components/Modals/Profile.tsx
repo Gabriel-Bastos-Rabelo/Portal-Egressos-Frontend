@@ -20,7 +20,7 @@ const Profile = ( { onLogout }: ProfileProps ) => {
   };
 
   const handleGoToCreateOpportunity = () => {
-    navigate('/oportunidade');
+    navigate('/oportunidades/enviarOportunidade');
   };
 
   return (
