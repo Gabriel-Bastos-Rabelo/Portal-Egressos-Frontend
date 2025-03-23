@@ -3,9 +3,18 @@ import Table from '../../components/Table'
 import { useEffect, useState } from "react";
 
 export type Solicitacoes = {
-  nomeEgresso: string;
-  texto: string;
-  tipo: string
+  id: number;
+  nome: string;
+  descricao: string;
+  foto: string;
+  linkedin: string;
+  instagram: string;
+  curriculo: string;
+  status: string;
+  emailUsuario: string;
+  curso: string; // Adicionando o campo 'curso'
+  idCurso: string;
+  cargo: string;
 };
 
 function Solicitacoes() {
@@ -61,7 +70,7 @@ function Solicitacoes() {
   };
 
   return (
-    <div className="w-full h-screen mb-10">
+    <div className="w-full mb-10">
       <div className="flex justify-around text-2xl my-8">
         <h2>Egressos</h2>
         <h2>Depoimentos</h2>

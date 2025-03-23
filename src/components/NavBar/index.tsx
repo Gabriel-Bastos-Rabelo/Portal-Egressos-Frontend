@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import logo from '../../assets/logoUfma.png'
 import './navBar.css'
 import JobIcon from '../../assets/jobIcon.svg';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import Profile from '../Modals/Profile';
 
 type NavbarProps = {
   isCoordenador: boolean;
@@ -10,11 +11,13 @@ type NavbarProps = {
 
 const Navbar = ({ isCoordenador }: NavbarProps) => {
   const [clicked, setClicked] = useState<boolean>(false);
+  const [role, setRole] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleClick = () => {
     setClicked(!clicked);
   }
-
+  
   useEffect(() => {
     if (clicked) {
       document.body.style.overflow = 'hidden';
@@ -22,6 +25,22 @@ const Navbar = ({ isCoordenador }: NavbarProps) => {
       document.body.style.overflow = 'unset';
     }
   }, [clicked]);
+  
+  useEffect(() => {
+    // Verifica se o role está no localStorage
+    const storedRole = localStorage.getItem("role");
+    setRole(storedRole); // Atualiza o estado com o role armazenado
+  }, []);
+  
+  const homeLink = role === "COORDENADOR" ? "/coordenador" : "/";
+
+  const handleLogout = () => {
+    // Remover dados de login do localStorage
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('role'); // Remover o role do localStorage
+    setRole(""); // Limpe o role
+    navigate('/');
+  };
 
   return (
     <>
@@ -46,7 +65,7 @@ const Navbar = ({ isCoordenador }: NavbarProps) => {
             <ul id="navbar" className="flex flex-row items-center justify-center relative">
               <li>
                 <NavLink
-                  to="/"
+                  to={homeLink}
                   end
                   className={({ isActive }) => 
                     `text-xl mr-4 ${
@@ -132,14 +151,15 @@ const Navbar = ({ isCoordenador }: NavbarProps) => {
                 </li>
               )}
             </ul>
-            {!isCoordenador && (  
-              <Link to="/login">
+            {role !== "EGRESSO" && role !== "COORDENADOR" && (  
+              <NavLink to="/login">
                 <button className='hidden md:inline w-35 h-10 bg-[#931737] text-white rounded gap-2 text-xl font-bold ml-4 hover:bg-[#B7243E] transition-all'>
                   <i className="fa-solid fa-lock mr-2"></i>
             Acessar
                 </button>
-              </Link>
+              </NavLink>
             )}
+            {(role === "EGRESSO" || role === "COORDENADOR") && <Profile onLogout={handleLogout} />}
           </div>
 
           <div id="navbarMenu" className={clicked ? "#navbar-menu active hidden" : "navbar-menu hidden"}>

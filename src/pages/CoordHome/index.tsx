@@ -16,7 +16,7 @@ function CoordHome() {
         <ul className="flex gap-50">
           <Module link={"/solicitacoes"} texto={"Solicitacoes"} icon={"fa-solid fa-users text-6xl text-[#08276F] mb-2"}/>
           <Module link={"/"} texto={"Estatística de Egressos"} icon={"fa-solid fa-square-poll-vertical text-6xl text-[#08276F] mb-2"}/>
-          <Module link={"/Egressos"} texto={"Egressos"} icon={"fa-solid fa-graduation-cap text-6xl text-[#08276F] mb-2"}/>
+          <Module link={"/egressos"} texto={"Egressos"} icon={"fa-solid fa-graduation-cap text-6xl text-[#08276F] mb-2"}/>
         </ul>
 
         <ul className="flex gap-50">

@@ -37,8 +37,8 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
                 onChange={() => onCheckboxChange(index)}
               />
             </td>
-            <td className="px-2 py-4 font-bold text-center text-lg">{solicitacao.nomeEgresso}</td>
-            <td className="px-2 py-4 text-justify text-lg text-gray-600">{solicitacao.texto}</td>
+            <td className="px-2 py-4 font-bold text-center text-lg">{solicitacao.nome}</td>
+            <td className="px-2 py-4 text-justify text-lg text-gray-600">{solicitacao.descricao}</td>
             <td className="px-2 py-4 flex justify-around gap-4">
               <i className="fa-solid fa-magnifying-glass text-[#08276F] text-3xl"></i>
               <i className="fa-solid fa-check text-[#106F1F] text-3xl"></i>
