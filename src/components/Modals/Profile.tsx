@@ -16,11 +16,11 @@ const Profile = ( { onLogout }: ProfileProps ) => {
   };
 
   const handleGoToProfile = () => {
-    navigate('/');
+    navigate('/Egressos/perfil');
   };
 
   const handleGoToCreateOpportunity = () => {
-    navigate('/oportunidade');
+    navigate('/oportunidades/enviarOportunidade');
   };
 
   return (

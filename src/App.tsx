@@ -9,6 +9,9 @@ import Oportunidades from './pages/Oportunidades';
 import Login from './pages/Login';
 import CoordHome from './pages/CoordHome';
 import Solicitacoes from './pages/Solicitacoes';
+import Cadastro from './pages/Egressos/cadastro';
+import EnviarOportunidade from './pages/Oportunidades/enviarOportunidade';
+import EditarPerfil from './pages/EgressoHome/perfil';
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
         </Route>
         <Route path="/Egressos" element={<Layout isCoordenador={false} />}>
           <Route index element={<Egressos />} />
+        </Route>
+        <Route path="/Egressos/cadastro" element={<Layout isCoordenador={false} />} >
+          <Route index element={<Cadastro />} />
         </Route>
         <Route path="/noticias" element={<Layout isCoordenador={false} />}>
           <Route index element={<Noticias />} />
@@ -38,6 +44,13 @@ function App() {
         <Route path="/solicitacoes" element={<Layout isCoordenador={true} />}>
           <Route index element={<Solicitacoes />} />
         </Route>
+        <Route path="/oportunidades/enviarOportunidade" element={<Layout isCoordenador={true} />}>
+          <Route index element={<EnviarOportunidade />} />
+        </Route>
+        <Route path="/Egressos/perfil" element={<Layout isCoordenador={false} />}>
+          <Route index element={<EditarPerfil />} />
+        </Route>
+
       </Routes>
     </Router>
   );
