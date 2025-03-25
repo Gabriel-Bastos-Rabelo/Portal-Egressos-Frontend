@@ -9,20 +9,20 @@ export default function StepIndicator({
 }) {
   return (
     <div className="w-full flex flex-col items-center gap-6">
-      {/* Steps , Labels , Linha  */}
-      <div className="relative flex justify-between w-[300px]">
-        {/* Linha de fundo cinza */}
-        <div className="absolute top-[12px] left-[12%] right-[10%] h-[2px] bg-gray-300 z-0" />
+      {/* Steps, Labels, Line */}
+      <div className="relative flex justify-evenly w-full max-w-[600px]">
+        {/* Background line */}
+        <div className="w-90 absolute top-[50%] left-30 right-0 h-[2px] bg-gray-300 z-0" />
 
-        {/* Linha de progresso azul */}
+        {/* Progress line */}
         <div
-          className={`absolute top-[12px] left-[12%] right-[10%] h-[2px] bg-blue-900 z-10 transition-all duration-500`}
+          className={`absolute top-[50%] left-30 right-0 h-[2px] bg-blue-900 z-10 transition-all duration-500`}
           style={{
             width: currentStep === 1
               ? "0%"
               : currentStep === 2
-                ? "75%" 
-                : "100%",
+                ? "32%"
+                : "62%",
           }}
         />
 
@@ -34,15 +34,14 @@ export default function StepIndicator({
           return (
             <div
               key={index}
-              className="relative z-20 flex flex-col items-center"
+              className="relative z-20 flex flex-col items-center w-full max-w-[120px]"
             >
-              {/* Bolinha */}
+              {/* Circle */}
               <div
-                className={`flex items-center justify-center w-6 h-6 rounded-full text-white text-sm transition-all duration-300
-                  ${isCompleted ? 'bg-blue-900' : ''}
+                className={`mt-7 flex items-center justify-center w-7 h-7 rounded-full text-white text-sm transition-all duration-300
+                  ${isCompleted ? 'bg-blue-900' : ''} 
                   ${isActive ? 'bg-blue-900' : ''}
-                  ${!isCompleted && !isActive ? 'bg-gray-400' : ''}
-                `}
+                  ${!isCompleted && !isActive ? 'bg-gray-400' : ''}`}
               >
                 {isCompleted ? (
                   <Check size={16} className="text-white" />

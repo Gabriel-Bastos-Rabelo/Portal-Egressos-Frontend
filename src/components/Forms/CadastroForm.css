@@ -261,4 +261,43 @@
         min-width: 48%; /* Evita que fiquem muito pequenos */
       }
       
+      .tooltip-container {
+        position: relative;
+        display: inline-block;
+        margin-left: 8px;
+        cursor: pointer;
+      }
+      
+      .tooltip-icon {
+        background-color: #2d3e50;
+        color: white;
+        border-radius: 9999px;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        text-align: center;
+        line-height: 18px;
+        font-weight: bold;
+        display: inline-block;
+      }
+      
+      .tooltip-text {
+        visibility: hidden;
+        width: max-content;
+        background-color: #555;
+        color: #fff;
+        text-align: left;
+        border-radius: 6px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 1;
+        top: -5px;
+        left: 110%;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      
+      .tooltip-container:hover .tooltip-text {
+        visibility: visible;
+      }
       

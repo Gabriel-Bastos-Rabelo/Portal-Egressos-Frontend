@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CadastroForm from '../../components/Forms/CadastroForm';
 import DepoimentoForm from '../../components/Forms/DepoimentoForm';
+import CargoForm from '../../components/Forms/CargoForm';
 import StepIndicator from '../../components/Steps/StepIndicator';
 
 interface FormData {
@@ -12,24 +13,32 @@ interface FormData {
   email: string;
   senha: string;
   curso: string;
-  anoInicio: Int16Array;
-  anoFim: Int16Array; 
-  foto: FileList | null; // foto é um arquivo ou null
+  anoInicio: number;
+  anoFim: number;
+  foto: FileList | null;
 }
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData | null>(null);
-  const [idEgresso, setEgressoId] = useState<number | null>(null); // Adicionando estado para armazenar o ID do Egresso
+  const [idEgresso, setEgressoId] = useState<number | null>(null);
 
   const handleNextStep = (data: FormData, id: number) => {
-    setFormData(data); // Armazenar os dados no estado ao enviar o formulário
-    setEgressoId(id); // Armazenar o ID do Egresso retornado
+    setFormData(data);
+    setEgressoId(id);
     setCurrentStep(2);
+  };
+
+  const handleNextStepDepoimento = () => {
+    setCurrentStep(3);  // Passa para a 3ª etapa após salvar o depoimento
   };
 
   const handlePrevStep = () => {
     setCurrentStep(1);
+  };
+
+  const handlePrevStepCargo = () => {
+    setCurrentStep(2);
   };
 
   return (
@@ -38,7 +47,7 @@ export default function Cadastro() {
         <h1 className="text-3xl font-bold mb-6 text-center">Cadastro</h1>
 
         <StepIndicator
-          steps={['Dados Pessoais', 'Depoimento']}
+          steps={['Dados Pessoais', 'Depoimento', 'Cargo']}
           currentStep={currentStep}
         />
 
@@ -46,15 +55,27 @@ export default function Cadastro() {
 
         {/* Step 1 - Cadastro */}
         {currentStep === 1 && (
-          <CadastroForm 
-            onNext={handleNextStep} 
-            initialData={formData} 
+          <CadastroForm
+            onNext={handleNextStep}
+            initialData={formData}
           />
         )}
 
         {/* Step 2 - Depoimento */}
-        {currentStep === 2 && idEgresso && (  
-          <DepoimentoForm onBack={handlePrevStep} idEgresso={idEgresso} />
+        {currentStep === 2 && idEgresso && (
+          <DepoimentoForm
+            onBack={handlePrevStep}
+            onNextStep={handleNextStepDepoimento}  // Passando a função para a etapa 3
+            idEgresso={idEgresso}
+          />
+        )}
+
+        {/* Step 3 - Cargo */}
+        {currentStep === 3 && idEgresso && (
+          <CargoForm
+            onBack={handlePrevStepCargo}
+            idEgresso={idEgresso}
+          />
         )}
       </div>
     </div>
