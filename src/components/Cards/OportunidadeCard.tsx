@@ -1,18 +1,6 @@
 import { useState } from 'react';
 import OportunidadeModal from '../../components/Modals/OportunidadeModal.tsx';
-
-export type Oportunidade = {
-  titulo: string;
-  descricao: string;
-  local: string;
-  tipo: string;
-  dataExpiracao: string;
-  dataPublicacao: string;
-  salario: string;
-  link: string;
-  nomeEgresso: string;
-  email: string;
-}
+import { Oportunidade } from '../../values/oportunidade.tsx'
 
 const OportunidadeCard = ({ oportunidade }: { oportunidade: Oportunidade }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

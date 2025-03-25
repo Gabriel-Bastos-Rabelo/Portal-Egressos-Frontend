@@ -1,11 +1,5 @@
 import egressoImg from '../../assets/egresso-img.png';
-
-export type Depoimento = {
-  nomeEgresso: string;
-  nomeCurso: string;
-  imagemEgresso: string;
-  texto: string;
-};
+import { Depoimento } from '../../values/depoimento.tsx'
 
 const DepoimentoCard = ({ depoimento }: { depoimento: Depoimento }) => {
   return (

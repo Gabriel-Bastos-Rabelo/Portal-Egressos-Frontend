@@ -1,12 +1,5 @@
 import logoUfma from '../../assets/logoUfma.png';
-
-export type Noticia = {
-  autor: string;
-  data: string;
-  descricao: string;
-  imagem_url: string;
-  link_noticia: string;
-};
+import { Noticia } from '../../values/noticia.tsx'
 
 const NoticiaCard = ({ noticia }: { noticia: Noticia }) => {
   const truncateText = (text: string, maxLength: number) => {
