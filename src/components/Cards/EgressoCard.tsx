@@ -1,17 +1,7 @@
 import { useState } from 'react';
 import egressoImg from '../../assets/egresso-img.png';
 import EgressoModal from '../../components/Modals/EgressoModal.tsx';
-
-export type Egresso = {
-  id: number;
-  nome: string;
-  cargo: string;
-  curso: string;
-  email: string;
-  linkedin: string;
-  instagram: string;
-  descricao: string;
-};
+import { Egresso } from '../../values/egresso.tsx'
 
 const EgressoCard = ({ egresso }: { egresso: Egresso }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
