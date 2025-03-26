@@ -8,7 +8,7 @@ interface FormData {
   nome: string;
   descricao: string;
   linkedin: string;
-  lattes: string;
+  curriculo: string;
   instagram: string;
   email: string;
   senha: string;
@@ -18,8 +18,8 @@ interface FormData {
   foto: FileList | null; // foto é um arquivo ou null
 }
 
-export default function CadastroForm({ onNext, initialData }: { onNext: (data: FormData, egressoId: number) => void, initialData: FormData | null }) {
-  const { register, handleSubmit, formState: { errors, isValid }, setValue } = useForm<FormData>({
+export default function CadastroForm({ onNext }: { onNext: (data: FormData, egressoId: number) => void }) {
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm<FormData>({
     mode: 'onChange',
   });
 
@@ -49,19 +49,6 @@ export default function CadastroForm({ onNext, initialData }: { onNext: (data: F
     fetchCursos();
   }, []);
 
-  useEffect(() => {
-    if (initialData) {
-      Object.keys(initialData).forEach((key) => {
-        const typedKey = key as keyof FormData; 
-        setValue(typedKey, initialData[typedKey]);
-  
-        if (initialData.foto) {
-          setFotoNome(initialData.foto[0].name);
-        }
-      });
-    }
-  }, [initialData, setValue]);
-
   const onSubmit = async (data: FormData) => {
     try {
       const formData = new FormData();
@@ -71,7 +58,7 @@ export default function CadastroForm({ onNext, initialData }: { onNext: (data: F
         nome: data.nome,
         descricao: data.descricao,
         linkedin: data.linkedin,
-        lattes: data.lattes,
+        curriculo: data.curriculo,
         instagram: data.instagram,
         emailUsuario: data.email,
         senhaUsuario: data.senha,
@@ -191,10 +178,10 @@ export default function CadastroForm({ onNext, initialData }: { onNext: (data: F
 
       {/* Currículo Lattes */}
       <div>
-        <label htmlFor="lattes" className="cadastro-label">Currículo Lattes</label>
+        <label htmlFor="curriculo" className="cadastro-label">Currículo Lattes</label>
         <input
-          {...register('lattes')}
-          id="lattes"
+          {...register('curriculo')}
+          id="curriculo"
           placeholder="Digite o link do seu Lattes"
           className="cadastro-input"
           type="url"

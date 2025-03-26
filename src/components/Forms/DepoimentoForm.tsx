@@ -1,5 +1,6 @@
+
 import { useForm } from 'react-hook-form';
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import axios from 'axios';  // Importando o axios
 import './CadastroForm.css';
 
@@ -7,15 +8,17 @@ type DepoimentoData = {
   texto: string;
 };
 
-export default function DepoimentoForm({
-  onBack,
-  onNextStep,  // Nova função para navegar para a próxima etapa
-  idEgresso,
-}: { 
-  onBack: () => void;
-  onNextStep: () => void;  // Adicionamos a função de navegação
+type DepoimentoFormProps = {
+  onNextStep: () => void;
+  onCancel: () => void; 
   idEgresso: number | null;
-}) {
+};
+
+export default function DepoimentoForm({
+  onNextStep,
+  onCancel,
+  idEgresso,
+}: DepoimentoFormProps) {
   const { register, handleSubmit, formState: { errors, isValid } } = useForm<DepoimentoData>({
     mode: 'onChange',
   });
@@ -77,11 +80,10 @@ export default function DepoimentoForm({
       <div className="flex justify-center gap-4 mt-8">
         <button
           type="button"
-          onClick={onBack}
+          onClick={onCancel}  // Chamando a função onCancel para redirecionar para a home
           className="btn-voltar flex items-center gap-2"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Voltar
+          Cancelar
         </button>
 
         <button

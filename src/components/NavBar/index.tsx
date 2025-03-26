@@ -38,6 +38,8 @@ const Navbar = ({ isCoordenador }: NavbarProps) => {
     // Remover dados de login do localStorage
     localStorage.removeItem('accessToken');
     localStorage.removeItem('role'); // Remover o role do localStorage
+    localStorage.removeItem('email');
+    localStorage.removeItem('egressoId')
     setRole(""); // Limpe o role
     navigate('/');
   };
