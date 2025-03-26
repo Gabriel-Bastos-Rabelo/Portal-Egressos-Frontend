@@ -1,7 +1,7 @@
-import { Solicitacoes } from '../../pages/Solicitacoes'; 
+import { Noticia } from '../../values/noticia.tsx'; 
 
 type TableProps = {
-    solicitacoes: Solicitacoes[];
+    solicitacoes: Noticia[];
     selected: number[];
     onCheckboxChange: (index: number) => void;
     onSelectAllChange: () => void;
@@ -21,8 +21,8 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
               onChange={onSelectAllChange}
             />
           </th>
-          <th className="w-6/20 px-2 py-4 border border-[#000]">Nome Egresso</th>
-          <th className="w-10/20 px-2 py-4 border border-[#000]">Descrição</th>
+          <th className="w-6/20 px-2 py-4 border border-[#000]">Nome do Egresso</th>
+          <th className="w-10/20 px-2 py-4 border border-[#000]">Depoimento</th>
           <th className="w-3/20 px-2 py-4 border border-[#000]">Ações</th>
         </tr>
       </thead>
@@ -37,7 +37,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
                 onChange={() => onCheckboxChange(index)}
               />
             </td>
-            <td className="px-2 py-4 font-bold text-center text-lg">{solicitacao.nome}</td>
+            <td className="px-2 py-4 font-bold text-center text-lg">{solicitacao.data}</td>
             <td className="px-2 py-4 text-justify text-lg text-gray-600">{solicitacao.descricao}</td>
             <td className="px-2 py-4 flex justify-around gap-4">
               <i className="fa-solid fa-magnifying-glass text-[#08276F] text-3xl"></i>

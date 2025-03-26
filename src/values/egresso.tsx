@@ -1,6 +1,6 @@
 export type Egresso = {
   id: number;
-  nome: string;
+  nomeEgresso: string;
   cargo: string;
   curso: string;
   email: string;

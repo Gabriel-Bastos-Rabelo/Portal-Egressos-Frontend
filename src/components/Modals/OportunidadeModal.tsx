@@ -1,4 +1,4 @@
-import { Oportunidade } from '../Cards/OportunidadeCard.tsx';
+import { Oportunidade } from '../../values/oportunidade.tsx';
 
 type OportunidadeModalProps = {
     onClose: () => void;

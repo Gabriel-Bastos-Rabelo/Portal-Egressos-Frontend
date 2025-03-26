@@ -1,4 +1,4 @@
-import { Egresso } from '../Cards/EgressoCard.tsx';
+import { Egresso } from '../../values/egresso.tsx';
 import egressoImg from '../../assets/egresso-img.png';
 
 type EgressoModalProps = {
@@ -30,7 +30,7 @@ const EgressoModal = ({ onClose, egresso }: EgressoModalProps) => {
             <div className="flex flex-col items-center">
               <div className="flex flex-col items-start">
                 <div className="flex flex-col items-start">
-                  <h2 className="text-xl">{egresso.nome}</h2>
+                  <h2 className="text-xl">{egresso.nomeEgresso}</h2>
                   <p className="text-gray-600">{egresso.cargo}</p>
                   <p className="text-gray-500">{egresso.curso}</p>
                 </div>
