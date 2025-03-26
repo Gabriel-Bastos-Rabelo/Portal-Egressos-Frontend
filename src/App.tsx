@@ -12,6 +12,7 @@ import Solicitacoes from './pages/Solicitacoes';
 import Cadastro from './pages/Egressos/cadastro';
 import EnviarOportunidade from './pages/Oportunidades/enviarOportunidade';
 import EditarPerfil from './pages/EgressoHome/perfil';
+import Estatisticas from './pages/Estatisticas/Estatisticas';
 
 function App() {
   return (
@@ -49,6 +50,10 @@ function App() {
         </Route>
         <Route path="/Egressos/perfil" element={<Layout isCoordenador={false} />}>
           <Route index element={<EditarPerfil />} />
+        </Route>
+        <Route path="/Estatisticas" element={<Layout isCoordenador={false} />}>
+        {/* Rota Filha */}
+        <Route index element={<Estatisticas />} />
         </Route>
 
       </Routes>
