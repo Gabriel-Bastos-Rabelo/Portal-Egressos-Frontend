@@ -52,8 +52,8 @@ function App() {
           <Route index element={<EditarPerfil />} />
         </Route>
         <Route path="/Estatisticas" element={<Layout isCoordenador={false} />}>
-        {/* Rota Filha */}
-        <Route index element={<Estatisticas />} />
+          {/* Rota Filha */}
+          <Route index element={<Estatisticas />} />
         </Route>
 
       </Routes>
