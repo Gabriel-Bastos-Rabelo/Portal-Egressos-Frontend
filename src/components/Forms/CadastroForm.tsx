@@ -13,8 +13,8 @@ interface FormData {
   email: string;
   senha: string;
   curso: string;
-  anoInicio: Int16Array;
-  anoFim: Int16Array; 
+  anoInicio: number;
+  anoFim: number; 
   foto: FileList | null; // foto é um arquivo ou null
 }
 
@@ -253,7 +253,20 @@ export default function CadastroForm({ onNext, initialData }: { onNext: (data: F
 
       {/* Senha */}
       <div>
-        <label htmlFor="senha" className="cadastro-label">Senha</label>
+        <label htmlFor="senha" className="cadastro-label flex items-center gap-2">
+          Senha
+          <div className="tooltip-container">
+            <div className="tooltip-icon">?</div>
+            <div className="tooltip-text">
+              A senha deve conter:
+              <ul>
+                <li>- Pelo menos 1 caractere especial</li>
+                <li>- Pelo menos uma letra maiúscula</li>
+                <li>- No máximo 8 dígitos</li>
+              </ul>
+            </div>
+          </div>
+        </label>
         <input
           {...register('senha', { required: 'Senha é obrigatória' })}
           id="senha"

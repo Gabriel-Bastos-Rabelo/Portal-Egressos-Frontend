@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Importando o axios
 import './CadastroForm.css';
 
@@ -10,30 +9,25 @@ type DepoimentoData = {
 
 export default function DepoimentoForm({
   onBack,
-  idEgresso 
+  onNextStep,  // Nova função para navegar para a próxima etapa
+  idEgresso,
 }: { 
   onBack: () => void;
-  idEgresso: number | null; 
+  onNextStep: () => void;  // Adicionamos a função de navegação
+  idEgresso: number | null;
 }) {
   const { register, handleSubmit, formState: { errors, isValid } } = useForm<DepoimentoData>({
     mode: 'onChange',
   });
 
-  const navigate = useNavigate();
   const onSubmit = async (data: DepoimentoData) => {
     if (!idEgresso) {
       console.error("ID do egresso não encontrado");
       return;
     }
-  
+
     const dataAtual = new Date().toISOString();
-  
-    console.log("Enviando dados:", {
-      idEgresso,
-      texto: data.texto,
-      data: dataAtual,
-    });
-  
+
     try {
       const response = await axios.post(
         'http://localhost:8080/api/depoimento/salvar',
@@ -48,10 +42,10 @@ export default function DepoimentoForm({
           }
         }
       );
-  
+
       if (response.status === 201) {
         console.log('Depoimento salvo com sucesso!', response.data);
-        navigate('/');
+        onNextStep(); 
       } else {
         console.error('Erro ao salvar o depoimento', response.data);
       }
@@ -59,7 +53,7 @@ export default function DepoimentoForm({
       console.error('Erro ao enviar o depoimento', error);
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="cadastro-form-container">
       <div className="mb-2">
