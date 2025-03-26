@@ -18,7 +18,7 @@ interface FormData {
   foto: FileList | null; // foto é um arquivo ou null
 }
 
-export default function CadastroForm({ onNext }: { onNext: (data: FormData, egressoId: number) => void }) {
+export default function CadastroForm({ onNext }: { onNext: (egressoId: number) => void }) {
   const { register, handleSubmit, formState: { errors, isValid } } = useForm<FormData>({
     mode: 'onChange',
   });
@@ -81,7 +81,7 @@ export default function CadastroForm({ onNext }: { onNext: (data: FormData, egre
   
       if (response.status === 201) {
         const idEgresso = response.data.id; 
-        onNext(data, idEgresso);
+        onNext(idEgresso);
       } else {
         console.error('Erro ao salvar os dados', response.data);
       }

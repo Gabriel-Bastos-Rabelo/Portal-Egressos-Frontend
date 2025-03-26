@@ -244,8 +244,8 @@ const EditarPerfil = () => {
         <div className="flex flex-row items-center mb-8">
           {/* Exibir imagem ou foto do egresso */}
           <img className="w-[120px] h-[120px] rounded-full object-cover mb-4" alt="Foto do Egresso" 
-               src={formData.foto ? `http://localhost:8080/uploads/${formData.foto}` : egressoImg} />
-            {/* Exibir o nome do egresso ao lado da foto */}
+            src={formData.foto ? `http://localhost:8080/uploads/${formData.foto}` : egressoImg} />
+          {/* Exibir o nome do egresso ao lado da foto */}
           <h2 className="font-normal text-2xl p-8">{nomeExibido || "Nome Egresso"}</h2>
         </div>
 

@@ -10,7 +10,7 @@ export default function Cadastro() {
   const [idEgresso, setEgressoId] = useState<number | null>(null);
   const navigate = useNavigate();  // Usando useNavigate para navegação
 
-  const handleNextStep = (data: any, id: number) => {
+  const handleNextStep = (id: number) => {
     setEgressoId(id);
     setCurrentStep(2);
   };
