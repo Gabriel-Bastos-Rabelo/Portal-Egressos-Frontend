@@ -8,7 +8,7 @@ import {
   Title,
   Tooltip,
   Legend,
-  ArcElement,
+  ArcElement
 } from 'chart.js';
 
 // Registra os componentes necessários do Chart.js
@@ -29,8 +29,8 @@ const Estatisticas: React.FC = () => {
     datasets: [
       {
         data: [10, 11, 13, 20, 46],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40'],
+        backgroundColor: ['#2E8CE8', '#14D520', '#B7243E', '#FFCC00', '#AF52DE'],
+        hoverBackgroundColor: ['#2E8CE8', '#14D520', '#B7243E', '#FFCC00', 'AF52DE'],
       },
     ],
   };
@@ -40,12 +40,10 @@ const Estatisticas: React.FC = () => {
     labels: ['Analista de Dados', 'Desenvolvedor de Jogos', 'Engenheiro de Machine Learning', 'Arquiteto de Software', 'Programador Junior'],
     datasets: [
       {
-        label: 'Quantidade',
-        data: [100, 80, 90, 70, 60],
-        backgroundColor: '#42A5F5',
-        borderColor: '#1E88E5',
-        borderWidth: 1,
-      },
+        label: 'Quantidade de Egressos',
+        data: [46, 30, 23, 15, 10],
+        backgroundColor: ['#4CB4FF']
+      }
     ],
   };
 
@@ -56,9 +54,7 @@ const Estatisticas: React.FC = () => {
       {
         label: 'Salário (R$)',
         data: [5000, 6000, 8000, 7000, 3000],
-        backgroundColor: '#66BB6A',
-        borderColor: '#388E3C',
-        borderWidth: 1,
+        backgroundColor: '#40C134',
       },
     ],
   };
@@ -69,73 +65,145 @@ const Estatisticas: React.FC = () => {
     datasets: [
       {
         data: [67, 33],
-        backgroundColor: ['#66BB6A', '#FF7043'],
-        hoverBackgroundColor: ['#66BB6A', '#FF7043'],
+        backgroundColor: ['#34C759', '#B7243E'],
+        hoverBackgroundColor: ['#34C759', '#B7243E'],
       },
     ],
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold text-center mb-6">Estatísticas Importantes dos Egressos</h1>
+    <div className="container mx-auto p-4 flex gap-20 flex-col itens-center justify-center">
+      <h1 className="text-2xl font-bold text-center">Estatísticas Importantes dos Egressos</h1>
 
       {/* Total de Egressos */}
-      <div className="flex flex-wrap gap-30 mb-20">
-        <div className="w-120 h-40 sm:w-1/4 lg:w-1/4 bg-white p-4 rounded-lg shadow-md text-center">
-          <h3 className="text-xl font-semibold text-center mb-4">TOTAL DE EGRESSOS POR CURSO</h3>
-          <p className="text-4xl font-bold text-center text-orange-600">120</p>
-          
+      <div className="flex flex-wrap gap-20 justify-center">
+        <div className='flex flex-col gap-[50px]'>
+          <div className="w-[300px] h-[150px] bg-white p-4 rounded-lg shadow-md text-center ">
+            <h3 className="w-full text-xl font-semibold text-center mb-4">TOTAL DE EGRESSOS </h3>
+            <p className="text-4xl font-bold text-center text-orange-600">120</p>
+          </div>
+
+          <div className="w-[300px] h-[150px] bg-white p-4 rounded-lg shadow-md text-center ">
+            <h3 className="text-xl font-semibold">EGRESSOS POR ANO</h3>
+            <select className="border p-2 rounded-md">
+              <option value="todos">TODOS</option>
+              <option value="2024">2024</option>
+              <option value="2024">2023</option>
+              <option value="2024">2022</option>
+            </select>
+            <p className="text-4xl font-bold text-orange-600">120</p>
+          </div>
         </div>
 
         {/* Total de Egressos por Curso */}
-        <div className="w-200 h-120 sm:w-1/4 lg:w-1/4 bg-white p-1 rounded-lg shadow-md text-center">
-          <h3 className="text-xl font-semibold text-center mb-4">TOTAL DE EGRESSOS POR CURSO</h3>
-          <Pie data={totalEgressosPorCursoData} />
+        <div className="w-[700px] h-[350px] bg-white p-0 rounded-lg shadow-md text-center flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
+            <h3 className="text-xl font-semibold text-center mb-0">TOTAL DE EGRESSOS POR CURSO</h3>
+            <div className="w-[350px] h-[350px] flex items-center justify-center"> {/* Ajustando o tamanho da div envolvente */}
+              <Pie
+                data={totalEgressosPorCursoData}
+                options={{
+                  plugins: {
+                    legend: {
+                      position: 'right',
+                      labels: {
+                        boxWidth: 15,
+                        padding: 10,
+                      },
+                    },
+
+                  },
+                }}
+                height={250}
+                width={250}
+              />
+            </div>
+          </div>
         </div>
+
       </div>
 
-      {/* Egressos por Ano */}
-      <div className="flex justify-between mb-8">
-        <div className="w-100 h-40 bg-white p-4 rounded-lg shadow-md text-center">
-          <h3 className="text-xl font-semibold">EGRESSOS POR ANO</h3>
-          <select className="border p-2 rounded-md">
-            <option value="todos">TODOS</option>
-            <option value="todos">2024</option>
-            {/* Adicione aqui outras opções de ano */}
-          </select>
-          <p className="text-4xl font-bold text-orange-600">120</p>
+      <div className=' flex flex-row justify-center gap-4'>
+        {/* Egressos por Ano */}
+        <div className="w-[590px] h-[300px] flex ">
+          <div className="bg-white p-4 rounded-lg shadow-md w-full">
+            <h3 className="text-xl font-semibold text-center mb-4">CARGOS POR EGRESSOS</h3>
+            <div className="w-[450px] h-[250px] flex items-center justify-center"> {/* Ajustando o tamanho da div envolvente */}
+              <Bar
+                data={cargosPorEgressosData}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    tooltip: {
+                      mode: 'index',
+                      intersect: false,
+                    },
+                  },
+                  indexAxis: 'y',  // Gráfico de barras horizontais
+                  scales: {
+                    x: {
+                      stacked: true,  // Empilhamento no eixo X
+                    },
+                    y: {
+                      stacked: true,  // Empilhamento no eixo Y
+                      beginAtZero: true,  // Garante que o gráfico comece no zero
+                    },
+                  },
+                }}
+                height={150}  // Aumenta a altura do gráfico
+                width={300}  // Aumenta a largura do gráfico
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Cargos por Egressos */}
-        <div className="w-1/2 bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold text-center mb-4">CARGOS POR EGRESSOS</h3>
-          <Bar data={cargosPorEgressosData} />
-        </div>
-      </div>
-
-      {/* Salário por Cargo */}
-      <div className="flex justify-between mb-8">
-        <div className="w-1/2 bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold text-center mb-4">SALÁRIO POR CARGO</h3>
-          <Bar data={salarioPorCargoData} />
+        {/* Salário por Cargo */}
+        <div className="w-[500px] h-[300px] flex ">
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold text-center mb-4">SALÁRIO POR CARGO</h3>
+            <div className="w-[450px] h-[225px] flex items-center justify-center"> {/* Ajustando o tamanho da div envolvente */}
+              <Bar
+                data={salarioPorCargoData}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    tooltip: {
+                      mode: 'index',
+                      intersect: false,
+                    },
+                  },
+                  indexAxis: 'y',  // Gráfico de barras horizontais
+                  scales: {
+                    x: {
+                      stacked: true,  // Empilhamento no eixo X
+                    },
+                    y: {
+                      stacked: true,  // Empilhamento no eixo Y
+                      beginAtZero: true,  // Garante que o gráfico comece no zero
+                    },
+                  },
+                }}
+                height={150}  // Aumenta a altura do gráfico
+                width={300}  // Aumenta a largura do gráfico
+              />
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Taxa de Empregabilidade */}
-      <div className="flex justify-between mb-8">
+      <div className="flex justify-center">
         <div className="w-1/4 bg-white p-4 rounded-lg shadow-md text-center">
           <h3 className="text-xl font-semibold">TAXA DE EMPREGABILIDADE</h3>
           <select className="border p-2 rounded-md">
             <option value="todos">TODOS</option>
-            {/* Adicione aqui outras opções de ano */}
+            <option value="todos">2025</option>
+            <option value="todos">2024</option>
           </select>
-        </div>
-
-        <div className="w-1/4 bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold text-center mb-4">TAXA DE EMPREGABILIDADE</h3>
           <Pie data={taxaDeEmpregabilidadeData} />
         </div>
       </div>
+
     </div>
   );
 };
