@@ -57,9 +57,9 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
       formData.append('dto', new Blob([JSON.stringify({
         nome: data.nome,
         descricao: data.descricao,
-        linkedin: data.linkedin,
-        curriculo: data.curriculo,
-        instagram: data.instagram,
+        linkedin: data.linkedin || null,
+        curriculo: data.curriculo || null,
+        instagram: data.instagram || null,
         emailUsuario: data.email,
         senhaUsuario: data.senha,
         anoInicio: data.anoInicio,
@@ -157,11 +157,13 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
       <div>
         <label htmlFor="descricao" className="cadastro-label">Descrição</label>
         <textarea
-          {...register('descricao')}
+          {...register('descricao', { required: 'Descrição é obrigatória' })}
           id="descricao"
           placeholder="Descrição"
           className="cadastro-textarea"
         />
+        {errors.descricao && <p className="error-message">{errors.descricao.message}</p>}
+
       </div>
 
       {/* Linkedin */}
