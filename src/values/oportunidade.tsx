@@ -1,4 +1,5 @@
 export type Oportunidade = {
+  id: number;
   titulo: string;
   descricao: string;
   local: string;

@@ -77,16 +77,14 @@ const DepoimentoSolicitacoes = () => {
       </div>
 
       <div className="w-full flex justify-center items-center">
-        {loading ? ( <></>) : (
-          <button
-            className="text-xl px-4 py-2 rounded text-[#fff] border-[#216DC7] bg-[#216DC7] hover:bg-[#174a9d] transition-all"
-          >
+        <button
+          className="text-xl px-4 py-2 rounded text-[#fff] border-[#216DC7] bg-[#216DC7] hover:bg-[#174a9d] transition-all"
+        >
           Ver mais
-          </button>
-        )}
+        </button>
       </div> 
         
-      {loading ? ( <></>) : (<SolicitacaoButtons isButtonDisabled={isButtonDisabled}/>)}
+      <SolicitacaoButtons isButtonDisabled={isButtonDisabled}/>
     </div>
   );
 }
