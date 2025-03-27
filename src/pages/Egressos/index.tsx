@@ -43,5 +43,4 @@ function Egressos() {
   );
 }
 
-
 export default Egressos;
