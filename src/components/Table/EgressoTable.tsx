@@ -9,9 +9,10 @@ type TableProps = {
     onCheckboxChange: (index: number) => void;
     onSelectAllChange: () => void;
     selectAll: boolean;
+    onSuccess?: () => void;
 };
 
-function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, selectAll }: TableProps) {
+function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, selectAll, onSuccess }: TableProps) {
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [selectedSolicitacao, setSelectedSolicitacao] = useState<Egresso | null>(null);
 
@@ -36,6 +37,9 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
         }
       );
       alert("Solicitação aprovada!");
+      setTimeout(() => {
+        onSuccess?.();
+      }, 1500);
     } catch (error) {
       console.error("Erro ao aprovar a solicitação:", error);
     }
@@ -55,6 +59,9 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
         }
       );
       alert("Solicitação reprovada!");
+      setTimeout(() => {
+        onSuccess?.();
+      }, 1500);
     } catch (error) {
       console.error("Erro ao reprovar a solicitação:", error);
     }

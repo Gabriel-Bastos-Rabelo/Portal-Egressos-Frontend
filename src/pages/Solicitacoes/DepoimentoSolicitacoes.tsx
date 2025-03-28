@@ -3,12 +3,21 @@ import Table from '../../components/Table/DepoimentoTable.tsx'
 import { useEffect, useState } from "react";
 import { Depoimento } from  '../../values/depoimento.tsx'
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
+import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
 
 const DepoimentoSolicitacoes = () => {
   const [depoimentos, setDepoimentos] = useState<Depoimento[]>([]);
   const [selected, setSelected] = useState<number[]>([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const solicByPage = 10;
+  
+  const visibleDepoimentos = depoimentos.slice(0, page * solicByPage);
+
+  const getSelectedIds = (): number[] => {
+    return selected.map((index) => depoimentos[index].id);
+  };
 
   const handleSelectAllChange = () => {
     if (selectAll) {
@@ -33,6 +42,7 @@ const DepoimentoSolicitacoes = () => {
 
   const carregarSolicitacoes = async () => {
     setDepoimentos([]);
+    setSelected([]);
     setLoading(true);
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
@@ -66,25 +76,34 @@ const DepoimentoSolicitacoes = () => {
         ) : depoimentos.length === 0 ? (
           <div className="text-center text-xl">Sem dados.</div>
         ) : (
-          <Table
-            solicitacoes={depoimentos}
-            selected={selected}
-            onCheckboxChange={handleCheckboxChange}
-            onSelectAllChange={handleSelectAllChange}
-            selectAll={selectAll}
-          />
+          <div className="w-full flex flex-col justify-center items-center">
+            <Table
+              solicitacoes={visibleDepoimentos}
+              selected={selected}
+              onCheckboxChange={handleCheckboxChange}
+              onSelectAllChange={handleSelectAllChange}
+              selectAll={selectAll}
+              onSuccess={carregarSolicitacoes}
+            />
+          </div> 
         )}
       </div>
 
-      <div className="w-full flex justify-center items-center">
-        <button
-          className="text-xl px-4 py-2 rounded text-[#fff] border-[#216DC7] bg-[#216DC7] hover:bg-[#174a9d] transition-all"
-        >
-          Ver mais
-        </button>
-      </div> 
-        
-      <SolicitacaoButtons isButtonDisabled={isButtonDisabled}/>
+      <VerMaisButton 
+        length_solicitacoes={depoimentos.length} 
+        length_visible_solicitacoes={visibleDepoimentos.length}
+        page={page}
+        setPage={setPage}
+      />
+
+      {!loading && depoimentos.length > 0 && (  
+        <SolicitacaoButtons 
+          isButtonDisabled={isButtonDisabled}
+          selected={getSelectedIds()}
+          urlApprove='http://localhost:8080/api/depoimento/aprovar'
+          urlDisapprove='http://localhost:8080/api/depoimento/reprovar'
+          onSuccess={carregarSolicitacoes}
+        />)}
     </div>
   );
 }
