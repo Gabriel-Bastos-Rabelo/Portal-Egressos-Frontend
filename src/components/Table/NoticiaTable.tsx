@@ -2,6 +2,8 @@ import axios from 'axios';
 import { Noticia } from '../../values/noticia.tsx'; 
 import { useState } from 'react';
 import NoticiaModal from '../Modals/NoticiaModal.tsx';
+import SuccessMessage from '../Messages/SuccessMessage.tsx';
+import RejectMessage from '../Messages/RejectMessage.tsx';
 
 type TableProps = {
     solicitacoes: Noticia[];
@@ -15,6 +17,8 @@ type TableProps = {
 function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, selectAll, onSuccess }: TableProps) {
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [selectedSolicitacao, setSelectedSolicitacao] = useState<Noticia | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [reject, setReject] = useState(false);
   
   const openModal = (solicitacao: Noticia) => {
     setSelectedSolicitacao(solicitacao);
@@ -36,7 +40,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
           }
         }
       );
-      alert("Solicitação aprovada!");
+      setSuccess(true);
       setTimeout(() => {
         onSuccess?.();
       }, 1500);
@@ -58,7 +62,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
           }
         }
       );
-      alert("Solicitação reprovada!");
+      setReject(true);
       setTimeout(() => {
         onSuccess?.();
       }, 1500);
@@ -66,9 +70,19 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
       console.error("Erro ao reprovar a solicitação:", error);
     }
   };
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
+  };
   
   return (
     <>
+      {success && <SuccessMessage qtd_solicitacoes={1} tipo_solicitacao={"depoimento(s)"}/>}
+      {reject && <RejectMessage qtd_solicitacoes={1} tipo_solicitacao={"depoimento(s)"}/>}
+      
       <table className="w-full table-auto border-collapse">
         <thead>
           <tr className="bg-[#F1FBFF] text-xl">
@@ -81,7 +95,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
               />
             </th>
             <th className="w-6/20 px-2 py-4 border border-[#000]">Nome do Egresso</th>
-            <th className="w-10/20 px-2 py-4 border border-[#000]">Depoimento</th>
+            <th className="w-10/20 px-2 py-4 border border-[#000]">Descrição</th>
             <th className="w-3/20 px-2 py-4 border border-[#000]">Ações</th>
           </tr>
         </thead>
@@ -97,7 +111,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
                 />
               </td>
               <td className="px-2 py-4 font-bold text-center text-lg">{solicitacao.data}</td>
-              <td className="px-2 py-4 text-justify text-lg text-gray-600">{solicitacao.descricao}</td>
+              <td className="px-2 py-4 text-justify text-lg text-gray-600">{truncateText(solicitacao.descricao, 100)}</td>
               <td className="px-2 py-4 flex justify-around gap-4">
                 <i
                   className="fa-solid fa-magnifying-glass text-[#08276F] text-3xl cursor-pointer"

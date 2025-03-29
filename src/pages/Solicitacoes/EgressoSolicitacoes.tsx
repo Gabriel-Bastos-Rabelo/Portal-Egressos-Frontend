@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Egresso } from  '../../values/egresso.tsx'
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
 import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
+import Loading from '../../components/Loading/index.tsx';
 
 const EgressoSolicitacoes = () => {
   const [egressos, setEgressos] = useState<Egresso[]>([]);
@@ -70,9 +71,7 @@ const EgressoSolicitacoes = () => {
 
       <div className="mx-40 mb-5">
         {loading ? (
-          <div className="flex justify-center mt-40 min-h-screen">
-            <div className="border-t-4 border-blue-500 border-solid w-16 h-16 rounded-full animate-spin"></div>
-          </div>
+          <Loading/>
         ) : egressos.length === 0 ? (
           <div className="text-center text-xl">Sem dados.</div>
         ) : (
@@ -90,7 +89,6 @@ const EgressoSolicitacoes = () => {
       <VerMaisButton 
         length_solicitacoes={egressos.length} 
         length_visible_solicitacoes={visibleEgressos.length}
-        page={page}
         setPage={setPage}
       />
         
@@ -100,6 +98,7 @@ const EgressoSolicitacoes = () => {
           selected={getSelectedIds()}
           urlApprove='http://localhost:8080/api/egresso/aprovar'
           urlDisapprove='http://localhost:8080/api/egresso/reprovar'
+          type_solicitacao='egresso'
           onSuccess={carregarSolicitacoes}
         />)}
 

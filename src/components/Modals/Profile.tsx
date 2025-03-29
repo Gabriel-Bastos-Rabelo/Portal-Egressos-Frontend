@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Para navegação
 import { FaCog, FaPlus, FaSignOutAlt } from 'react-icons/fa'; // Ícones para as opções
-import userImg from '../../assets/user_img.png'
+import userImg from '../../assets/egresso-img.png'
 
 type ProfileProps = {
     onLogout: () => void;
@@ -35,7 +35,7 @@ const Profile = ( { onLogout }: ProfileProps ) => {
       </div>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 bg-white rounded-lg shadow-lg p-4 w-48 z-50">
+        <div className="absolute right-0 mt-2 bg-white rounded-lg shadow-lg p-4 w-70 z-50">
           <ul className="flex flex-col gap-2">
             <li 
               className="flex items-center cursor-pointer hover:bg-gray-200 p-2 rounded"

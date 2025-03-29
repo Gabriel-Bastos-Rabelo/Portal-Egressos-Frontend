@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Noticia } from  '../../values/noticia.tsx'
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
 import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
+import Loading from '../../components/Loading/index.tsx';
 
 const NoticiaSolicitacoes = () => {
   const [noticias, setNoticias] = useState<Noticia[]>([]);
@@ -70,9 +71,7 @@ const NoticiaSolicitacoes = () => {
 
       <div className="mx-40 mb-5">
         {loading ? (
-          <div className="flex justify-center mt-40 min-h-screen">
-            <div className="border-t-4 border-blue-500 border-solid w-16 h-16 rounded-full animate-spin"></div>
-          </div>
+          <Loading/>
         ) : noticias.length === 0 ? (
           <div className="text-center text-xl">Sem dados.</div>
         ) : (
@@ -90,7 +89,6 @@ const NoticiaSolicitacoes = () => {
       <VerMaisButton 
         length_solicitacoes={noticias.length} 
         length_visible_solicitacoes={visibleNoticias.length}
-        page={page}
         setPage={setPage}
       />
         
@@ -100,6 +98,7 @@ const NoticiaSolicitacoes = () => {
           selected={getSelectedIds()}
           urlApprove='http://localhost:8080/api/noticia/aprovar'
           urlDisapprove='http://localhost:8080/api/noticia/reprovar'
+          type_solicitacao='noticia'
           onSuccess={carregarSolicitacoes}
         />)}
     </div>

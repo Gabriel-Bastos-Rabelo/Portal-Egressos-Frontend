@@ -47,7 +47,7 @@ const EgressoModal = ({ onClose, egresso }: EgressoModalProps) => {
                     <i className="fa-brands fa-instagram text-2xl text-[#000000]"></i>
                   </div>
                 </a>
-                <a href={`mailto:${egresso.email}`} className="cursor-pointer">
+                <a href={`mailto:${egresso.emailUsuario}`} className="cursor-pointer">
                   <div className="bg-white rounded-full shadow-lg p-2 cursor-pointer">
                     <i className="fa-regular fa-envelope text-2xl text-[#000000]"></i>
                   </div>

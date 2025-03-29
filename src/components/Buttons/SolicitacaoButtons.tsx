@@ -1,14 +1,21 @@
 import axios from "axios";
+import { useState } from "react";
+import SuccessMessage from "../Messages/SuccessMessage";
+import RejectMessage from "../Messages/RejectMessage";
 
 type SolicitacaoButtonsProps = {
     isButtonDisabled: boolean;
     selected: number[];
     urlApprove: string;
     urlDisapprove: string;
+    type_solicitacao: string;
     onSuccess?: () => void;
 }
 
-const SolicitacaoButtons = ({ isButtonDisabled, selected, urlApprove, urlDisapprove, onSuccess }: SolicitacaoButtonsProps ) => {
+const SolicitacaoButtons = ({ isButtonDisabled, selected, urlApprove, urlDisapprove, type_solicitacao, onSuccess }: SolicitacaoButtonsProps ) => {
+  const [success, setSuccess] = useState(false);
+  const [reject, setReject] = useState(false);
+  
   const handleApprove = async () => {
     try {
       const accessToken = localStorage.getItem('accessToken');
@@ -18,7 +25,7 @@ const SolicitacaoButtons = ({ isButtonDisabled, selected, urlApprove, urlDisappr
           'Content-Type': 'application/json',
         },
       });
-      alert("Solicitações aprovadas!");
+      setSuccess(true);
       setTimeout(() => {
         onSuccess?.();
       }, 1000);
@@ -36,7 +43,7 @@ const SolicitacaoButtons = ({ isButtonDisabled, selected, urlApprove, urlDisappr
           'Content-Type': 'application/json',
         },
       });
-      alert("Solicitações reprovadas!");
+      setReject(true);
       setTimeout(() => {
         onSuccess?.();
       }, 1000);
@@ -47,6 +54,9 @@ const SolicitacaoButtons = ({ isButtonDisabled, selected, urlApprove, urlDisappr
 
   return (
     <div className="flex justify-start gap-5 mx-40">
+      {success && <SuccessMessage qtd_solicitacoes={selected.length} tipo_solicitacao={type_solicitacao + "(s)"}/>}
+      {reject && <RejectMessage qtd_solicitacoes={selected.length} tipo_solicitacao={type_solicitacao + "(s)"}/>}
+      
       <button
         className={`flex gap-3 justify-center justify-items-center px-4 py-2 rounded text-[#fff] transition-all
                 ${isButtonDisabled ? "bg-[#5B5B5B] cursor-not-allowed hover:bg-[#5B5B5B]" : "cursor-pointer bg-[#106F1F] border-[#106F1F] hover:bg-[#10661d]"}
