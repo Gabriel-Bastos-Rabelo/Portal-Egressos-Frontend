@@ -95,7 +95,6 @@ const EditarPerfilCoordenador = () => {
     }));
   };
 
-  
   const handleAtivoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     
     setCoordenadorData({
