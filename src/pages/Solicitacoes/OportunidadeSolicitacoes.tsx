@@ -3,12 +3,21 @@ import Table from '../../components/Table/OportunidadeTable.tsx'
 import { useEffect, useState } from "react";
 import { Oportunidade } from  '../../values/oportunidade.tsx'
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
+import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
 
 const OportunidadeSolicitacoes = () => {
   const [oportunidades, setOportunidades] = useState<Oportunidade[]>([]);
   const [selected, setSelected] = useState<number[]>([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const solicByPage = 10;
+
+  const visibleOportunidades = oportunidades.slice(0, page * solicByPage);
+
+  const getSelectedIds = (): number[] => {
+    return selected.map((index) => oportunidades[index].id);
+  };
 
   const handleSelectAllChange = () => {
     if (selectAll) {
@@ -33,6 +42,7 @@ const OportunidadeSolicitacoes = () => {
 
   const carregarSolicitacoes = async () => {
     setOportunidades([]);
+    setSelected([]);
     setLoading(true);
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
@@ -67,26 +77,31 @@ const OportunidadeSolicitacoes = () => {
           <div className="text-center text-xl">Sem dados.</div>
         ) : (
           <Table
-            solicitacoes={oportunidades}
+            solicitacoes={visibleOportunidades}
             selected={selected}
             onCheckboxChange={handleCheckboxChange}
             onSelectAllChange={handleSelectAllChange}
             selectAll={selectAll}
+            onSuccess={carregarSolicitacoes}
           />
         )}
       </div>
 
-      <div className="w-full flex justify-center items-center">
-        {loading ? ( <></>) : (
-          <button
-            className="text-xl px-4 py-2 rounded text-[#fff] border-[#216DC7] bg-[#216DC7] hover:bg-[#174a9d] transition-all"
-          >
-          Ver mais
-          </button>
-        )}
-      </div> 
+      <VerMaisButton 
+        length_solicitacoes={oportunidades.length} 
+        length_visible_solicitacoes={visibleOportunidades.length}
+        page={page}
+        setPage={setPage}
+      />
         
-      {loading ? ( <></>) : (<SolicitacaoButtons isButtonDisabled={isButtonDisabled}/>)}
+      {!loading && oportunidades.length > 0 && (
+        <SolicitacaoButtons 
+          isButtonDisabled={isButtonDisabled}
+          selected={getSelectedIds()}
+          urlApprove='http://localhost:8080/api/oportunidade/aprovar'
+          urlDisapprove='http://localhost:8080/api/oportunidade/reprovar'
+          onSuccess={carregarSolicitacoes}
+        />)}
     </div>
   );
 }

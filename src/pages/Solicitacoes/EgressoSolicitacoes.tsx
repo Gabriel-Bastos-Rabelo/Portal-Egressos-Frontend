@@ -3,12 +3,21 @@ import Table from '../../components/Table/EgressoTable.tsx'
 import { useEffect, useState } from "react";
 import { Egresso } from  '../../values/egresso.tsx'
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
+import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
 
 const EgressoSolicitacoes = () => {
   const [egressos, setEgressos] = useState<Egresso[]>([]);
   const [selected, setSelected] = useState<number[]>([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const solicByPage = 10;
+
+  const visibleEgressos = egressos.slice(0, page * solicByPage);
+
+  const getSelectedIds = (): number[] => {
+    return selected.map((index) => egressos[index].id);
+  };
 
   const handleSelectAllChange = () => {
     if (selectAll) {
@@ -33,6 +42,7 @@ const EgressoSolicitacoes = () => {
 
   const carregarSolicitacoes = async () => {
     setEgressos([]);
+    setSelected([]);
     setLoading(true);
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
@@ -48,7 +58,6 @@ const EgressoSolicitacoes = () => {
         console.error("Erro ao carregar as solicitações:", error);
       }finally {
         setLoading(false);
-
       }
     };
   }
@@ -68,26 +77,32 @@ const EgressoSolicitacoes = () => {
           <div className="text-center text-xl">Sem dados.</div>
         ) : (
           <Table
-            solicitacoes={egressos}
+            solicitacoes={visibleEgressos}
             selected={selected}
             onCheckboxChange={handleCheckboxChange}
             onSelectAllChange={handleSelectAllChange}
             selectAll={selectAll}
+            onSuccess={carregarSolicitacoes}
           />
         )}
       </div>
 
-      <div className="w-full flex justify-center items-center">
-        {loading ? ( <></>) : (
-          <button
-            className="text-xl px-4 py-2 rounded text-[#fff] border-[#216DC7] bg-[#216DC7] hover:bg-[#174a9d] transition-all"
-          >
-          Ver mais
-          </button>
-        )}
-      </div> 
+      <VerMaisButton 
+        length_solicitacoes={egressos.length} 
+        length_visible_solicitacoes={visibleEgressos.length}
+        page={page}
+        setPage={setPage}
+      />
         
-      {loading ? ( <></>) : (<SolicitacaoButtons isButtonDisabled={isButtonDisabled}/>)}
+      {!loading && egressos.length > 0 && (
+        <SolicitacaoButtons 
+          isButtonDisabled={isButtonDisabled}
+          selected={getSelectedIds()}
+          urlApprove='http://localhost:8080/api/egresso/aprovar'
+          urlDisapprove='http://localhost:8080/api/egresso/reprovar'
+          onSuccess={carregarSolicitacoes}
+        />)}
+
     </div>
   );
 }

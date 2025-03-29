@@ -3,8 +3,10 @@ export type Egresso = {
   nomeEgresso: string;
   cargo: string;
   curso: string;
-  email: string;
+  emailUsuario: string;
   linkedin: string;
   instagram: string;
   descricao: string;
+  curriculo: string;
+  foto: string;
 };
