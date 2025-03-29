@@ -2,6 +2,7 @@ import EgressoCard from '../../components/Cards/EgressoCard.tsx';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Egresso } from '../../values/egresso.tsx';
+import Loading from '../../components/Loading/index.tsx';
 
 function Egressos() {
   const [egressos, setEgressos] = useState<Egresso[]>([]);
@@ -52,11 +53,7 @@ function Egressos() {
         <h1 className="text-3xl font-bold text-center">Conheça nossos egressos</h1>
 
         {loading ? (
-          // Tela de carregamento (Spinner)
-          <div className="flex justify-center items-center w-full h-96">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-            <p className="ml-4 text-xl font-semibold text-gray-700">Carregando...</p>
-          </div>
+          <Loading />
         ) : (
           <div>
             <div className="flex flex-wrap gap-4 items-end justify-center mb-10"> 
