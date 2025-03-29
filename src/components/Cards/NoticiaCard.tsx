@@ -10,7 +10,12 @@ const NoticiaCard = ({ noticia }: { noticia: Noticia }) => {
   };
 
   return (
-    <div className="rounded-lg shadow-xl flex items-center gap-4 py-5 px-10 my-5">
+    <a 
+      href={noticia.linkNoticia} 
+      target="_blank"
+      rel="noopener noreferrer"
+      className="rounded-lg shadow-xl flex items-center gap-4 py-5 px-10 my-5 cursor-pointer hover:shadow-2xl transition-shadow duration-300"
+    >
       <div className="flex flex-col">
         <h3 className="text-xl">{noticia.autor}</h3>
         <p className="text-gray-600">{noticia.data}</p>
@@ -18,8 +23,12 @@ const NoticiaCard = ({ noticia }: { noticia: Noticia }) => {
           {truncateText(noticia.descricao, 500)}
         </p>
       </div>
-      <img className= "rounded-full w-32 h-32" src={noticia.imagem_url || logoUfma} alt="Imagem da Notícia" />
-    </div>
+      <img 
+        className="rounded-full w-32 h-32" 
+        src={noticia.imagemUrl || logoUfma} 
+        alt="Imagem da Notícia" 
+      />
+    </a>
   );
 };
 
