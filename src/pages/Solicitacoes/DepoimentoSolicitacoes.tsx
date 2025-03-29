@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Depoimento } from  '../../values/depoimento.tsx'
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
 import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
+import Loading from '../../components/Loading/index.tsx';
 
 const DepoimentoSolicitacoes = () => {
   const [depoimentos, setDepoimentos] = useState<Depoimento[]>([]);
@@ -70,9 +71,7 @@ const DepoimentoSolicitacoes = () => {
 
       <div className="mx-40 mb-5">
         {loading ? (
-          <div className="flex justify-center mt-40 min-h-screen">
-            <div className="border-t-4 border-blue-500 border-solid w-16 h-16 rounded-full animate-spin"></div>
-          </div>
+          <Loading/>
         ) : depoimentos.length === 0 ? (
           <div className="text-center text-xl">Sem dados.</div>
         ) : (
@@ -92,7 +91,6 @@ const DepoimentoSolicitacoes = () => {
       <VerMaisButton 
         length_solicitacoes={depoimentos.length} 
         length_visible_solicitacoes={visibleDepoimentos.length}
-        page={page}
         setPage={setPage}
       />
 
@@ -102,6 +100,7 @@ const DepoimentoSolicitacoes = () => {
           selected={getSelectedIds()}
           urlApprove='http://localhost:8080/api/depoimento/aprovar'
           urlDisapprove='http://localhost:8080/api/depoimento/reprovar'
+          type_solicitacao='depoimento'
           onSuccess={carregarSolicitacoes}
         />)}
     </div>

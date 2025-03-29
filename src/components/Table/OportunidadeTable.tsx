@@ -2,6 +2,8 @@ import axios from 'axios';
 import { Oportunidade } from '../../values/oportunidade.tsx'; 
 import { useState } from 'react';
 import OportunidadeModal from '../Modals/OportunidadeModal.tsx';
+import SuccessMessage from '../Messages/SuccessMessage.tsx';
+import RejectMessage from '../Messages/RejectMessage.tsx';
 
 type TableProps = {
     solicitacoes: Oportunidade[];
@@ -15,6 +17,8 @@ type TableProps = {
 function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, selectAll, onSuccess }: TableProps) {
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [selectedSolicitacao, setSelectedSolicitacao] = useState<Oportunidade | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [reject, setReject] = useState(false);
   
   const openModal = (solicitacao: Oportunidade) => {
     setSelectedSolicitacao(solicitacao);
@@ -36,7 +40,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
           }
         }
       );
-      alert("Solicitação aprovada!");
+      setSuccess(true);
       setTimeout(() => {
         onSuccess?.();
       }, 1500);
@@ -58,7 +62,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
           }
         }
       );
-      alert("Solicitação reprovada!");
+      setReject(true);
       setTimeout(() => {
         onSuccess?.();
       }, 1500);
@@ -67,8 +71,18 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
     }
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
+  };
+
   return (
     <>
+      {success && <SuccessMessage qtd_solicitacoes={1} tipo_solicitacao={"depoimento(s)"}/>}
+      {reject && <RejectMessage qtd_solicitacoes={1} tipo_solicitacao={"depoimento(s)"}/>}
+      
       <table className="w-full table-auto border-collapse">
         <thead>
           <tr className="bg-[#F1FBFF] text-xl">
@@ -97,7 +111,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
                 />
               </td>
               <td className="px-2 py-4 font-bold text-center text-lg">{solicitacao.titulo}</td>
-              <td className="px-2 py-4 text-justify text-lg text-gray-600">{solicitacao.descricao}</td>
+              <td className="px-2 py-4 text-justify text-lg text-gray-600">{truncateText(solicitacao.descricao, 100)}</td>
               <td className="px-2 py-4 flex justify-around gap-4">
                 <i
                   className="fa-solid fa-magnifying-glass text-[#08276F] text-3xl cursor-pointer"
