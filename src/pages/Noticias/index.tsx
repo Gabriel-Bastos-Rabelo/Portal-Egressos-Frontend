@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import NoticiaCard from '../../components/Cards/NoticiaCard.tsx';
 import axios from 'axios';
 import Loading from '../../components/Loading/index.tsx';
+import { Noticia } from '../../values/noticia.tsx';
 
-function Noticia() {
-  const [noticias, setNoticias] = useState([]);
+function Noticias() {
+  const [noticias, setNoticias] = useState<Noticia[]>([]);
   const [loading, setLoading] = useState(true);
     
   useEffect(() => {
@@ -37,4 +38,4 @@ function Noticia() {
   );
 }
   
-export default Noticia;
+export default Noticias;
