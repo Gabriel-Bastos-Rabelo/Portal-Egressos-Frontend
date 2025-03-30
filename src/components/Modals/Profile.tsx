@@ -17,7 +17,7 @@ const Profile = ({ onLogout }: ProfileProps) => {
   };
 
   const handleGoToProfile = () => {
-    navigate('/Egressos/perfil');
+    navigate('/egressos/perfil');
   };
 
   const handleGoToCreateOpportunity = () => {

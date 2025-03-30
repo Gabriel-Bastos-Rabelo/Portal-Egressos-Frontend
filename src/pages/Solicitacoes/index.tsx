@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
 import DepoimentoSolicitacoes from './DepoimentoSolicitacoes';
 import EgressoSolicitacoes from './EgressoSolicitacoes';
 import OportunidadeSolicitacoes from './OportunidadeSolicitacoes';
@@ -6,6 +7,11 @@ import NoticiaSolicitacoes from './NoticiaSolicitacoes';
 
 function Solicitacoes() {
   const [abaSelecionada, setAbaSelecionada] = useState('egresso');
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <div className="w-full min-h-screen mb-10">

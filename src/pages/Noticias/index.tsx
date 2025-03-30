@@ -4,8 +4,10 @@ import axios from 'axios';
 import Loading from '../../components/Loading/index.tsx';
 import Pagination from '../../components/Pagination/index.tsx';
 import { Noticia } from '../../values/noticia.tsx';
+import { useLocation } from 'react-router-dom';
 
 function Noticias() {
+  const location = useLocation();
   const [noticias, setNoticias] = useState<Noticia[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -32,6 +34,10 @@ function Noticias() {
   }, []);
 
   const paginatedNoticias = paginate(noticias, page, itemsPerPage);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <div className="flex min-h-screen w-screen justify-center">

@@ -1,16 +1,19 @@
 import { NavLink, useLocation } from "react-router-dom"; // Importando useLocation
 import logo from '../../assets/logoUfma.png'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-type FooterProps = {
-  isCoordenador: boolean;
-};
-
-const Footer = ({ isCoordenador }: FooterProps) => {
+const Footer = () => {
+  const [isCoordenador, setIsCoordenador] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const role = localStorage.getItem('role');
+    if (role === 'COORDENADOR') {
+      setIsCoordenador(true); 
+    } else {
+      setIsCoordenador(false);
+      window.scrollTo(0, 0);
+    }
   }, [location]);
 
   return (
@@ -20,7 +23,7 @@ const Footer = ({ isCoordenador }: FooterProps) => {
           <div className="order-2 lg:order-1">
             <ul className="flex flex-col gap-3 text-center lg:text-left">
               {[ 
-                { to: "/", text: "Home" },
+                { to: isCoordenador ? "/coordenador" : "/", text: "Home" },
                 { to: "/egressos", text: "Egressos" },
                 { to: "/noticias", text: "Notícias" },
                 { to: "/depoimentos", text: "Depoimentos" },
