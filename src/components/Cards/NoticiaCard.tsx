@@ -24,7 +24,7 @@ const NoticiaCard = ({ noticia }: { noticia: Noticia }) => {
         </p>
       </div>
       <img 
-        className="rounded-full w-32 h-32" 
+        className="rounded-full w-32 h-32 flex-shrink-0 object-cover" 
         src={noticia.imagemUrl || logoUfma} 
         alt="Imagem da Notícia" 
       />
