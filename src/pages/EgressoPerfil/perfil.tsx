@@ -3,6 +3,8 @@ import egressoImg from '../../assets/egresso-img.png';
 import editIcon from '../../assets/editIcon.png'; // Ícone de edição
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Loading from "../../components/Loading";
+import { DepoimentoMessage, EditMessage } from "../../components/Messages/EditMessage";
 
 type Curso = {
   id: number;
@@ -49,17 +51,20 @@ const EditarPerfil = () => {
   });
 
   const [editandoCampo, setEditandoCampo] = useState<keyof FormData | null>(null);
-
+  const [loading, setLoading] = useState(true);
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [imagem, setImagem] = useState<File | null>(null);
   const egressoId = localStorage.getItem('egressoId');
   const token = localStorage.getItem('accessToken');
   const [nomeExibido, setNomeExibido] = useState<string>('');
+  const [showEditMessage, setShowEditMessage] = useState(false);
+  const [showDepoimentoMessage, setShowDepoimentoMessage] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const fetchEgressoData = async () => {
       if (!egressoId || !token) return;
-
+  
       try {
         const response = await axios.get(`http://localhost:8080/api/egresso/buscar/${egressoId}`, {
           headers: {
@@ -67,9 +72,9 @@ const EditarPerfil = () => {
             'Content-Type': 'application/json',
           },
         });
-
+  
         const data = response.data;
-
+  
         setFormData({
           nome: data.nomeEgresso || '',
           descricao: data.descricao || '',
@@ -83,15 +88,17 @@ const EditarPerfil = () => {
           foto: data.foto || '',
           idDepoimento: data.idDepoimento,
         });
-
+  
         setNomeExibido(data.nomeEgresso || '');
       } catch (error) {
         console.error("Erro ao buscar dados do egresso:", error);
+      } finally {
+        setLoading(false); // <- AQUI
       }
     };
-
+  
     fetchEgressoData();
-  }, [egressoId, token]);
+  }, [egressoId, token]); 
 
   useEffect(() => {
     const fetchCursos = async () => {
@@ -136,7 +143,8 @@ const EditarPerfil = () => {
 
   const fetchDepoimento = async () => {
     if (!egressoId || !token) return;
-
+  
+    setLoading(true); // <- AQUI
     try {
       const response = await axios.get(
         `http://localhost:8080/api/depoimento/buscar/${egressoId}`,
@@ -147,9 +155,9 @@ const EditarPerfil = () => {
           },
         }
       );
-
+  
       const data = response.data;
-
+  
       setFormData((prevData) => ({
         ...prevData,
         depoimento: data.descricao || '',
@@ -157,9 +165,11 @@ const EditarPerfil = () => {
       }));
     } catch (error) {
       console.error("Erro ao buscar depoimento:", error);
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
     fieldId: keyof FormData
@@ -173,10 +183,11 @@ const EditarPerfil = () => {
       setImagem(file);
     }
   };
-
   const handleSave = async () => {
     if (!egressoId || !token) return;
-
+  
+    setSaving(true);
+  
     const formDataToSend = new FormData();
     formDataToSend.append('dto', new Blob([JSON.stringify({
       nome: formData.nome,
@@ -188,11 +199,11 @@ const EditarPerfil = () => {
       anoInicio: formData.anoInicio,
       anoFim: formData.anoFim,
     })], { type: 'application/json' }));
-
+  
     if (imagem) {
       formDataToSend.append('imagem', imagem);
     }
-
+  
     try {
       const response = await axios.put(
         `http://localhost:8080/api/egresso/atualizar/${egressoId}`,
@@ -203,26 +214,35 @@ const EditarPerfil = () => {
           },
         }
       );
-
+  
       console.log('Dados atualizados:', response.data);
-      window.location.reload();
+      setShowEditMessage(true);
+      setEditandoCampo(null);
+  
+      setTimeout(() => {
+        setShowEditMessage(false);
+        window.location.reload(); 
+      }, 2000);
     } catch (error) {
       console.error("Erro ao salvar:", error);
       alert("Erro ao salvar os dados!");
+    } finally {
+      setSaving(false);
     }
   };
-
+   
   const handleSaveDepoimento = async () => {
     if (!formData.idDepoimento || !formData.depoimento) return;
-
+  
+    setSaving(true); 
+  
     const dataAtual = new Date().toISOString();
-
     const payload = {
       idEgresso: egressoId,
       texto: formData.depoimento,
       data: dataAtual,
     };
-
+  
     try {
       const response = await axios.put(
         `http://localhost:8080/api/depoimento/atualizar/${formData.idDepoimento}`,
@@ -235,15 +255,23 @@ const EditarPerfil = () => {
         }
       );
       console.log("Resposta do backend:", response.data);
-      alert("Depoimento atualizado com sucesso!");
+      setShowDepoimentoMessage(true);
+      setEditandoCampo(null); // aqui!
+      setTimeout(() => setShowDepoimentoMessage(false), 4000);
     } catch (error) {
       console.error("Erro ao salvar depoimento:", error);
-      alert("Erro ao salvar o depoimento!");
+    } finally {
+      setSaving(false); 
     }
   };
+  
+  if (loading || saving) return <Loading />;
 
   return (
     <main className="container mx-auto py-12 flex justify-center gap-8">
+      {showEditMessage && <EditMessage />}
+      {showDepoimentoMessage && <DepoimentoMessage />}
+
       <div className="w-120 flex flex-col gap-6">
         <div className="flex flex-row items-center mb-8">
           <img
@@ -371,7 +399,6 @@ const EditarPerfil = () => {
                   </div>
                 </div>
               </div>
-  
               {/* Foto */}
               <div className="flex flex-col gap-1">
                 <label className="font-semibold text-lg">Foto</label>
@@ -398,11 +425,15 @@ const EditarPerfil = () => {
                     onClick={() => setEditandoCampo("foto")}
                   />
                 </div>
-                {formData.foto && (
-                  <div className="mt-2 text-sm text-gray-600">Arquivo: {formData.foto}</div>
-                )}
+
+                {/* Mostrar nome da imagem atual ou nova */}
+                <div className="mt-2 text-sm text-gray-600">
+                  {imagem
+                    ? <>Arquivo selecionado: <span className="font-medium">{imagem.name}</span></>
+                    : formData.foto && <>Arquivo atual: <span className="font-medium">{formData.foto}</span></>}
+                </div>
               </div>
-  
+ 
               <div className="flex justify-center mt-8">
                 <button
                   onClick={handleSave}

@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { Upload, ArrowRight } from "lucide-react";
 import axios from 'axios';
+import ConfirmDialog from '../Popup/Confirmacao';
+import Loading from '../Loading';
 
 interface FormData {
   nome: string;
@@ -31,6 +33,9 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
 
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [fotoNome, setFotoNome] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [formData, setFormData] = useState<FormData | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCursos = async () => {
@@ -50,6 +55,7 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
   }, []);
 
   const onSubmit = async (data: FormData) => {
+    setLoading(true);
     try {
       const formData = new FormData();
 
@@ -86,7 +92,7 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
       if (axios.isAxiosError(error)) {
         const data = error.response?.data;
         const mensagem = typeof data === 'string' ? data : (data as { message?: string; mensagem?: string })?.message || (data as { mensagem?: string })?.mensagem;
-    
+
         if (mensagem?.includes('email')) {
           setError('email', { message: mensagem });
         } else if (mensagem?.includes('Senha')) {
@@ -103,20 +109,21 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
       } else {
         alert('Erro desconhecido ao enviar os dados.');
       }
-    }    
-    
+    } finally {
+      setLoading(false);
+    }   
   };
 
+  if (loading) return <Loading />;
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="cadastro-form-container">
-      {/* Nome */}
+    <form className="cadastro-form-container">
       <div>
         <label htmlFor="nome" className="cadastro-label">Nome</label>
         <input {...register('nome', { required: 'Nome é obrigatório' })} id="nome" placeholder="Nome" className="cadastro-input" />
         {errors.nome && <p className="error-message">{errors.nome.message}</p>}
       </div>
 
-      {/* Curso */}
       <div>
         <label htmlFor="curso" className="cadastro-label">Curso</label>
         <select {...register('curso', { required: 'Curso é obrigatório' })} id="curso" className="cadastro-input">
@@ -132,7 +139,6 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
         {errors.curso && <p className="error-message">{errors.curso.message}</p>}
       </div>
 
-      {/* Ano de Início e Fim */}
       <div className="flex space-x-4">
         <div className="flex-1">
           <label htmlFor="anoInicio" className="cadastro-label">Ano de Início</label>
@@ -146,34 +152,29 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
         </div>
       </div>
 
-      {/* Descrição */}
       <div>
         <label htmlFor="descricao" className="cadastro-label">Descrição</label>
         <textarea {...register('descricao', { required: 'Descrição é obrigatória' })} id="descricao" placeholder="Descrição" className="cadastro-textarea" />
         {errors.descricao && <p className="error-message">{errors.descricao.message}</p>}
       </div>
 
-      {/* Linkedin */}
       <div>
         <label htmlFor="linkedin" className="cadastro-label">LinkedIn</label>
         <input {...register('linkedin')} id="linkedin" placeholder="Digite o link do seu perfil no LinkedIn" className="cadastro-input" type="url" />
         {errors.linkedin && <p className="error-message">{errors.linkedin.message}</p>}
       </div>
 
-      {/* Currículo */}
       <div>
         <label htmlFor="curriculo" className="cadastro-label">Currículo Lattes</label>
         <input {...register('curriculo')} id="curriculo" placeholder="Digite o link do seu Lattes" className="cadastro-input" type="url" />
       </div>
 
-      {/* Instagram */}
       <div>
         <label htmlFor="instagram" className="cadastro-label">Instagram</label>
         <input {...register('instagram')} id="instagram" placeholder="Digite o link do seu instagram" className="cadastro-input" type="text" />
         {errors.instagram && <p className="error-message">{errors.instagram.message}</p>}
       </div>
 
-      {/* Foto */}
       <div>
         <label htmlFor="foto" className="cadastro-label">Foto</label>
         <div className="upload-container">
@@ -198,14 +199,12 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
         {fotoNome && <p className="foto-nome">{fotoNome}</p>}
       </div>
 
-      {/* Email */}
       <div>
         <label htmlFor="email" className="cadastro-label">Email</label>
         <input {...register('email', { required: 'Email é obrigatório' })} id="email" type="email" placeholder="Digite seu email" className="cadastro-input" />
         {errors.email && <p className="error-message">{errors.email.message}</p>}
       </div>
 
-      {/* Senha */}
       <div>
         <label htmlFor="senha" className="cadastro-label flex items-center gap-2">
           Senha
@@ -225,13 +224,31 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
         {errors.senha && <p className="error-message">{errors.senha.message}</p>}
       </div>
 
-      {/* Botão */}
       <div className="flex justify-center mt-8">
-        <button type="submit" disabled={!isValid} className={`btn-continuar ${isValid ? 'ativo' : ''}`}>
+        <button
+          type="button"
+          disabled={!isValid}
+          onClick={handleSubmit((data) => {
+            setFormData(data);
+            setShowConfirm(true);
+          })}
+          className={`btn-continuar ${isValid ? 'ativo' : ''}`}
+        >
           <span className="mr-2">Continuar</span>
           <ArrowRight className="arrow-icon" />
         </button>
       </div>
+
+      <ConfirmDialog
+        isOpen={showConfirm}
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={() => {
+          setShowConfirm(false);
+          if (formData) {
+            onSubmit(formData);
+          }
+        }}
+      />
     </form>
   );
 }

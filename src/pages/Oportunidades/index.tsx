@@ -5,6 +5,8 @@ import Loading from '../../components/Loading/index.tsx';
 import Pagination from '../../components/Pagination/index.tsx';
 import { Oportunidade } from '../../values/oportunidade.tsx';
 import { useLocation } from 'react-router-dom';
+import { OportunidadeMessage } from '../../components/Messages/EditMessage.tsx';
+import BotaoEnviarOportunidade from '../../components/Buttons/EnviarOportunidadeButton.tsx';
 
 function Oportunidades() {
   const location = useLocation();
@@ -17,6 +19,19 @@ function Oportunidades() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 9; 
+  const [showMessage, setShowMessage] = useState(false);
+
+  const role = localStorage.getItem("role");
+
+  useEffect(() => {
+    // Exibe a mensagem se vier do cadastro de oportunidade
+    const hasMessage = localStorage.getItem('showOportunidadeMessage');
+    if (hasMessage === 'true') {
+      setShowMessage(true);
+      localStorage.removeItem('showOportunidadeMessage');
+      setTimeout(() => setShowMessage(false), 4000);
+    }
+  }, []);
 
   const paginate = (data: Oportunidade[], page: number, itemsPerPage: number) => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -75,6 +90,8 @@ function Oportunidades() {
   return (
     <div className="flex min-h-screen w-screen justify-center my-12">
       <div className="flex flex-col items-center gap-8">
+        {showMessage && <OportunidadeMessage />}
+
         <h1 className="text-3xl font-bold text-center">Oportunidades</h1>
         
         {loading ? (
@@ -82,6 +99,7 @@ function Oportunidades() {
         ) : (
           <>
             <div className="flex flex-wrap gap-4 items-end justify-center mb-10">
+              {/* Filtros */}
               <div className="flex flex-col">
                 <label htmlFor="titulo" className="block text-sm font-bold text-gray-700 mb-1">
                   Título
@@ -142,6 +160,13 @@ function Oportunidades() {
               </div>
             </div>
 
+            {role === 'EGRESSO' && (
+              <div className="w-full flex justify-end pr-8 mt-4 mb-8">
+                <BotaoEnviarOportunidade />
+              </div>
+            )}
+
+            {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
               {paginatedOportunidades.map((oportunidade) => (
                 <OportunidadeCard 
@@ -151,6 +176,7 @@ function Oportunidades() {
               ))}
             </div>
             
+            {/* Paginação */}
             <Pagination
               currentPage={page}
               totalPages={totalPages}
