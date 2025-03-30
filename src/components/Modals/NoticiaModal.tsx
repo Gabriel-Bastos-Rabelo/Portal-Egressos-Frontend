@@ -24,14 +24,14 @@ const NoticiaModal = ({ onClose, noticia }: NoticiaModalProps) => {
         <div className="flex gap-5 text-gray-600">
           <div className="flex flex-col gap-1">
             <p>{noticia.data}</p>
-            <p>{noticia.link_noticia}</p>
+            <p>{noticia.linkNoticia}</p>
             <div>
               <p>Descrição da notícia: </p>
               <p className="text-justify">{noticia.descricao}</p>
             </div>
           </div>
           <div className="flex justify-center items-center min-w-[20%]">
-            <img src={noticia.imagem_url || logoUfma} alt="Foto do egresso" />
+            <img src={noticia.imagemUrl || logoUfma} alt="Foto do egresso" />
           </div>
         </div>  
       </div>
