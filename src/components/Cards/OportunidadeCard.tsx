@@ -9,7 +9,7 @@ const OportunidadeCard = ({ oportunidade }: { oportunidade: Oportunidade }) => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="w-[350px] h-[200px] bg-white rounded-lg shadow-xl flex flex-col justify-around px-4 gap-4 cursor-pointer" onClick={openModal}>
+    <div className="w-[350px] h-[200px] bg-white rounded-lg shadow-xl flex flex-col justify-around px-4 gap-4 cursor-pointer hover:shadow-2xl transition-shadow duration-300" onClick={openModal}>
       <div>
         <h3 className="text-xl">{oportunidade.titulo}</h3>
         <p className="">{oportunidade.tipo}</p>
