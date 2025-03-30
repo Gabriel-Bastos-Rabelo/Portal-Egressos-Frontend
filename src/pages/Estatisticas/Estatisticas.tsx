@@ -137,11 +137,11 @@ const Estatisticas: React.FC = () => {
             </div>
           </div>
 
-          <div className='flex flex-row justify-center gap-20 mb-8'>
+          <div className='flex flex-wrap flex flex-row justify-center gap-20 mb-8'>
             {/* Cargos por Egressos */}
-            <div className="w-full max-w-[480px] bg-white p-4 rounded-lg shadow-md">
+            <div className="w-full max-w-[490px] bg-white p-4 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold text-center mb-4">CARGOS POR EGRESSOS</h3>
-              <div className="w-full h-auto max-h-[490px] overflow-auto">
+              <div className="w-full h-auto max-h-[410px] overflow-auto">
                 <Bar
                   data={cargosPorEgressosData}
                   options={{
@@ -187,19 +187,21 @@ const Estatisticas: React.FC = () => {
               </div>
             </div>
   
-            <div className="w-[480px] h-[470px] bg-white p-4 rounded-lg shadow-md text-center">
+            <div className="w-[480px] h-[490px] bg-white p-4 rounded-lg shadow-md text-center">
               <h3 className="text-xl font-semibold">TAXA DE EMPREGABILIDADE</h3>
-              <Pie data={taxaDeEmpregabilidadeData} options={{
-                plugins: {
-                  legend: {
-                    position: 'right',
-                    labels: {
-                      boxWidth: 15,
-                      padding: 10,
+              <div className="w-full h-auto">
+                <Pie data={taxaDeEmpregabilidadeData} options={{
+                  plugins: {
+                    legend: {
+                      position: 'right',
+                      labels: {
+                        boxWidth: 15,
+                        padding: 10,
+                      },
                     },
                   },
-                },
-              }} />
+                }} />
+              </div>
             </div>
           </div>
         </>
