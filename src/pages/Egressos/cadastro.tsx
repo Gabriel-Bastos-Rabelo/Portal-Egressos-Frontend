@@ -3,42 +3,24 @@ import CadastroForm from '../../components/Forms/CadastroForm';
 import DepoimentoForm from '../../components/Forms/DepoimentoForm';
 import CargoForm from '../../components/Forms/CargoForm';
 import StepIndicator from '../../components/Steps/StepIndicator';
-
-interface FormData {
-  nome: string;
-  descricao: string;
-  linkedin: string;
-  lattes: string;
-  instagram: string;
-  email: string;
-  senha: string;
-  curso: string;
-  anoInicio: number;
-  anoFim: number;
-  foto: FileList | null;
-}
+import { useNavigate } from 'react-router-dom';  // Importando useNavigate
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState<FormData | null>(null);
   const [idEgresso, setEgressoId] = useState<number | null>(null);
+  const navigate = useNavigate();  // Usando useNavigate para navegação
 
-  const handleNextStep = (data: FormData, id: number) => {
-    setFormData(data);
+  const handleNextStep = (id: number) => {
     setEgressoId(id);
     setCurrentStep(2);
   };
 
   const handleNextStepDepoimento = () => {
-    setCurrentStep(3);  // Passa para a 3ª etapa após salvar o depoimento
+    setCurrentStep(3);  
   };
 
-  const handlePrevStep = () => {
-    setCurrentStep(1);
-  };
-
-  const handlePrevStepCargo = () => {
-    setCurrentStep(2);
+  const handleCancel = () => {
+    navigate('/');  // Redirecionando para a página inicial (home)
   };
 
   return (
@@ -57,15 +39,14 @@ export default function Cadastro() {
         {currentStep === 1 && (
           <CadastroForm
             onNext={handleNextStep}
-            initialData={formData}
           />
         )}
 
         {/* Step 2 - Depoimento */}
         {currentStep === 2 && idEgresso && (
           <DepoimentoForm
-            onBack={handlePrevStep}
             onNextStep={handleNextStepDepoimento}  // Passando a função para a etapa 3
+            onCancel={handleCancel}  // Passando a função de cancelamento
             idEgresso={idEgresso}
           />
         )}
@@ -73,7 +54,6 @@ export default function Cadastro() {
         {/* Step 3 - Cargo */}
         {currentStep === 3 && idEgresso && (
           <CargoForm
-            onBack={handlePrevStepCargo}
             idEgresso={idEgresso}
           />
         )}

@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import './CadastroForm.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Importando useNavigate
 
 type CargoData = {
   cargo: string;
@@ -23,15 +24,15 @@ const cargos = [
 ];
 
 export default function CargoForm({
-  onBack,
   idEgresso,
 }: {
-  onBack: () => void;
   idEgresso: number;
 }) {
   const { register, handleSubmit, formState: { errors, isValid } } = useForm<CargoData>({
     mode: 'onChange',
   });
+
+  const navigate = useNavigate(); // Hook para navegação
 
   const onSubmit = async (data: CargoData) => {
     if (!idEgresso) {
@@ -43,7 +44,7 @@ export default function CargoForm({
       const response = await axios.post(
         'http://localhost:8080/api/cargo', 
         {
-          egresso: idEgresso,
+          egressoId: idEgresso,  
           descricao: data.cargo,
           local: data.local,
           anoInicio: data.anoInicio,
@@ -58,12 +59,17 @@ export default function CargoForm({
 
       if (response.status === 201) {
         console.log('Cargo salvo com sucesso!', response.data);
+        navigate('/'); // Redireciona para a home
       } else {
         console.error('Erro ao salvar o cargo', response.data);
       }
     } catch (error) {
       console.error('Erro ao enviar o cargo', error);
     }
+  };
+
+  const handleCancel = () => {
+    navigate('/');  // Redireciona para a home
   };
 
   return (
@@ -110,7 +116,7 @@ export default function CargoForm({
         <div className="flex-1">
           <label htmlFor="anoFim" className="cadastro-label">Ano de Fim</label>
           <input
-            {...register('anoFim', { required: 'Ano de fim é obrigatório' })}
+            {...register('anoFim')}  
             id="anoFim"
             placeholder="Ano de Fim"
             type="number"
@@ -118,16 +124,16 @@ export default function CargoForm({
           />
           {errors.anoFim && <p className="error-message">{errors.anoFim.message}</p>}
         </div>
+
       </div>
 
       <div className="flex justify-center gap-4 mt-8">
         <button
           type="button"
-          onClick={onBack}
+          onClick={handleCancel}  // Substituindo o "Voltar" por "Cancelar"
           className="btn-voltar flex items-center gap-2"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Voltar
+          Cancelar
         </button>
 
         <button

@@ -40,11 +40,13 @@ function Login() {
         // userId,
         email: userEmail,
         egressoId,
+        coordId,
       } = response.data;
 
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('role', role);
       localStorage.setItem('email', userEmail);
+      localStorage.setItem('coordId', coordId );
 
       if (egressoId !== null && egressoId !== undefined) {
         localStorage.setItem('egressoId', egressoId);
