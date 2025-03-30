@@ -2,6 +2,7 @@ import DepoimentoCard from '../../components/Cards/DepoimentoCard.tsx';
 import { useState, useEffect} from 'react';
 import axios from 'axios';
 import Loading from '../../components/Loading/index.tsx';
+import Pagination from '../../components/Pagination/index.tsx';
 import { Depoimento } from '../../values/depoimento.tsx';
 
 function Depoimentos() {
@@ -11,7 +12,15 @@ function Depoimentos() {
   const [cursoInput, setCursoInput] = useState('');
   const [anoInput, setAnoInput] = useState('');
   const [filters, setFilters] = useState({ nome: '', curso: '', ano: '' });
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 5; 
 
+  const paginate = (data: Depoimento[], page: number, itemsPerPage: number) => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return data.slice(startIndex, endIndex);
+    
   const handleFiltrar = () => {
     console.log(anoInput)
     setFilters({
@@ -32,7 +41,7 @@ function Depoimentos() {
     axios.get('http://localhost:8080/api/depoimento/aprovados')
       .then(response => {
         setDepoimentos(response.data);
-        console.log(response.data)
+        setTotalPages(Math.ceil(response.data.length / itemsPerPage));
         setLoading(false);
       })
       .catch(error => {
@@ -40,6 +49,9 @@ function Depoimentos() {
         setLoading(false);
       });
   }, []);
+
+
+  const padinatedDepoimentos = paginate(depoimentos, page, itemsPerPage);
 
   const depoimentosFiltrados = depoimentos.filter(depoimento => {
     const nomeMatch = depoimento.nomeEgresso.toLowerCase().includes(filters.nome.toLowerCase());
@@ -56,6 +68,13 @@ function Depoimentos() {
         {loading ? (
           <Loading />
         ) : (
+          <>
+            <div className="flex flex-col max-w-5xl mx-auto px-4 w-full">
+              {padinatedDepoimentos.map((depoimento) => (
+                <DepoimentoCard key={depoimento.id} depoimento={depoimento} />
+              ))}
+            </div>
+            
           <div>
             <div className="flex flex-wrap gap-4 items-end justify-center mb-10"> 
               <div className="flex flex-col">
@@ -131,7 +150,12 @@ function Depoimentos() {
                 <DepoimentoCard key={depoimento.id} depoimento={depoimento} />
               ))}
             </div>
-          </div>
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={setPage}
+            />
+          </>
         )}
       </div>
     </div>
