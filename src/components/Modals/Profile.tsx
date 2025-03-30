@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Para navegação
-import { FaCog, FaPlus, FaSignOutAlt } from 'react-icons/fa'; // Ícones para as opções
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { FaCog, FaPlus, FaSignOutAlt } from 'react-icons/fa';
 import userImg from '../../assets/egresso-img.png'
 
 type ProfileProps = {
     onLogout: () => void;
-  };
+};
 
-const Profile = ( { onLogout }: ProfileProps ) => {
+const Profile = ({ onLogout }: ProfileProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate(); // Para redirecionamento
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleToggleDropdown = () => {
     setIsOpen(prevState => !prevState);
@@ -22,6 +23,10 @@ const Profile = ( { onLogout }: ProfileProps ) => {
   const handleGoToCreateOpportunity = () => {
     navigate('/oportunidades/enviarOportunidade');
   };
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
 
   return (
     <div className="relative">
