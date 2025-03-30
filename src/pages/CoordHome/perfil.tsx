@@ -124,8 +124,7 @@ const EditarPerfilCoordenador = () => {
   return (
     <main className="container mx-auto py-12 flex justify-center gap-8">
       <div className="w-120 flex flex-col gap-6">
-        <h2 className="font-normal text-center text-2xl p-8">Editar Dados</h2>
-
+        <h2 className="font-bold text-center text-2xl p-8">Editar Dados</h2>
         <div className="flex flex-col gap-4">
           {/* Nome */}
           <div className="flex flex-col gap-1 mb-4">
