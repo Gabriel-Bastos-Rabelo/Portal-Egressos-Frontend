@@ -4,8 +4,10 @@ import axios from 'axios';
 import Loading from '../../components/Loading/index.tsx';
 import Pagination from '../../components/Pagination/index.tsx';
 import { Oportunidade } from '../../values/oportunidade.tsx';
+import { useLocation } from 'react-router-dom';
 
 function Oportunidades() {
+  const location = useLocation();
   const [oportunidades, setOportunidades] = useState<Oportunidade[]>([]);
   const [loading, setLoading] = useState(true);
   const [tituloInput, setTituloInput] = useState('');
@@ -65,6 +67,10 @@ function Oportunidades() {
   }, [oportunidadesFiltradas]);
   
   const paginatedOportunidades = paginate(oportunidadesFiltradas, page, itemsPerPage);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   
   return (
     <div className="flex min-h-screen w-screen justify-center my-12">

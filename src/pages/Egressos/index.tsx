@@ -4,8 +4,10 @@ import axios from 'axios';
 import { Egresso } from '../../values/egresso.tsx';
 import Loading from '../../components/Loading/index.tsx';
 import Pagination from '../../components/Pagination/index.tsx';
+import { useLocation } from 'react-router-dom';
 
 function Egressos() {
+  const location = useLocation();
   const [egressos, setEgressos] = useState<Egresso[]>([]);
   const [loading, setLoading] = useState(true);
   const [nomeInput, setNomeInput] = useState('');
@@ -63,6 +65,10 @@ function Egressos() {
   };
 
   const paginatedEgressos = paginate(egressosFiltrados, page, itemsPerPage);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <div className="flex min-h-screen w-screen justify-center my-12">

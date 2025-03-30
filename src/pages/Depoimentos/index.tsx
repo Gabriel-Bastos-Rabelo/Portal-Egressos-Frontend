@@ -4,8 +4,10 @@ import axios from 'axios';
 import Loading from '../../components/Loading/index.tsx';
 import Pagination from '../../components/Pagination/index.tsx';
 import { Depoimento } from '../../values/depoimento.tsx';
+import { useLocation } from 'react-router-dom';
 
 function Depoimentos() {
+  const location = useLocation();
   const [depoimentos, setDepoimentos] = useState<Depoimento[]>([]);
   const [loading, setLoading] = useState(true);
   const [nomeInput, setNomeInput] = useState('');
@@ -63,6 +65,10 @@ function Depoimentos() {
   }, [depoimentosFiltrados]);
   
   const padinatedDepoimentos = paginate(depoimentosFiltrados, page, itemsPerPage);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <div className="flex min-h-screen w-screen justify-center my-12">
