@@ -8,7 +8,7 @@ const DepoimentoCard = ({ depoimento }: { depoimento: Depoimento }) => {
       <div className="flex flex-col">
         <h3 className="text-xl">{depoimento.nomeEgresso}</h3>
         <p className="text-gray-600">{depoimento.nomeCurso}</p>
-        <p className="text-gray-600 text-justify">{depoimento.texto}</p>
+        <p className="text-gray-600 text-justify">{depoimento.descricao}</p>
       </div>
     </div>
   );
