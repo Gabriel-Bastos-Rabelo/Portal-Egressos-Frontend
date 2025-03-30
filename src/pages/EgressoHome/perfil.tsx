@@ -71,7 +71,7 @@ const EditarPerfil = () => {
         const data = response.data;
 
         setFormData({
-          nome: data.nome || '',
+          nome: data.nomeEgresso || '',
           descricao: data.descricao || '',
           linkedin: data.linkedin || '',
           lattes: data.curriculo || '',
@@ -84,7 +84,7 @@ const EditarPerfil = () => {
           idDepoimento: data.idDepoimento,
         });
 
-        setNomeExibido(data.nome || '');
+        setNomeExibido(data.nomeEgresso || '');
       } catch (error) {
         console.error("Erro ao buscar dados do egresso:", error);
       }
@@ -152,7 +152,7 @@ const EditarPerfil = () => {
 
       setFormData((prevData) => ({
         ...prevData,
-        depoimento: data.texto || '',
+        depoimento: data.descricao || '',
         idDepoimento: data.id,
       }));
     } catch (error) {
