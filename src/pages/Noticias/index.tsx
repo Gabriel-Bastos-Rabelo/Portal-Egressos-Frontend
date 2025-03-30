@@ -6,7 +6,7 @@ import Pagination from '../../components/Pagination/index.tsx';
 import { Noticia } from '../../values/noticia.tsx';
 
 function Noticias() {
-  const [noticias, setNoticias] = useState([]);
+  const [noticias, setNoticias] = useState<Noticia[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
