@@ -31,7 +31,11 @@ const EgressoModalSolic = ({ onClose, egresso }: EgressoModalProps) => {
             <p>Email: {egresso.emailUsuario}</p>
           </div>
           <div className="flex justify-center items-center min-w-[30%]">
-            <img className="w-full" src={egresso.foto || egressoImg} alt="Foto do egresso" />
+            <img
+              src={egresso.foto ? `http://localhost:8080/uploads/${egresso.foto}` : egressoImg}
+              alt="Foto do egresso"
+              className="w-40 h-40 rounded object-cover shadow"
+            />
           </div>
         </div>  
       </div>
