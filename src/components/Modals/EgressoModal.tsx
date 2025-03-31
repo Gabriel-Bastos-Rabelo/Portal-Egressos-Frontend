@@ -1,4 +1,4 @@
-import { Egresso } from '../Cards/EgressoCard.tsx';
+import { Egresso } from '../../values/egresso.tsx';
 import egressoImg from '../../assets/egresso-img.png';
 
 type EgressoModalProps = {
@@ -23,14 +23,15 @@ const EgressoModal = ({ onClose, egresso }: EgressoModalProps) => {
         <div className="flex flex-col gap-4">
           <div className="flex gap-4 items-center">
             <img
-              src={egressoImg} // Imagem do egresso
-              alt="Foto do Egresso"
+              src={egresso.foto ? `http://localhost:8080/uploads/${egresso.foto}` : egressoImg}
+              alt="Foto do egresso"
               className="w-40 h-40 rounded object-cover shadow"
             />
+
             <div className="flex flex-col items-center">
               <div className="flex flex-col items-start">
                 <div className="flex flex-col items-start">
-                  <h2 className="text-xl">{egresso.nome}</h2>
+                  <h2 className="text-xl">{egresso.nomeEgresso}</h2>
                   <p className="text-gray-600">{egresso.cargo}</p>
                   <p className="text-gray-500">{egresso.curso}</p>
                 </div>
@@ -47,7 +48,7 @@ const EgressoModal = ({ onClose, egresso }: EgressoModalProps) => {
                     <i className="fa-brands fa-instagram text-2xl text-[#000000]"></i>
                   </div>
                 </a>
-                <a href={`mailto:${egresso.email}`} className="cursor-pointer">
+                <a href={`mailto:${egresso.emailUsuario}`} className="cursor-pointer">
                   <div className="bg-white rounded-full shadow-lg p-2 cursor-pointer">
                     <i className="fa-regular fa-envelope text-2xl text-[#000000]"></i>
                   </div>
