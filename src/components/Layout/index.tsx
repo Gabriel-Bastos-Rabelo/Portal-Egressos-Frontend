@@ -4,18 +4,14 @@ import Footer from '../Footer';
 
 import './index.css'
 
-type LayoutProps = {
-  isCoordenador: boolean;
-};
-
-function Layout({ isCoordenador }: LayoutProps) {
+function Layout() {
   return (
     <div>
-      <NavBar isCoordenador={isCoordenador}/>
+      <NavBar />
       <main>
         <Outlet />
       </main>
-      <Footer isCoordenador={isCoordenador}/>
+      <Footer />
     </div>
   );
 }

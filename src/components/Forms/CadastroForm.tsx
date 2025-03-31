@@ -3,23 +3,25 @@ import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { Upload, ArrowRight } from "lucide-react";
 import axios from 'axios';
+import ConfirmDialog from '../Popup/Confirmacao';
+import Loading from '../Loading';
 
 interface FormData {
   nome: string;
   descricao: string;
   linkedin: string;
-  lattes: string;
+  curriculo: string;
   instagram: string;
   email: string;
   senha: string;
   curso: string;
-  anoInicio: Int16Array;
-  anoFim: Int16Array; 
-  foto: FileList | null; // foto é um arquivo ou null
+  anoInicio: number;
+  anoFim: number; 
+  foto: FileList | null;
 }
 
-export default function CadastroForm({ onNext, initialData }: { onNext: (data: FormData, egressoId: number) => void, initialData: FormData | null }) {
-  const { register, handleSubmit, formState: { errors, isValid }, setValue } = useForm<FormData>({
+export default function CadastroForm({ onNext }: { onNext: (egressoId: number) => void }) {
+  const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm<FormData>({
     mode: 'onChange',
   });
 
@@ -28,16 +30,19 @@ export default function CadastroForm({ onNext, initialData }: { onNext: (data: F
     nome: string;
     nivel: string;
   }
-  
+
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [fotoNome, setFotoNome] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [formData, setFormData] = useState<FormData | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCursos = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/cursos/listarCursos'); // Substitua pela sua rota para pegar os cursos
+        const response = await axios.get('http://localhost:8080/api/cursos/listarCursos');
         if (response.status === 200) {
-          setCursos(response.data); // Armazenar os cursos no estado
+          setCursos(response.data);
         } else {
           console.error('Erro ao buscar cursos', response.data);
         }
@@ -49,82 +54,79 @@ export default function CadastroForm({ onNext, initialData }: { onNext: (data: F
     fetchCursos();
   }, []);
 
-  useEffect(() => {
-    if (initialData) {
-      Object.keys(initialData).forEach((key) => {
-        const typedKey = key as keyof FormData; 
-        setValue(typedKey, initialData[typedKey]);
-  
-        if (initialData.foto) {
-          setFotoNome(initialData.foto[0].name);
-        }
-      });
-    }
-  }, [initialData, setValue]);
-
   const onSubmit = async (data: FormData) => {
+    setLoading(true);
     try {
       const formData = new FormData();
-  
-      // Adicionando os dados do DTO diretamente no FormData com o tipo de conteúdo correto (application/json)
+
       formData.append('dto', new Blob([JSON.stringify({
         nome: data.nome,
         descricao: data.descricao,
-        linkedin: data.linkedin,
-        lattes: data.lattes,
-        instagram: data.instagram,
+        linkedin: data.linkedin || null,
+        curriculo: data.curriculo || null,
+        instagram: data.instagram || null,
         emailUsuario: data.email,
         senhaUsuario: data.senha,
         anoInicio: data.anoInicio,
         anoFim: data.anoFim,
         idCurso: data.curso,
       })], { type: 'application/json' }));
-  
-      // Verificando se existe a foto e anexando com o tipo de conteúdo correto (image/png)
+
       if (data.foto && data.foto[0]) {
         formData.append('imagem', data.foto[0], data.foto[0].name);
       }
-  
-      // Enviando os dados via POST
+
       const response = await axios.post('http://localhost:8080/api/egresso/salvar', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', 
+          'Content-Type': 'multipart/form-data',
         }
       });
-  
+
       if (response.status === 201) {
         const idEgresso = response.data.id; 
-        onNext(data, idEgresso);
+        onNext(idEgresso);
       } else {
         console.error('Erro ao salvar os dados', response.data);
       }
     } catch (error) {
-      console.error('Erro ao enviar os dados', error);
-    }
+      if (axios.isAxiosError(error)) {
+        const data = error.response?.data;
+        const mensagem = typeof data === 'string' ? data : (data as { message?: string; mensagem?: string })?.message || (data as { mensagem?: string })?.mensagem;
+
+        if (mensagem?.includes('email')) {
+          setError('email', { message: mensagem });
+        } else if (mensagem?.includes('Senha')) {
+          setError('senha', { message: mensagem });
+        } else if (mensagem?.includes('Nome')) {
+          setError('nome', { message: mensagem });
+        } else if (mensagem?.includes('Linkedin')) {
+          setError('linkedin', { message: mensagem });
+        } else if (mensagem?.includes('Instagram')) {
+          setError('instagram', { message: mensagem });
+        } else {
+          alert(mensagem || 'Erro ao enviar os dados.');
+        }
+      } else {
+        alert('Erro desconhecido ao enviar os dados.');
+      }
+    } finally {
+      setLoading(false);
+    }   
   };
-  
+
+  if (loading) return <Loading />;
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="cadastro-form-container">
-      {/* Nome */}
+    <form className="cadastro-form-container">
       <div>
         <label htmlFor="nome" className="cadastro-label">Nome</label>
-        <input
-          {...register('nome', { required: 'Nome é obrigatório' })}
-          id="nome"
-          placeholder="Nome"
-          className="cadastro-input"
-        />
+        <input {...register('nome', { required: 'Nome é obrigatório' })} id="nome" placeholder="Nome" className="cadastro-input" />
         {errors.nome && <p className="error-message">{errors.nome.message}</p>}
       </div>
 
-      {/* Curso - Dropdown */}
       <div>
         <label htmlFor="curso" className="cadastro-label">Curso</label>
-        <select
-          {...register('curso', { required: 'Curso é obrigatório' })}
-          id="curso"
-          className="cadastro-input"
-        >
+        <select {...register('curso', { required: 'Curso é obrigatório' })} id="curso" className="cadastro-input">
           <option value="">Selecione o curso</option>
           {cursos.length > 0 ? (
             cursos.map((curso) => (
@@ -137,83 +139,42 @@ export default function CadastroForm({ onNext, initialData }: { onNext: (data: F
         {errors.curso && <p className="error-message">{errors.curso.message}</p>}
       </div>
 
-      {/* Ano de Início e Ano de Fim */}
       <div className="flex space-x-4">
-        {/* Ano de Início */}
         <div className="flex-1">
           <label htmlFor="anoInicio" className="cadastro-label">Ano de Início</label>
-          <input
-            {...register('anoInicio', { required: 'Ano de início é obrigatório' })}
-            id="anoInicio"
-            placeholder="Ano de Início"
-            type="number"
-            className="cadastro-input"
-          />
+          <input {...register('anoInicio', { required: 'Ano de início é obrigatório' })} id="anoInicio" placeholder="Ano de Início" type="number" className="cadastro-input" />
           {errors.anoInicio && <p className="error-message">{errors.anoInicio.message}</p>}
         </div>
-
-        {/* Ano de Fim */}
         <div className="flex-1">
           <label htmlFor="anoFim" className="cadastro-label">Ano de Fim</label>
-          <input
-            {...register('anoFim', { required: 'Ano de fim é obrigatório' })}
-            id="anoFim"
-            placeholder="Ano de Fim"
-            type="number"
-            className="cadastro-input"
-          />
+          <input {...register('anoFim', { required: 'Ano de fim é obrigatório' })} id="anoFim" placeholder="Ano de Fim" type="number" className="cadastro-input" />
           {errors.anoFim && <p className="error-message">{errors.anoFim.message}</p>}
         </div>
       </div>
 
-      {/* Descrição */}
       <div>
         <label htmlFor="descricao" className="cadastro-label">Descrição</label>
-        <textarea
-          {...register('descricao')}
-          id="descricao"
-          placeholder="Descrição"
-          className="cadastro-textarea"
-        />
+        <textarea {...register('descricao', { required: 'Descrição é obrigatória' })} id="descricao" placeholder="Descrição" className="cadastro-textarea" />
+        {errors.descricao && <p className="error-message">{errors.descricao.message}</p>}
       </div>
 
-      {/* Linkedin */}
       <div>
         <label htmlFor="linkedin" className="cadastro-label">LinkedIn</label>
-        <input
-          {...register('linkedin')}
-          id="linkedin"
-          placeholder="Digite o link do seu perfil no LinkedIn"
-          className="cadastro-input"
-          type="url"
-        />
+        <input {...register('linkedin')} id="linkedin" placeholder="Digite o link do seu perfil no LinkedIn" className="cadastro-input" type="url" />
+        {errors.linkedin && <p className="error-message">{errors.linkedin.message}</p>}
       </div>
 
-      {/* Currículo Lattes */}
       <div>
-        <label htmlFor="lattes" className="cadastro-label">Currículo Lattes</label>
-        <input
-          {...register('lattes')}
-          id="lattes"
-          placeholder="Digite o link do seu Lattes"
-          className="cadastro-input"
-          type="url"
-        />
+        <label htmlFor="curriculo" className="cadastro-label">Currículo Lattes</label>
+        <input {...register('curriculo')} id="curriculo" placeholder="Digite o link do seu Lattes" className="cadastro-input" type="url" />
       </div>
 
-      {/* Instagram */}
       <div>
         <label htmlFor="instagram" className="cadastro-label">Instagram</label>
-        <input
-          {...register('instagram')}
-          id="instagram"
-          placeholder="Digite o link do seu instagram"
-          className="cadastro-input"
-          type="text"
-        />
+        <input {...register('instagram')} id="instagram" placeholder="Digite o link do seu instagram" className="cadastro-input" type="text" />
+        {errors.instagram && <p className="error-message">{errors.instagram.message}</p>}
       </div>
 
-      {/* Foto */}
       <div>
         <label htmlFor="foto" className="cadastro-label">Foto</label>
         <div className="upload-container">
@@ -238,43 +199,56 @@ export default function CadastroForm({ onNext, initialData }: { onNext: (data: F
         {fotoNome && <p className="foto-nome">{fotoNome}</p>}
       </div>
 
-      {/* Email */}
       <div>
         <label htmlFor="email" className="cadastro-label">Email</label>
-        <input
-          {...register('email', { required: 'Email é obrigatório' })}
-          id="email"
-          type="email"
-          placeholder="Digite seu email"
-          className="cadastro-input"
-        />
+        <input {...register('email', { required: 'Email é obrigatório' })} id="email" type="email" placeholder="Digite seu email" className="cadastro-input" />
         {errors.email && <p className="error-message">{errors.email.message}</p>}
       </div>
 
-      {/* Senha */}
       <div>
-        <label htmlFor="senha" className="cadastro-label">Senha</label>
-        <input
-          {...register('senha', { required: 'Senha é obrigatória' })}
-          id="senha"
-          type="password"
-          placeholder="Digite sua senha"
-          className="cadastro-input"
-        />
+        <label htmlFor="senha" className="cadastro-label flex items-center gap-2">
+          Senha
+          <div className="tooltip-container">
+            <div className="tooltip-icon">?</div>
+            <div className="tooltip-text">
+              A senha deve conter:
+              <ul>
+                <li>- Pelo menos 1 caractere especial</li>
+                <li>- Pelo menos uma letra maiúscula</li>
+                <li>- No máximo 8 dígitos</li>
+              </ul>
+            </div>
+          </div>
+        </label>
+        <input {...register('senha', { required: 'Senha é obrigatória' })} id="senha" type="password" placeholder="Digite sua senha" className="cadastro-input" />
         {errors.senha && <p className="error-message">{errors.senha.message}</p>}
       </div>
 
-      {/* Botão de Continuar */}
       <div className="flex justify-center mt-8">
         <button
-          type="submit"
+          type="button"
           disabled={!isValid}
+          onClick={handleSubmit((data) => {
+            setFormData(data);
+            setShowConfirm(true);
+          })}
           className={`btn-continuar ${isValid ? 'ativo' : ''}`}
         >
           <span className="mr-2">Continuar</span>
           <ArrowRight className="arrow-icon" />
         </button>
       </div>
+
+      <ConfirmDialog
+        isOpen={showConfirm}
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={() => {
+          setShowConfirm(false);
+          if (formData) {
+            onSubmit(formData);
+          }
+        }}
+      />
     </form>
   );
 }

@@ -25,7 +25,6 @@ function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       const response = await axios.post(
         'http://localhost:8080/api/auth/signin',
@@ -41,12 +40,13 @@ function Login() {
         // userId,
         email: userEmail,
         egressoId,
+        coordId,
       } = response.data;
 
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('role', role);
-      // localStorage.setItem('userId', userId);
       localStorage.setItem('email', userEmail);
+      localStorage.setItem('coordId', coordId );
 
       if (egressoId !== null && egressoId !== undefined) {
         localStorage.setItem('egressoId', egressoId);
@@ -54,7 +54,6 @@ function Login() {
         localStorage.removeItem('egressoId'); 
       }
 
-      // Redireciona de acordo com o perfil do usuário
       if (role === 'COORDENADOR') {
         navigate('/coordenador');
       } else if (role === 'EGRESSO') {

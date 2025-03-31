@@ -5,11 +5,7 @@ import JobIcon from '../../assets/jobIcon.svg';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Profile from '../Modals/Profile';
 
-type NavbarProps = {
-  isCoordenador: boolean;
-};
-
-const Navbar = ({ isCoordenador }: NavbarProps) => {
+const Navbar = () => {
   const [clicked, setClicked] = useState<boolean>(false);
   const [role, setRole] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -27,9 +23,8 @@ const Navbar = ({ isCoordenador }: NavbarProps) => {
   }, [clicked]);
   
   useEffect(() => {
-    // Verifica se o role está no localStorage
     const storedRole = localStorage.getItem("role");
-    setRole(storedRole); // Atualiza o estado com o role armazenado
+    setRole(storedRole);
   }, []);
   
   const homeLink = role === "COORDENADOR" ? "/coordenador" : "/";
@@ -38,6 +33,8 @@ const Navbar = ({ isCoordenador }: NavbarProps) => {
     // Remover dados de login do localStorage
     localStorage.removeItem('accessToken');
     localStorage.removeItem('role'); // Remover o role do localStorage
+    localStorage.removeItem('email');
+    localStorage.removeItem('egressoId')
     setRole(""); // Limpe o role
     navigate('/');
   };
@@ -134,7 +131,7 @@ const Navbar = ({ isCoordenador }: NavbarProps) => {
                 Oportunidades
                 </NavLink>
               </li>
-              {isCoordenador && (  
+              {role === 'COORDENADOR' && (  
                 <li>
                   <NavLink
                     to="/solicitacoes"

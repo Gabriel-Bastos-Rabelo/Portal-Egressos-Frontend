@@ -1,35 +1,26 @@
 import { useState } from 'react';
 import CadastroForm from '../../components/Forms/CadastroForm';
 import DepoimentoForm from '../../components/Forms/DepoimentoForm';
+import CargoForm from '../../components/Forms/CargoForm';
 import StepIndicator from '../../components/Steps/StepIndicator';
-
-interface FormData {
-  nome: string;
-  descricao: string;
-  linkedin: string;
-  lattes: string;
-  instagram: string;
-  email: string;
-  senha: string;
-  curso: string;
-  anoInicio: Int16Array;
-  anoFim: Int16Array; 
-  foto: FileList | null; // foto é um arquivo ou null
-}
+import { useNavigate } from 'react-router-dom';  // Importando useNavigate
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState<FormData | null>(null);
-  const [idEgresso, setEgressoId] = useState<number | null>(null); // Adicionando estado para armazenar o ID do Egresso
+  const [idEgresso, setEgressoId] = useState<number | null>(null);
+  const navigate = useNavigate();  // Usando useNavigate para navegação
 
-  const handleNextStep = (data: FormData, id: number) => {
-    setFormData(data); // Armazenar os dados no estado ao enviar o formulário
-    setEgressoId(id); // Armazenar o ID do Egresso retornado
+  const handleNextStep = (id: number) => {
+    setEgressoId(id);
     setCurrentStep(2);
   };
 
-  const handlePrevStep = () => {
-    setCurrentStep(1);
+  const handleNextStepDepoimento = () => {
+    setCurrentStep(3);  
+  };
+
+  const handleCancel = () => {
+    navigate('/');  // Redirecionando para a página inicial (home)
   };
 
   return (
@@ -38,7 +29,7 @@ export default function Cadastro() {
         <h1 className="text-3xl font-bold mb-6 text-center">Cadastro</h1>
 
         <StepIndicator
-          steps={['Dados Pessoais', 'Depoimento']}
+          steps={['Dados Pessoais', 'Depoimento', 'Cargo']}
           currentStep={currentStep}
         />
 
@@ -46,15 +37,25 @@ export default function Cadastro() {
 
         {/* Step 1 - Cadastro */}
         {currentStep === 1 && (
-          <CadastroForm 
-            onNext={handleNextStep} 
-            initialData={formData} 
+          <CadastroForm
+            onNext={handleNextStep}
           />
         )}
 
         {/* Step 2 - Depoimento */}
-        {currentStep === 2 && idEgresso && (  
-          <DepoimentoForm onBack={handlePrevStep} idEgresso={idEgresso} />
+        {currentStep === 2 && idEgresso && (
+          <DepoimentoForm
+            onNextStep={handleNextStepDepoimento}  // Passando a função para a etapa 3
+            onCancel={handleCancel}  // Passando a função de cancelamento
+            idEgresso={idEgresso}
+          />
+        )}
+
+        {/* Step 3 - Cargo */}
+        {currentStep === 3 && idEgresso && (
+          <CargoForm
+            idEgresso={idEgresso}
+          />
         )}
       </div>
     </div>

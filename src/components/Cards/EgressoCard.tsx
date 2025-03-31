@@ -1,17 +1,7 @@
 import { useState } from 'react';
 import egressoImg from '../../assets/egresso-img.png';
 import EgressoModal from '../../components/Modals/EgressoModal.tsx';
-
-export type Egresso = {
-  id: number;
-  nome: string;
-  cargo: string;
-  curso: string;
-  email: string;
-  linkedin: string;
-  instagram: string;
-  descricao: string;
-};
+import { Egresso } from '../../values/egresso.tsx'
 
 const EgressoCard = ({ egresso }: { egresso: Egresso }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,8 +11,12 @@ const EgressoCard = ({ egresso }: { egresso: Egresso }) => {
 
   return (
     <div className="w-[250px] h-[300px] bg-white rounded-lg shadow-xl flex flex-col items-center justify-center text-center">
-      <img src={egressoImg} alt="Foto do egresso" />
-      <h3 className="text-xl font-bold">{egresso.nome}</h3>
+      <img
+        src={egresso.foto ? `http://localhost:8080/uploads/${egresso.foto}` : egressoImg}
+        alt="Foto do egresso"
+        className="w-24 h-24 rounded-full object-cover mb-2"
+      />
+      <h3 className="text-xl font-bold">{egresso.nomeEgresso}</h3>
       <p className="text-gray-600">{egresso.cargo}</p>
       <p className="text-gray-600">{egresso.curso}</p>
 
@@ -46,7 +40,7 @@ const EgressoCard = ({ egresso }: { egresso: Egresso }) => {
         </a>
 
         <a
-          href={egresso.email}
+          href={egresso.emailUsuario}
           className="bg-white rounded-full shadow-xl p-2 cursor-pointer transition hover:bg-gray-100"
         >
           <i className="fa-regular fa-envelope text-2xl text-[#000000]"></i>
