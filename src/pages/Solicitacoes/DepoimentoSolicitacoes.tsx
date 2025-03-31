@@ -1,20 +1,20 @@
 import axios from 'axios';
-import Table from '../../components/Table/DepoimentoTable.tsx'
-import { useEffect, useState } from "react";
-import { Depoimento } from  '../../values/depoimento.tsx'
+import { useState, useEffect } from "react";
+import { Depoimento } from '../../values/depoimento.tsx';
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
 import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
 import Loading from '../../components/Loading/index.tsx';
+import Table from '../../components/Table/DepoimentoTable.tsx';
+import DepoimentoFilter from '../../components/Filters/DepoimentoFilter.tsx';
 
 const DepoimentoSolicitacoes = () => {
   const [depoimentos, setDepoimentos] = useState<Depoimento[]>([]);
   const [selected, setSelected] = useState<number[]>([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({ nome: '', curso: '', ano: '' });
   const [page, setPage] = useState(1);
   const solicByPage = 10;
-  
-  const visibleDepoimentos = depoimentos.slice(0, page * solicByPage);
 
   const getSelectedIds = (): number[] => {
     return selected.map((index) => depoimentos[index].id);
@@ -42,7 +42,7 @@ const DepoimentoSolicitacoes = () => {
   const isButtonDisabled = selected.length === 0;
 
   const carregarSolicitacoes = async () => {
-    setDepoimentos([]);
+    setDepoimentos([]); 
     setSelected([]);
     setLoading(true);
     const accessToken = localStorage.getItem('accessToken');
@@ -62,44 +62,73 @@ const DepoimentoSolicitacoes = () => {
 
       } catch (error) {
         console.error("Erro ao carregar as solicitações:", error);
-      }finally {
+      } finally {
         setLoading(false);
       }
     };
-  }
+  };
+
   useEffect(() => {
     carregarSolicitacoes();
   }, []);
 
+  const depoimentosFiltrados = depoimentos.filter((depoimento) => {
+    const nomeMatch = depoimento.nomeEgresso.toLowerCase().includes(filters.nome.toLowerCase());
+    const cursoMatch = filters.curso === '' || depoimento.curso === filters.curso;
+    const anoMatch = filters.ano === '' || depoimento.anoConclusao?.toString() === filters.ano;
+    return nomeMatch && cursoMatch && anoMatch;
+  });
+
+  const handleFiltrar = (filters: { nome: string; curso: string; ano: string }) => {
+    setFilters(filters);
+    setPage(1);
+  };
+
+  const handleLimpar = () => {
+    setFilters({ nome: '', curso: '', ano: '' });
+    setPage(1);
+  };
+
+  const paginatedDepoimentos = depoimentosFiltrados.slice(0, page * solicByPage);
+
   return (
     <div className="w-full mb-10">
-
       <div className="mx-40 mb-5">
         {loading ? (
-          <Loading/>
-        ) : depoimentos.length === 0 ? (
-          <div className="text-center text-xl">Sem dados.</div>
+          <Loading />
+        ) : depoimentosFiltrados.length === 0 ? (
+          <>
+            <DepoimentoFilter
+              onFiltrar={handleFiltrar}
+              onLimpar={handleLimpar}
+            />
+            <div className="text-center text-xl">Sem dados.</div>
+          </>
         ) : (
           <div className="w-full flex flex-col justify-center items-center">
+            <DepoimentoFilter
+              onFiltrar={handleFiltrar}
+              onLimpar={handleLimpar}
+            />
+
             <Table
-              solicitacoes={visibleDepoimentos}
+              solicitacoes={paginatedDepoimentos}
               selected={selected}
               onCheckboxChange={handleCheckboxChange}
               onSelectAllChange={handleSelectAllChange}
               selectAll={selectAll}
               onSuccess={carregarSolicitacoes}
             />
-          </div> 
+          </div>
         )}
       </div>
-
       <VerMaisButton 
-        length_solicitacoes={depoimentos.length} 
-        length_visible_solicitacoes={visibleDepoimentos.length}
+        length_solicitacoes={depoimentosFiltrados.length}
+        length_visible_solicitacoes={paginatedDepoimentos.length}
         setPage={setPage}
       />
 
-      {!loading && depoimentos.length > 0 && (  
+      {!loading && depoimentosFiltrados.length > 0 && (
         <SolicitacaoButtons 
           isButtonDisabled={isButtonDisabled}
           selected={getSelectedIds()}
@@ -107,9 +136,9 @@ const DepoimentoSolicitacoes = () => {
           urlDisapprove='http://localhost:8080/api/depoimento/reprovar'
           type_solicitacao='depoimento'
           onSuccess={carregarSolicitacoes}
-        />)}
+        /> )}
     </div>
   );
-}
+};
 
 export default DepoimentoSolicitacoes;

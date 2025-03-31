@@ -5,16 +5,16 @@ import { Oportunidade } from  '../../values/oportunidade.tsx'
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
 import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
 import Loading from '../../components/Loading/index.tsx';
+import OportunidadeFilter from '../../components/Filters/OportunidadeFilter.tsx';
 
 const OportunidadeSolicitacoes = () => {
   const [oportunidades, setOportunidades] = useState<Oportunidade[]>([]);
   const [selected, setSelected] = useState<number[]>([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({ titulo: '', data: '', tipo: '' });
   const [page, setPage] = useState(1);
   const solicByPage = 10;
-
-  const visibleOportunidades = oportunidades.slice(0, page * solicByPage);
 
   const getSelectedIds = (): number[] => {
     return selected.map((index) => oportunidades[index].id);
@@ -66,29 +66,61 @@ const OportunidadeSolicitacoes = () => {
     carregarSolicitacoes();
   }, []);
 
+  const oportunidadesFiltradas = oportunidades.filter(oportunidade => {
+    const tituloMatch = oportunidade.titulo.toLowerCase().includes(filters.titulo.toLowerCase());
+    const tipoMatch = filters.tipo === '' || oportunidade.tipo === filters.tipo;
+    const dataMatch = filters.data === '' || 
+      new Date(oportunidade.dataExpiracao) > new Date(filters.data);
+    return tituloMatch && tipoMatch && dataMatch;
+  });
+
+  const handleFiltrar = (filters:  { titulo: string; data: string; tipo: string }) => {
+    setFilters(filters);
+    setPage(1);
+  };
+
+  const handleLimpar = () => {
+    setFilters({ titulo: '', data: '', tipo: '' });
+    setPage(1);
+  };
+
+  const paginatedOportunidades = oportunidadesFiltradas.slice(0, page * solicByPage);
+
   return (
     <div className="w-full mb-10">
 
       <div className="mx-40 mb-5">
         {loading ? (
           <Loading/>
-        ) : oportunidades.length === 0 ? (
-          <div className="text-center text-xl">Sem dados.</div>
+        ) : oportunidadesFiltradas.length === 0 ? (
+          <>
+            <OportunidadeFilter
+              onFiltrar={handleFiltrar}
+              onLimpar={handleLimpar}
+            />
+            <div className="text-center text-xl">Sem dados.</div>
+          </>
         ) : (
-          <Table
-            solicitacoes={visibleOportunidades}
-            selected={selected}
-            onCheckboxChange={handleCheckboxChange}
-            onSelectAllChange={handleSelectAllChange}
-            selectAll={selectAll}
-            onSuccess={carregarSolicitacoes}
-          />
+          <>
+            <OportunidadeFilter
+              onFiltrar={handleFiltrar}
+              onLimpar={handleLimpar}
+            />
+            <Table
+              solicitacoes={paginatedOportunidades}
+              selected={selected}
+              onCheckboxChange={handleCheckboxChange}
+              onSelectAllChange={handleSelectAllChange}
+              selectAll={selectAll}
+              onSuccess={carregarSolicitacoes}
+            />
+          </>
         )}
       </div>
 
       <VerMaisButton 
-        length_solicitacoes={oportunidades.length} 
-        length_visible_solicitacoes={visibleOportunidades.length}
+        length_solicitacoes={oportunidadesFiltradas.length} 
+        length_visible_solicitacoes={paginatedOportunidades.length}
         setPage={setPage}
       />
         

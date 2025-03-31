@@ -8,7 +8,7 @@ const VerMaisButton = ({ length_solicitacoes, length_visible_solicitacoes, setPa
   const haveMorePages = length_visible_solicitacoes < length_solicitacoes;
 
   return (
-    <div className="w-full flex justify-center items-center gap-4">
+    <div className="w-full flex justify-center items-center gap-4 mt-10">
       {haveMorePages && (
         <button
           className="text-xl px-4 py-2 rounded text-white border-[#216DC7] bg-[#216DC7] hover:bg-[#174a9d] transition-all"

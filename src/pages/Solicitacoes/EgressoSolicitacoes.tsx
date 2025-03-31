@@ -1,20 +1,20 @@
 import axios from 'axios';
-import Table from '../../components/Table/EgressoTable.tsx'
-import { useEffect, useState } from "react";
-import { Egresso } from  '../../values/egresso.tsx'
+import { useState, useEffect } from "react";
+import { Egresso } from  '../../values/egresso.tsx';
 import SolicitacaoButtons from '../../components/Buttons/SolicitacaoButtons.tsx';
 import VerMaisButton from '../../components/Buttons/VerMaisButton.tsx';
 import Loading from '../../components/Loading/index.tsx';
+import Table from '../../components/Table/EgressoTable.tsx';
+import EgressoFilter from '../../components/Filters/EgressoFilter.tsx';
 
 const EgressoSolicitacoes = () => {
   const [egressos, setEgressos] = useState<Egresso[]>([]);
   const [selected, setSelected] = useState<number[]>([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({ nome: '', curso: '', ano: '' });
   const [page, setPage] = useState(1);
   const solicByPage = 10;
-
-  const visibleEgressos = egressos.slice(0, page * solicByPage);
 
   const getSelectedIds = (): number[] => {
     return selected.map((index) => egressos[index].id);
@@ -42,7 +42,7 @@ const EgressoSolicitacoes = () => {
   const isButtonDisabled = selected.length === 0;
 
   const carregarSolicitacoes = async () => {
-    setEgressos([]);
+    setEgressos([]); 
     setSelected([]);
     setLoading(true);
     const accessToken = localStorage.getItem('accessToken');
@@ -54,44 +54,76 @@ const EgressoSolicitacoes = () => {
             'Content-Type': 'application/json',
           },
         });
-        const sortedDepoimentos = response.data.sort((a: Egresso, b: Egresso) =>
+        const sortedEgressos = response.data.sort((a: Egresso, b: Egresso) =>
           a.nomeEgresso.localeCompare(b.nomeEgresso)
         );
-        setEgressos(sortedDepoimentos);
+        setEgressos(sortedEgressos);
       } catch (error) {
         console.error("Erro ao carregar as solicitações:", error);
-      }finally {
+      } finally {
         setLoading(false);
       }
-    };
-  }
+    }
+  };
+
   useEffect(() => {
     carregarSolicitacoes();
   }, []);
 
+  const egressosFiltrados = egressos.filter((egresso) => {
+    const nomeMatch = egresso.nomeEgresso.toLowerCase().includes(filters.nome.toLowerCase());
+    const cursoMatch = filters.curso === '' || egresso.curso === filters.curso;
+    const anoMatch = filters.ano === '' || egresso.anoConclusao?.toString() === filters.ano;
+    return nomeMatch && cursoMatch && anoMatch;
+  });
+
+  const handleFiltrar = (filters: { nome: string; curso: string; ano: string }) => {
+    setFilters(filters);
+    setPage(1);
+  };
+
+  const handleLimpar = () => {
+    setFilters({ nome: '', curso: '', ano: '' });
+    setPage(1);
+  };
+
+  const paginatedEgressos = egressosFiltrados.slice(0, page * solicByPage);
+
   return (
     <div className="w-full mb-10">
-
       <div className="mx-40 mb-5">
         {loading ? (
-          <Loading/>
-        ) : egressos.length === 0 ? (
-          <div className="text-center text-xl">Sem dados.</div>
+          <Loading />
+        ) : egressosFiltrados.length === 0 ? (
+          <>
+            <EgressoFilter
+              onFiltrar={handleFiltrar}
+              onLimpar={handleLimpar}
+            />
+            <div className="text-center text-xl">Sem dados.</div>
+          </>
         ) : (
-          <Table
-            solicitacoes={visibleEgressos}
-            selected={selected}
-            onCheckboxChange={handleCheckboxChange}
-            onSelectAllChange={handleSelectAllChange}
-            selectAll={selectAll}
-            onSuccess={carregarSolicitacoes}
-          />
+          <>
+            <EgressoFilter
+              onFiltrar={handleFiltrar}
+              onLimpar={handleLimpar}
+            />
+
+            <Table
+              solicitacoes={paginatedEgressos}
+              selected={selected}
+              onCheckboxChange={handleCheckboxChange}
+              onSelectAllChange={handleSelectAllChange}
+              selectAll={selectAll}
+              onSuccess={carregarSolicitacoes}
+            />
+          </>
         )}
       </div>
-
+        
       <VerMaisButton 
-        length_solicitacoes={egressos.length} 
-        length_visible_solicitacoes={visibleEgressos.length}
+        length_solicitacoes={egressosFiltrados.length} 
+        length_visible_solicitacoes={paginatedEgressos.length}
         setPage={setPage}
       />
         
@@ -104,9 +136,8 @@ const EgressoSolicitacoes = () => {
           type_solicitacao='egresso'
           onSuccess={carregarSolicitacoes}
         />)}
-
     </div>
   );
-}
+};
 
 export default EgressoSolicitacoes;
