@@ -54,7 +54,10 @@ const EgressoSolicitacoes = () => {
             'Content-Type': 'application/json',
           },
         });
-        setEgressos(response.data);
+        const sortedDepoimentos = response.data.sort((a: Egresso, b: Egresso) =>
+          a.nomeEgresso.localeCompare(b.nomeEgresso)
+        );
+        setEgressos(sortedDepoimentos);
       } catch (error) {
         console.error("Erro ao carregar as solicitações:", error);
       }finally {

@@ -23,7 +23,10 @@ function Noticias() {
   useEffect(() => {
     axios.get('http://localhost:8080/api/noticia/aprovadas')
       .then(response => {
-        setNoticias(response.data);
+        const sortedNoticias = response.data.sort((a: Noticia, b: Noticia) =>
+          a.data.localeCompare(b.data)
+        );
+        setNoticias(sortedNoticias);
         setTotalPages(Math.ceil(response.data.length / itemsPerPage));
         setLoading(false);
       })

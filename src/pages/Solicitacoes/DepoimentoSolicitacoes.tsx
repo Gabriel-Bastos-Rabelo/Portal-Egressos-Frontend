@@ -54,7 +54,12 @@ const DepoimentoSolicitacoes = () => {
             'Content-Type': 'application/json',
           },
         });
-        setDepoimentos(response.data);
+        
+        const sortedDepoimentos = response.data.sort((a: Depoimento, b: Depoimento) =>
+          a.nomeEgresso.localeCompare(b.nomeEgresso)
+        );
+        setDepoimentos(sortedDepoimentos);
+
       } catch (error) {
         console.error("Erro ao carregar as solicitações:", error);
       }finally {

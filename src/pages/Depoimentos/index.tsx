@@ -43,7 +43,10 @@ function Depoimentos() {
   useEffect(() => {
     axios.get('http://localhost:8080/api/depoimento/aprovados')
       .then(response => {
-        setDepoimentos(response.data);
+        const sortedDepoimentos = response.data.sort((a: Depoimento, b: Depoimento) =>
+          a.nomeEgresso.localeCompare(b.nomeEgresso)
+        );
+        setDepoimentos(sortedDepoimentos);
         setTotalPages(Math.ceil(response.data.length / itemsPerPage));
         setLoading(false);
       })

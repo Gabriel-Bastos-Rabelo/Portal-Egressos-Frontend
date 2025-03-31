@@ -35,7 +35,10 @@ function Egressos() {
     axios
       .get('http://localhost:8080/api/egresso/buscarAprovados')
       .then((response) => {
-        setEgressos(response.data);
+        const sortedEgressos = response.data.sort((a: Egresso, b: Egresso) =>
+          a.nomeEgresso.localeCompare(b.nomeEgresso)
+        );
+        setEgressos(sortedEgressos);
         setTotalPages(Math.ceil(response.data.length / itemsPerPage));
         setLoading(false);
       })
