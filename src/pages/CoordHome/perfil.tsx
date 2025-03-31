@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Save } from "lucide-react";
-import editIcon from "../../assets/editIcon.png"; // Ícone de edição
+import editIcon from "../../assets/editIcon.png";
+import Loading from "../../components/Loading";
+import { EditMessage } from "../../components/Messages/EditMessage";
 
 type CoordenadorData = {
   nome: string;
@@ -9,7 +11,7 @@ type CoordenadorData = {
   nomeCurso: string;
   idCurso: number;
   dataCriacao: string;
-  ativo: boolean; 
+  ativo: boolean;
 };
 
 const EditarPerfilCoordenador = () => {
@@ -29,6 +31,10 @@ const EditarPerfilCoordenador = () => {
     idCurso: false,
     ativo: false,
   });
+
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [showEditMessage, setShowEditMessage] = useState(false);
 
   const coordenadorId = localStorage.getItem('coordId');
   const token = localStorage.getItem('accessToken');
@@ -50,10 +56,12 @@ const EditarPerfilCoordenador = () => {
         setCoordenadorData({
           ...response.data,
           dataCriacao: response.data.dataCriacao,
-          ativo: response.data.ativo,  
+          ativo: response.data.ativo,
         });
       } catch (error) {
         console.error("Erro ao buscar coordenador:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -84,48 +92,62 @@ const EditarPerfilCoordenador = () => {
   const handleCursoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCoordenadorData({
       ...coordenadorData,
-      idCurso: Number(e.target.value), 
+      idCurso: Number(e.target.value),
     });
   };
 
   const handleEditClick = (field: keyof CoordenadorData) => {
     setEditando((prevState) => ({
       ...prevState,
-      [field]: true, 
+      [field]: true,
     }));
   };
 
   const handleAtivoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    
     setCoordenadorData({
       ...coordenadorData,
-      ativo: e.target.value === 'Ativo', 
+      ativo: e.target.value === 'Ativo',
     });
   };
 
   const handleSave = async () => {
+    if (!coordenadorId || !token) return;
+
+    setSaving(true);
+
     try {
       const response = await axios.put(
         `http://localhost:8080/api/coordenador/atualizar/${coordenadorId}`,
-        coordenadorData, 
+        coordenadorData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setEditando({ nome: false, emailUsuario: false, idCurso: false, ativo: false }); 
+
       console.log("Dados atualizados com sucesso!", response.data);
+      setEditando({ nome: false, emailUsuario: false, idCurso: false, ativo: false });
+
+      setShowEditMessage(true);
+      setTimeout(() => setShowEditMessage(false), 4000);
     } catch (error) {
       console.error("Erro ao salvar coordenador:", error);
+    } finally {
+      setSaving(false);
     }
   };
 
+  if (loading || saving) return <Loading />;
+
   return (
     <main className="container mx-auto py-12 flex justify-center gap-8">
+      {showEditMessage && <EditMessage />}
+
       <div className="w-120 flex flex-col gap-6">
         <h2 className="font-bold text-center text-2xl p-8">Editar Dados</h2>
         <div className="flex flex-col gap-4">
+
           {/* Nome */}
           <div className="flex flex-col gap-1 mb-4">
             <label className="font-semibold text-lg">Nome</label>
@@ -134,7 +156,7 @@ const EditarPerfilCoordenador = () => {
                 type="text"
                 className={`p-4 border border-stone-500 rounded-lg w-full ${editando.nome ? 'bg-white' : 'bg-gray-100'}`}
                 value={coordenadorData.nome}
-                disabled={!editando.nome} 
+                disabled={!editando.nome}
                 onChange={(e) => setCoordenadorData({ ...coordenadorData, nome: e.target.value })}
               />
               <img
@@ -154,19 +176,19 @@ const EditarPerfilCoordenador = () => {
                 type="text"
                 className={`p-4 border border-stone-500 rounded-lg w-full ${editando.emailUsuario ? 'bg-white' : 'bg-gray-100'}`}
                 value={coordenadorData.emailUsuario}
-                disabled={!editando.emailUsuario} 
+                disabled={!editando.emailUsuario}
                 onChange={(e) => setCoordenadorData({ ...coordenadorData, emailUsuario: e.target.value })}
               />
               <img
                 src={editIcon}
                 alt="Editar"
                 className="w-5 h-5 cursor-pointer"
-                onClick={() => handleEditClick("emailUsuario")} 
+                onClick={() => handleEditClick("emailUsuario")}
               />
             </div>
           </div>
 
-          {/* Dropdown de Curso */}
+          {/* Curso */}
           <div className="flex flex-col gap-1 mb-4">
             <label className="font-semibold text-lg">Curso</label>
             <div className="flex items-center gap-2">
@@ -174,7 +196,7 @@ const EditarPerfilCoordenador = () => {
                 className={`p-4 border border-stone-500 rounded-lg w-full ${editando.idCurso ? 'bg-white' : 'bg-gray-100'}`}
                 value={coordenadorData.idCurso}
                 onChange={handleCursoChange}
-                disabled={!editando.idCurso} 
+                disabled={!editando.idCurso}
               >
                 <option value="">Selecione um curso</option>
                 {cursos.map((curso) => (
@@ -187,20 +209,20 @@ const EditarPerfilCoordenador = () => {
                 src={editIcon}
                 alt="Editar"
                 className="w-5 h-5 cursor-pointer"
-                onClick={() => handleEditClick("idCurso")} 
+                onClick={() => handleEditClick("idCurso")}
               />
             </div>
           </div>
 
-          {/* Dropdown de Ativo/Inativo */}
+          {/* Status */}
           <div className="flex flex-col gap-1 mb-4">
             <label className="font-semibold text-lg">Status</label>
             <div className="flex items-center gap-2">
               <select
                 className={`p-4 border border-stone-500 rounded-lg w-full ${editando.ativo ? 'bg-white' : 'bg-gray-100'}`}
-                value={coordenadorData.ativo ? 'Ativo' : 'Inativo'}  
+                value={coordenadorData.ativo ? 'Ativo' : 'Inativo'}
                 onChange={handleAtivoChange}
-                disabled={!editando.ativo} 
+                disabled={!editando.ativo}
               >
                 <option value="Ativo">Ativo</option>
                 <option value="Inativo">Inativo</option>
@@ -209,11 +231,12 @@ const EditarPerfilCoordenador = () => {
                 src={editIcon}
                 alt="Editar"
                 className="w-5 h-5 cursor-pointer"
-                onClick={() => handleEditClick("ativo")} 
+                onClick={() => handleEditClick("ativo")}
               />
             </div>
           </div>
 
+          {/* Botão salvar */}
           <div className="flex justify-center mt-8">
             <button
               onClick={handleSave}

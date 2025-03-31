@@ -23,10 +23,11 @@ const EgressoModal = ({ onClose, egresso }: EgressoModalProps) => {
         <div className="flex flex-col gap-4">
           <div className="flex gap-4 items-center">
             <img
-              src={egressoImg} // Imagem do egresso
-              alt="Foto do Egresso"
+              src={egresso.foto ? `http://localhost:8080/uploads/${egresso.foto}` : egressoImg}
+              alt="Foto do egresso"
               className="w-40 h-40 rounded object-cover shadow"
             />
+
             <div className="flex flex-col items-center">
               <div className="flex flex-col items-start">
                 <div className="flex flex-col items-start">

@@ -56,9 +56,16 @@ const OportunidadeModal = ({ onClose, oportunidade }: OportunidadeModalProps) =>
           {oportunidade.descricao}
         </p>
   
-        <a href={oportunidade.link} className="text-blue-600 underline cursor-pointer" target="_blank" rel="noopener noreferrer">
-          {oportunidade.link}
-        </a>
+        <p className="mt-2">
+          <a
+            href={oportunidade.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline cursor-pointer hover:text-blue-800 transition-colors"
+          >
+            {oportunidade.link}
+          </a>
+        </p>
       </div>
     </div>
   );

@@ -5,6 +5,9 @@ import OportunidadeCard from '../../components/Cards/OportunidadeCard.tsx';
 import OportunidadeFilter from '../../components/Filters/OportunidadeFilter.tsx';
 import Pagination from '../../components/Pagination/index.tsx';
 import Loading from '../../components/Loading/index.tsx';
+import { useLocation } from 'react-router-dom';
+import { OportunidadeMessage } from '../../components/Messages/EditMessage.tsx';
+import BotaoEnviarOportunidade from '../../components/Buttons/EnviarOportunidadeButton.tsx';
 
 const Oportunidades = () => {
   const [oportunidades, setOportunidades] = useState<Oportunidade[]>([]);
@@ -12,7 +15,20 @@ const Oportunidades = () => {
   const [filters, setFilters] = useState({ titulo: '', data: '', tipo: '' });
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 9; 
+  const [showMessage, setShowMessage] = useState(false);
+
+  const role = localStorage.getItem("role");
+
+  useEffect(() => {
+    // Exibe a mensagem se vier do cadastro de oportunidade
+    const hasMessage = localStorage.getItem('showOportunidadeMessage');
+    if (hasMessage === 'true') {
+      setShowMessage(true);
+      localStorage.removeItem('showOportunidadeMessage');
+      setTimeout(() => setShowMessage(false), 4000);
+    }
+  }, []);
 
   const paginate = (data: Oportunidade[], page: number, itemsPerPage: number) => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -61,6 +77,8 @@ const Oportunidades = () => {
   return (
     <div className="flex min-h-screen w-screen justify-center my-12">
       <div className="flex flex-col items-center gap-8">
+        {showMessage && <OportunidadeMessage />}
+
         <h1 className="text-3xl font-bold text-center">Oportunidades</h1>
         
         {loading ? (
@@ -80,6 +98,13 @@ const Oportunidades = () => {
               onLimpar={handleLimpar}
             />
 
+            {role === 'EGRESSO' && (
+              <div className="w-full flex justify-end pr-8 mt-4 mb-8">
+                <BotaoEnviarOportunidade />
+              </div>
+            )}
+
+            {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
               {paginatedOportunidades.map((oportunidade) => (
                 <OportunidadeCard 
