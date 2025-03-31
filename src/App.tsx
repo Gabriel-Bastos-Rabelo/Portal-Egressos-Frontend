@@ -11,7 +11,8 @@ import CoordHome from './pages/CoordHome';
 import Solicitacoes from './pages/Solicitacoes';
 import Cadastro from './pages/Egressos/cadastro';
 import EnviarOportunidade from './pages/Oportunidades/enviarOportunidade';
-import EditarPerfil from './pages/EgressoPerfil/perfil';
+import EditarPerfil from './pages/EgressoHome/perfil';
+import Estatisticas from './pages/Estatisticas/Estatisticas';
 import EditarPerfilCoordenador from './pages/CoordHome/perfil';
 
 function RotaProtegidaEgresso({ children }: { children: JSX.Element }) {
@@ -65,6 +66,9 @@ function App() {
         </Route>
         <Route path="/coordenador/perfil" element={<Layout />}>
           <Route index element={<EditarPerfilCoordenador />} />
+        </Route>
+        <Route path="/Estatisticas" element={<Layout isCoordenador={false} />}>
+          <Route index element={<Estatisticas />} />
         </Route>
       </Routes>
     </Router>
