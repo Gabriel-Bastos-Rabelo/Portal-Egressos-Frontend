@@ -11,7 +11,7 @@ import CoordHome from './pages/CoordHome';
 import Solicitacoes from './pages/Solicitacoes';
 import Cadastro from './pages/Egressos/cadastro';
 import EnviarOportunidade from './pages/Oportunidades/enviarOportunidade';
-import EditarPerfil from './pages/EgressoHome/perfil';
+import EditarPerfil from './pages/EgressoPerfil/perfil';
 import Estatisticas from './pages/Estatisticas/Estatisticas';
 import EditarPerfilCoordenador from './pages/CoordHome/perfil';
 
@@ -57,7 +57,7 @@ function App() {
         <Route path="/oportunidades/enviarOportunidade" element={<Layout />}>
           <Route index element={<EnviarOportunidade />} />
         </Route>
-        <Route path="/Egressos/perfil" element={<Layout />}>
+        <Route path="/egressos/perfil" element={<Layout />}>
           <Route index element={
             <RotaProtegidaEgresso>
               <EditarPerfil />
@@ -67,7 +67,7 @@ function App() {
         <Route path="/coordenador/perfil" element={<Layout />}>
           <Route index element={<EditarPerfilCoordenador />} />
         </Route>
-        <Route path="/Estatisticas" element={<Layout isCoordenador={false} />}>
+        <Route path="/estatisticas" element={<Layout />}>
           <Route index element={<Estatisticas />} />
         </Route>
       </Routes>

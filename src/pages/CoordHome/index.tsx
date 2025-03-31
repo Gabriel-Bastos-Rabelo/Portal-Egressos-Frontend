@@ -22,7 +22,7 @@ function CoordHome() {
       <div className="flex flex-col justify-center items-center gap-10 mb-20">
         <ul className="flex gap-50">
           <Module link={"/solicitacoes"} texto={"Solicitacoes"} icon={"fa-solid fa-users text-6xl text-[#08276F] mb-2"}/>
-          <Module link={"/"} texto={"Estatística de Egressos"} icon={"fa-solid fa-square-poll-vertical text-6xl text-[#08276F] mb-2"}/>
+          <Module link={"/estatisticas"} texto={"Estatística de Egressos"} icon={"fa-solid fa-square-poll-vertical text-6xl text-[#08276F] mb-2"}/>
           <Module link={"/egressos"} texto={"Egressos"} icon={"fa-solid fa-graduation-cap text-6xl text-[#08276F] mb-2"}/>
         </ul>
 

@@ -16,7 +16,7 @@ function Home() {
 
         <div className="absolute top-90 left-1/2 transform -translate-x-1/4">
           <ul className="flex justify-center gap-40">
-            <NavLink to="/Estatisticas">
+            <NavLink to="/estatisticas">
               <li className="w-[240px] h-[240px] bg-[#D5F1FD] rounded-lg shadow-lg flex flex-col items-center justify-center text-center text-xl font-bold hover:bg-[#ABE0FC] transition">
                 <i className="fa-solid fa-square-poll-vertical text-6xl text-[#08276F] mb-2"></i>
                 Estatísticas de Egressos

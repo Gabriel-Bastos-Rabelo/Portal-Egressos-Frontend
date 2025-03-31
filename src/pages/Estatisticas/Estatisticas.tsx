@@ -66,6 +66,10 @@ const Estatisticas: React.FC = () => {
     carregarDados();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   const totalEgressosPorCursoData = {
     labels: Object.keys(porCurso),
     datasets: [

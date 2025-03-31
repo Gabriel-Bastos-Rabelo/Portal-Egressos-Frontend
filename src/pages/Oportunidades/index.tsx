@@ -5,7 +5,6 @@ import OportunidadeCard from '../../components/Cards/OportunidadeCard.tsx';
 import OportunidadeFilter from '../../components/Filters/OportunidadeFilter.tsx';
 import Pagination from '../../components/Pagination/index.tsx';
 import Loading from '../../components/Loading/index.tsx';
-import { useLocation } from 'react-router-dom';
 import { OportunidadeMessage } from '../../components/Messages/EditMessage.tsx';
 import BotaoEnviarOportunidade from '../../components/Buttons/EnviarOportunidadeButton.tsx';
 
