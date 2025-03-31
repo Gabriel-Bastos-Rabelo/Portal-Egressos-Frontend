@@ -80,8 +80,8 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
 
   return (
     <>
-      {success && <SuccessMessage qtd_solicitacoes={1} tipo_solicitacao={"depoimento(s)"}/>}
-      {reject && <RejectMessage qtd_solicitacoes={1} tipo_solicitacao={"depoimento(s)"}/>}
+      {success && <SuccessMessage qtd_solicitacoes={1} tipo_solicitacao={"oportunidade(s)"}/>}
+      {reject && <RejectMessage qtd_solicitacoes={1} tipo_solicitacao={"oportunidade(s)"}/>}
       
       <table className="w-full table-auto border-collapse">
         <thead>

@@ -40,7 +40,7 @@ const EgressoCard = ({ egresso }: { egresso: Egresso }) => {
         </a>
 
         <a
-          href={egresso.email}
+          href={egresso.emailUsuario}
           className="bg-white rounded-full shadow-xl p-2 cursor-pointer transition hover:bg-gray-100"
         >
           <i className="fa-regular fa-envelope text-2xl text-[#000000]"></i>

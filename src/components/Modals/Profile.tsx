@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaCog, FaPlus, FaSignOutAlt } from 'react-icons/fa';
-import userImg from '../../assets/egresso-img.png'
+import userProfile from '../../assets/profile-user.png'
 
 type ProfileProps = {
     onLogout: () => void;
@@ -11,6 +11,16 @@ const Profile = ({ onLogout }: ProfileProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isCoordenador, setIsCoordenador] = useState(false);
+
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    if (role === 'COORDENADOR') {
+      setIsCoordenador(true); 
+    } else {
+      setIsCoordenador(false);
+    }
+  }, [location]);
 
   const handleToggleDropdown = () => {
     setIsOpen(prevState => !prevState);
@@ -30,9 +40,9 @@ const Profile = ({ onLogout }: ProfileProps) => {
 
   return (
     <div className="relative">
-      <div className="flex items-center cursor-pointer" onClick={handleToggleDropdown}>
+      <div className="flex w-full h-full items-center justify-center cursor-pointer" onClick={handleToggleDropdown}>
         <img 
-          src={userImg}
+          src={userProfile}
           alt="User Profile" 
           className="w-10 h-10 rounded-full mr-2"
         />
@@ -48,12 +58,14 @@ const Profile = ({ onLogout }: ProfileProps) => {
             >
               <FaCog className="mr-2" /> Gerenciar Perfil
             </li>
-            <li 
-              className="flex items-center cursor-pointer hover:bg-gray-200 p-2 rounded"
-              onClick={handleGoToCreateOpportunity}
-            >
-              <FaPlus className="mr-2" /> Cadastrar Oportunidade
-            </li>
+            {!isCoordenador && (
+              <li 
+                className="flex items-center cursor-pointer hover:bg-gray-200 p-2 rounded"
+                onClick={handleGoToCreateOpportunity}
+              >
+                <FaPlus className="mr-2" /> Cadastrar Oportunidade
+              </li>
+            )}
             <li 
               className="flex items-center cursor-pointer hover:bg-gray-200 p-2 rounded"
               onClick={onLogout}
