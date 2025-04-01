@@ -4,7 +4,11 @@ import { Depoimento } from '../../values/depoimento.tsx'
 const DepoimentoCard = ({ depoimento }: { depoimento: Depoimento }) => {
   return (
     <div className="rounded-lg shadow-xl flex items-center gap-4 py-5 px-10 my-5">
-      <img className= "rounded-full w-32 h-32" src={egressoImg} alt="Foto do egresso" />
+      <img
+        src={depoimento.foto ? `http://localhost:8080/uploads/${depoimento.foto}` : egressoImg}
+        alt="Foto do egresso"
+        className="rounded-full w-32 h-32"
+      />
       <div className="flex flex-col">
         <h3 className="text-xl">{depoimento.nomeEgresso}</h3>
         <p className="text-gray-600">{depoimento.curso}</p>
