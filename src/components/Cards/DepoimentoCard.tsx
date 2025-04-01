@@ -7,7 +7,7 @@ const DepoimentoCard = ({ depoimento }: { depoimento: Depoimento }) => {
       <img
         src={depoimento.foto ? `http://localhost:8080/uploads/${depoimento.foto}` : egressoImg}
         alt="Foto do egresso"
-        className="rounded-full w-32 h-32"
+        className="w-[128px] h-[128px] object-cover rounded-full shrink-0"
       />
       <div className="flex flex-col">
         <h3 className="text-xl">{depoimento.nomeEgresso}</h3>
