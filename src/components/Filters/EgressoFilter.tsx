@@ -1,4 +1,3 @@
-// FiltroEgresso.tsx
 import { useState } from "react";
 
 type FiltroEgressoProps = {
@@ -27,7 +26,7 @@ const EgressoFilter = ({ onFiltrar, onLimpar }: FiltroEgressoProps) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4 items-end justify-center mb-10">
+    <div className="flex flex-wrap gap-4 items-end justify-center mb-10 max-[900px]:flex-col max-[900px]:items-center">
       <div className="flex flex-col">
         <label htmlFor="nome" className="block text-sm font-bold text-gray-700 mb-1">
           Nome do Egresso
@@ -38,7 +37,7 @@ const EgressoFilter = ({ onFiltrar, onLimpar }: FiltroEgressoProps) => {
           placeholder="Digite o nome do egresso"
           value={nomeInput}
           onChange={(e) => setNomeInput(e.target.value)}
-          className="w-64 h-12 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          className="w-52 h-12 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
         />
       </div>
 
@@ -69,7 +68,7 @@ const EgressoFilter = ({ onFiltrar, onLimpar }: FiltroEgressoProps) => {
           id="ano"
           value={anoInput}
           onChange={(e) => setAnoInput(e.target.value)}
-          className="w-48 h-12 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-no-repeat bg-right-2 bg-[length:20px]"
+          className="w-52 h-12 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-no-repeat bg-right-2 bg-[length:20px]"
         >
           <option value="" disabled>
             Selecione o ano
