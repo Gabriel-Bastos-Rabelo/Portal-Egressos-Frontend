@@ -168,6 +168,7 @@ const Navbar = () => {
                 <NavLink
                   to="/"
                   end
+                  onClick={() => setClicked(false)}
                   className={({ isActive }) =>
                     isActive ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded' : 'flex flex-row items-center gap-3 w-full pl-4'
                   }
@@ -180,6 +181,7 @@ const Navbar = () => {
                 <NavLink
                   to="/egressos"
                   end
+                  onClick={() => setClicked(false)}
                   className={({ isActive }) =>
                     isActive ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded' : 'flex flex-row items-center gap-3 w-full pl-4'
                   }
@@ -192,6 +194,7 @@ const Navbar = () => {
                 <NavLink
                   to="/noticias"
                   end
+                  onClick={() => setClicked(false)}
                   className={({ isActive }) =>
                     isActive ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded' : 'flex flex-row items-center gap-3 w-full pl-4'
                   }
@@ -204,6 +207,7 @@ const Navbar = () => {
                 <NavLink
                   to="/depoimentos"
                   end
+                  onClick={() => setClicked(false)}
                   className={({ isActive }) =>
                     isActive ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded' : 'flex flex-row items-center gap-3 w-full pl-4'
                   }
@@ -216,6 +220,7 @@ const Navbar = () => {
                 <NavLink
                   to="/oportunidades"
                   end
+                  onClick={() => setClicked(false)}
                   className={({ isActive }) =>
                     isActive ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded' : 'flex flex-row items-center gap-3 w-full pl-4'
                   }
@@ -228,6 +233,7 @@ const Navbar = () => {
                 <li>
                   <NavLink
                     to="/solicitacoes"
+                    onClick={() => setClicked(false)}
                     className={({ isActive }) => 
                       `text-xl mr-4 ${
                         isActive 
@@ -245,6 +251,7 @@ const Navbar = () => {
                   <NavLink
                     to="/login"
                     end
+                    onClick={() => setClicked(false)}
                     className={({ isActive }) =>
                       isActive ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded text-[#931737] font-bold' : 'flex flex-row items-center gap-3 w-full pl-4 text-[#931737] font-bold'
                     }
