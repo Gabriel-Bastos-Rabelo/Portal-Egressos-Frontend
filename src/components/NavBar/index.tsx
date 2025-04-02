@@ -224,18 +224,36 @@ const Navbar = () => {
               Oportunidades
                 </NavLink>
               </li>
-              <li className='inline md:hidden '>
-                <NavLink
-                  to="/login"
-                  end
-                  className={({ isActive }) =>
-                    isActive ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded text-[#931737] font-bold' : 'flex flex-row items-center gap-3 w-full pl-4 text-[#931737] font-bold'
-                  }
-                >
-                  <i className="fa-solid fa-lock w-6 h-6 text-[#931737]"></i>
+              {role === 'COORDENADOR' && (  
+                <li>
+                  <NavLink
+                    to="/solicitacoes"
+                    className={({ isActive }) => 
+                      `text-xl mr-4 ${
+                        isActive 
+                          ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded' : 'flex flex-row items-center gap-3 w-full pl-4'
+                      }`
+                    }
+                  >
+                    <i className="fa-solid fa-users w-6 h-6 text-[#08276F]"></i>
+                  Solicitações
+                  </NavLink>
+                </li>
+              )}
+              {role !== 'COORDENADOR' &&  role !== 'EGRESSO' && (  
+                <li className='inline md:hidden '>
+                  <NavLink
+                    to="/login"
+                    end
+                    className={({ isActive }) =>
+                      isActive ? 'flex flex-row items-center gap-3 bg-blue1 w-full pl-4 py-1 rounded text-[#931737] font-bold' : 'flex flex-row items-center gap-3 w-full pl-4 text-[#931737] font-bold'
+                    }
+                  >
+                    <i className="fa-solid fa-lock w-6 h-6 text-[#931737]"></i>
               Entrar
-                </NavLink>
-              </li>
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </div>
         </div>
