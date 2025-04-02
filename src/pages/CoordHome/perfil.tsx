@@ -141,12 +141,12 @@ const EditarPerfilCoordenador = () => {
   if (loading || saving) return <Loading />;
 
   return (
-    <main className="container mx-auto py-12 flex justify-center gap-8">
-      {showEditMessage && <EditMessage />}
+    <main className="flex justify-center px-4 py-12 w-full">
+      <div className="w-full max-w-[480px] flex flex-col items-center gap-6">
+        {showEditMessage && <EditMessage />}
 
-      <div className="w-120 flex flex-col gap-6">
-        <h2 className="font-bold text-center text-2xl p-8">Editar Dados</h2>
-        <div className="flex flex-col gap-4">
+        <h2 className="font-bold text-center text-2xl">Editar Dados</h2>
+        <div className="flex flex-col gap-4 w-full">
 
           {/* Nome */}
           <div className="flex flex-col gap-1 mb-4">

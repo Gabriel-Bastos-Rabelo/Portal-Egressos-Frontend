@@ -1,5 +1,5 @@
 import { Egresso } from '../../values/egresso.tsx';
-import egressoImg from '../../assets/egresso-img.png';
+import egressoImg from '../../assets/user.png';
 
 type EgressoModalProps = {
   onClose: () => void;

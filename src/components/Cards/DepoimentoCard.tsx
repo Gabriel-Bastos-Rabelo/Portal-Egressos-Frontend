@@ -1,4 +1,4 @@
-import egressoImg from '../../assets/egresso-img.png';
+import egressoImg from '../../assets/user.png';
 import { Depoimento } from '../../values/depoimento.tsx'
 
 const DepoimentoCard = ({ depoimento }: { depoimento: Depoimento }) => {

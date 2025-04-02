@@ -26,14 +26,14 @@ export default function Cadastro() {
   return (
     <div className="flex flex-col min-h-screen px-4 py-8 bg-white">
       <div className="w-full max-w-4xl mx-auto bg-white p-8 rounded-md shadow-md">
-        <h1 className="text-3xl font-bold mb-6 text-center">Cadastro</h1>
+        <h1 className="text-3xl font-bold mb-9 text-center">Cadastro</h1>
 
         <StepIndicator
           steps={['Dados Pessoais', 'Depoimento', 'Cargo']}
           currentStep={currentStep}
         />
 
-        <div className="mt-10" />
+        <div className="mt-5" />
 
         {/* Step 1 - Cadastro */}
         {currentStep === 1 && (
