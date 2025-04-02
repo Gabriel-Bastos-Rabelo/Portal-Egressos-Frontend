@@ -5,6 +5,7 @@ import { Upload, ArrowRight } from "lucide-react";
 import axios from 'axios';
 import ConfirmDialog from '../Popup/Confirmacao';
 import Loading from '../Loading';
+import { Eye, EyeOff } from "lucide-react";
 
 interface FormData {
   nome: string;
@@ -31,6 +32,7 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
     nivel: string;
   }
 
+  const [mostrarSenha, setMostrarSenha] = useState(false);
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [fotoNome, setFotoNome] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -213,14 +215,28 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
             <div className="tooltip-text">
               A senha deve conter:
               <ul>
-                <li>- Pelo menos 1 caractere especial</li>
-                <li>- Pelo menos uma letra maiúscula</li>
                 <li>- No máximo 8 dígitos</li>
               </ul>
             </div>
           </div>
         </label>
-        <input {...register('senha', { required: 'Senha é obrigatória' })} id="senha" type="password" placeholder="Digite sua senha" className="cadastro-input" />
+        <div className="relative">
+          <input
+            {...register('senha', { required: 'Senha é obrigatória' })}
+            id="senha"
+            type={mostrarSenha ? 'text' : 'password'}
+            placeholder="Digite sua senha"
+            className="cadastro-input pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setMostrarSenha(!mostrarSenha)}
+            className="absolute right-3 inset-y-0 my-auto flex items-center text-[var(--color-blue7)]"
+            tabIndex={-1}
+          >
+            {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
         {errors.senha && <p className="error-message">{errors.senha.message}</p>}
       </div>
 
