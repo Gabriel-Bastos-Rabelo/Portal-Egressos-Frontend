@@ -21,7 +21,7 @@ function Noticias() {
   };
 
   useEffect(() => {
-    axios.get('http://44.205.22.49:8080/api/noticia/aprovadas')
+    axios.get('/api/noticia/aprovadas')
       .then(response => {
         const sortedNoticias = response.data.sort((a: Noticia, b: Noticia) =>
           a.data.localeCompare(b.data)

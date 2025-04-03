@@ -27,7 +27,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://44.205.22.49:8080/api/auth/signin',
+        '/api/auth/signin',
         {
           email,
           password,

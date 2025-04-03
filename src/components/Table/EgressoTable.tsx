@@ -31,7 +31,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
     const accessToken = localStorage.getItem('accessToken');
     try {
       await axios.post(
-        'http://44.205.22.49:8080/api/egresso/aprovar', 
+        '/api/egresso/aprovar', 
         [id],
         {
           headers: {
@@ -53,7 +53,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
     const accessToken = localStorage.getItem('accessToken');
     try {
       await axios.post(
-        'http://44.205.22.49:8080/api/egresso/reprovar', 
+        '/api/egresso/reprovar', 
         [id],
         {
           headers: {

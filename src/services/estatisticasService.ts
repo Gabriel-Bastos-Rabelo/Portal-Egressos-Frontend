@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = 'http://44.205.22.49:8080/api'; 
+const API = '/api'; 
 
 export const EstatisticasService = {
   async getEgressosAprovados() {
