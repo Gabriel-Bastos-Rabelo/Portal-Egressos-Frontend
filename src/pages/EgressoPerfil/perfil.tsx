@@ -1,5 +1,5 @@
 import { FileText, Save, User } from "lucide-react";
-import egressoImg from '../../assets/egresso-img.png';
+import egressoImg from '../../assets/user.png';
 import editIcon from '../../assets/editIcon.png'; // Ícone de edição
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -268,12 +268,12 @@ const EditarPerfil = () => {
   if (loading || saving) return <Loading />;
 
   return (
-    <main className="container mx-auto py-12 flex justify-center gap-8">
+    <main className="container mx-auto py-12 flex flex-wrap justify-center gap-16 sm:gap-32 p-5">
       {showEditMessage && <EditMessage />}
       {showDepoimentoMessage && <DepoimentoMessage />}
 
-      <div className="w-120 flex flex-col gap-6">
-        <div className="flex flex-row items-center mb-8">
+      <div className="w-full sm:w-60 flex flex-col gap-6 items-center sm:items-start">
+        <div className="flex flex-col sm:flex-row items-center mb-8 text-center sm:text-left">
           <img
             className="w-[120px] h-[120px] rounded-full object-cover mb-4"
             alt="Foto do Egresso"
@@ -297,7 +297,7 @@ const EditarPerfil = () => {
         </div>
       </div>
   
-      <div className="w-120">
+      <div className="w-full max-w-2xl sm:px-0">
         {activeSection === "dadosPessoais" && (
           <>
             <h1 className="text-3xl font-bold mb-8 text-center">Editar Dados</h1>
