@@ -30,12 +30,11 @@ const Navbar = () => {
   const homeLink = role === "COORDENADOR" ? "/coordenador" : "/";
 
   const handleLogout = () => {
-    // Remover dados de login do localStorage
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('role'); // Remover o role do localStorage
+    localStorage.removeItem('role');
     localStorage.removeItem('email');
     localStorage.removeItem('egressoId')
-    setRole(""); // Limpe o role
+    setRole("");
     navigate('/');
   };
 
@@ -160,7 +159,7 @@ const Navbar = () => {
           </div>
 
           <div id="navbarMenu" className={clicked ? "#navbar-menu active hidden" : "navbar-menu hidden"}>
-            <div className="mobile" onClick={handleClick}>
+            <div className="hidden max-[1200px]:block" onClick={handleClick}>
               <i id="bar" className='fas fa-times items-center cursor-pointer text-[30px] md:text-[40px] pl-4'/>
             </div>
             <ul className='w-4/5'>
