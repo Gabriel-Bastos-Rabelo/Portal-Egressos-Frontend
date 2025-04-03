@@ -91,7 +91,7 @@ const EgressoSolicitacoes = () => {
 
   return (
     <div className="w-full mb-10">
-      <div className="mx-40 mb-5">
+      <div className="mx-40 mb-5 max-[900px]:mx-5">
         {loading ? (
           <Loading />
         ) : egressosFiltrados.length === 0 ? (
