@@ -85,7 +85,7 @@ const OportunidadeFilter = ({
           onClick={handleLimpar}
           className="h-12 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded text-sm transition-colors"
         >
-          Limpar
+          Limpar Filtro
         </button>
       </div>
     </div>

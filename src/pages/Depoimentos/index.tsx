@@ -22,10 +22,12 @@ function Depoimentos() {
 
   const handleFiltrar = (filters: { nome: string; curso: string; ano: string }) => {
     setFilters(filters);
+    setPage(1);
   };
 
   const handleLimpar = () => {
     setFilters({ nome: '', curso: '', ano: '' });
+    setPage(1);
   };
 
   useEffect(() => {

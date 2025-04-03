@@ -48,6 +48,8 @@ function Noticias() {
         <h1 className="text-3xl font-bold text-center mt-12">Notícias</h1>
         {loading ? (
           <Loading />
+        ) : noticias.length === 0 ? (
+          <div className="text-center text-xl my-20">Sem dados.</div>
         ) : (
           <>
             <div className="flex flex-col max-w-5xl mx-auto px-4 w-full">

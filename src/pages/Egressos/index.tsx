@@ -45,6 +45,16 @@ function Egressos() {
       });
   }, []);
 
+  const handleFiltrar = (filters: { nome: string; curso: string; ano: string }) => {
+    setFilters(filters);
+    setPage(1);
+  };
+
+  const handleLimpar = () => {
+    setFilters({ nome: '', curso: '', ano: '' });
+    setPage(1);
+  };
+
   useEffect(() => {
     setTotalPages(Math.ceil(egressosFiltrados.length / itemsPerPage));
   }, [egressosFiltrados]);
@@ -61,16 +71,16 @@ function Egressos() {
         ) : egressosFiltrados.length === 0 ? (
           <>
             <EgressoFilter
-              onFiltrar={(filters) => setFilters(filters)}
-              onLimpar={() => setFilters({ nome: '', curso: '', ano: '' })}
+              onFiltrar={handleFiltrar}
+              onLimpar={handleLimpar}
             />
             <div className="text-center text-xl">Sem dados.</div>
           </>
         ) : (
           <>
             <EgressoFilter
-              onFiltrar={(filters) => setFilters(filters)}
-              onLimpar={() => setFilters({ nome: '', curso: '', ano: '' })}
+              onFiltrar={handleFiltrar}
+              onLimpar={handleLimpar}
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
