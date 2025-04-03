@@ -48,7 +48,7 @@ export default function OportunidadeForm() {
       };
 
       const response = await axios.post(
-        'http://44.205.22.49:8080/api/oportunidade/salvar',
+        '/api/oportunidade/salvar',
         oportunidadeData,
         {
           headers: {

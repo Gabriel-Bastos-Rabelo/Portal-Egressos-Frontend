@@ -66,7 +66,7 @@ const EditarPerfil = () => {
       if (!egressoId || !token) return;
   
       try {
-        const response = await axios.get(`http://44.205.22.49:8080/api/egresso/buscar/${egressoId}`, {
+        const response = await axios.get(`/api/egresso/buscar/${egressoId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const EditarPerfil = () => {
       if (!token) return;
 
       try {
-        const response = await axios.get('http://44.205.22.49:8080/api/cursos/listarCursos', {
+        const response = await axios.get('/api/cursos/listarCursos', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ const EditarPerfil = () => {
     setLoading(true); // <- AQUI
     try {
       const response = await axios.get(
-        `http://44.205.22.49:8080/api/depoimento/buscar/${egressoId}`,
+        `/api/depoimento/buscar/${egressoId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -206,7 +206,7 @@ const EditarPerfil = () => {
   
     try {
       const response = await axios.put(
-        `http://44.205.22.49:8080/api/egresso/atualizar/${egressoId}`,
+        `/api/egresso/atualizar/${egressoId}`,
         formDataToSend,
         {
           headers: {
@@ -245,7 +245,7 @@ const EditarPerfil = () => {
   
     try {
       const response = await axios.put(
-        `http://44.205.22.49:8080/api/depoimento/atualizar/${formData.idDepoimento}`,
+        `/api/depoimento/atualizar/${formData.idDepoimento}`,
         payload,
         {
           headers: {

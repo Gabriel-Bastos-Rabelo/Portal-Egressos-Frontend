@@ -40,7 +40,7 @@ export default function DepoimentoForm({
 
     try {
       const response = await axios.post(
-        'http://44.205.22.49:8080/api/depoimento/salvar',
+        '/api/depoimento/salvar',
         {
           idEgresso,
           texto: data.texto,
