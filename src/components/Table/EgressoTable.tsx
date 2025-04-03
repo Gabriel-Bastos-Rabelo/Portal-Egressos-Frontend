@@ -94,7 +94,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
               />
             </th>
             <th className="w-6/20 px-2 py-4 border border-[#000]">Nome do Egresso</th>
-            <th className="w-10/20 px-2 py-4 border border-[#000]">Descrição</th>
+            <th className="w-10/20 px-2 py-4 border border-[#000] max-[900px]:hidden">Descrição</th>
             <th className="w-3/20 px-2 py-4 border border-[#000]">Ações</th>
           </tr>
         </thead>
@@ -110,7 +110,7 @@ function Table({ solicitacoes, selected, onCheckboxChange, onSelectAllChange, se
                 />
               </td>
               <td className="px-2 py-4 font-bold text-center text-lg">{solicitacao.nomeEgresso}</td>
-              <td className="px-2 py-4 text-justify text-lg text-gray-600">{truncateText(solicitacao.descricao, 100)}</td>
+              <td className="px-2 py-4 text-justify text-lg text-gray-600 max-[900px]:hidden">{truncateText(solicitacao.descricao, 100)}</td>
               <td className="px-2 py-4 flex justify-around gap-4">
                 <i
                   className="fa-solid fa-magnifying-glass text-[#08276F] text-3xl cursor-pointer"

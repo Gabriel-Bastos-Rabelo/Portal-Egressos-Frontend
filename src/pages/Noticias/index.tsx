@@ -43,7 +43,7 @@ function Noticias() {
   }, [location]);
 
   return (
-    <div className="flex min-h-screen w-screen justify-center">
+    <div className="flex min-h-screen w-full justify-center">
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-bold text-center mt-12">Notícias</h1>
         {loading ? (

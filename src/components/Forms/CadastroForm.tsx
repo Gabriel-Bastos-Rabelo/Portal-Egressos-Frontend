@@ -5,6 +5,7 @@ import { Upload, ArrowRight } from "lucide-react";
 import axios from 'axios';
 import ConfirmDialog from '../Popup/Confirmacao';
 import Loading from '../Loading';
+import { Eye, EyeOff } from "lucide-react";
 
 interface FormData {
   nome: string;
@@ -31,6 +32,7 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
     nivel: string;
   }
 
+  const [mostrarSenha, setMostrarSenha] = useState(false);
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [fotoNome, setFotoNome] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -117,16 +119,16 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
   if (loading) return <Loading />;
 
   return (
-    <form className="cadastro-form-container">
+    <form className="cadastro-form-container w-full max-w-2xl mx-auto p-4 sm:p-6 flex flex-col gap-4">
       <div>
         <label htmlFor="nome" className="cadastro-label">Nome</label>
-        <input {...register('nome', { required: 'Nome é obrigatório' })} id="nome" placeholder="Nome" className="cadastro-input" />
+        <input {...register('nome', { required: 'Nome é obrigatório' })} id="nome" placeholder="Nome" className="cadastro-input w-full" />
         {errors.nome && <p className="error-message">{errors.nome.message}</p>}
       </div>
 
       <div>
         <label htmlFor="curso" className="cadastro-label">Curso</label>
-        <select {...register('curso', { required: 'Curso é obrigatório' })} id="curso" className="cadastro-input">
+        <select {...register('curso', { required: 'Curso é obrigatório' })} id="curso" className="cadastro-input w-full">
           <option value="">Selecione o curso</option>
           {cursos.length > 0 ? (
             cursos.map((curso) => (
@@ -139,45 +141,45 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
         {errors.curso && <p className="error-message">{errors.curso.message}</p>}
       </div>
 
-      <div className="flex space-x-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <label htmlFor="anoInicio" className="cadastro-label">Ano de Início</label>
-          <input {...register('anoInicio', { required: 'Ano de início é obrigatório' })} id="anoInicio" placeholder="Ano de Início" type="number" className="cadastro-input" />
+          <input {...register('anoInicio', { required: 'Ano de início é obrigatório' })} id="anoInicio" placeholder="Ano de Início" type="number" className="cadastro-input w-full" />
           {errors.anoInicio && <p className="error-message">{errors.anoInicio.message}</p>}
         </div>
         <div className="flex-1">
           <label htmlFor="anoFim" className="cadastro-label">Ano de Fim</label>
-          <input {...register('anoFim', { required: 'Ano de fim é obrigatório' })} id="anoFim" placeholder="Ano de Fim" type="number" className="cadastro-input" />
+          <input {...register('anoFim', { required: 'Ano de fim é obrigatório' })} id="anoFim" placeholder="Ano de Fim" type="number" className="cadastro-input w-full" />
           {errors.anoFim && <p className="error-message">{errors.anoFim.message}</p>}
         </div>
       </div>
 
       <div>
         <label htmlFor="descricao" className="cadastro-label">Descrição</label>
-        <textarea {...register('descricao', { required: 'Descrição é obrigatória' })} id="descricao" placeholder="Descrição" className="cadastro-textarea" />
+        <textarea {...register('descricao', { required: 'Descrição é obrigatória' })} id="descricao" placeholder="Descrição" className="cadastro-textarea w-full" />
         {errors.descricao && <p className="error-message">{errors.descricao.message}</p>}
       </div>
 
       <div>
         <label htmlFor="linkedin" className="cadastro-label">LinkedIn</label>
-        <input {...register('linkedin')} id="linkedin" placeholder="Digite o link do seu perfil no LinkedIn" className="cadastro-input" type="url" />
+        <input {...register('linkedin')} id="linkedin" placeholder="Digite o link do seu perfil no LinkedIn" className="cadastro-input w-full" type="url" />
         {errors.linkedin && <p className="error-message">{errors.linkedin.message}</p>}
       </div>
 
       <div>
         <label htmlFor="curriculo" className="cadastro-label">Currículo Lattes</label>
-        <input {...register('curriculo')} id="curriculo" placeholder="Digite o link do seu Lattes" className="cadastro-input" type="url" />
+        <input {...register('curriculo')} id="curriculo" placeholder="Digite o link do seu Lattes" className="cadastro-input w-full" type="url" />
       </div>
 
       <div>
         <label htmlFor="instagram" className="cadastro-label">Instagram</label>
-        <input {...register('instagram')} id="instagram" placeholder="Digite o link do seu instagram" className="cadastro-input" type="text" />
+        <input {...register('instagram')} id="instagram" placeholder="Digite o link do seu Instagram" className="cadastro-input w-full" type="text" />
         {errors.instagram && <p className="error-message">{errors.instagram.message}</p>}
       </div>
 
       <div>
         <label htmlFor="foto" className="cadastro-label">Foto</label>
-        <div className="upload-container">
+        <div className="upload-container relative">
           <Upload className="upload-icon" />
           <span className="upload-text">Selecione uma foto</span>
           <input
@@ -185,7 +187,7 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
             id="foto"
             type="file"
             accept="image/*"
-            className="upload-input"
+            className="upload-input absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
             onChange={(e) => {
               const fileList = e.target.files;
               if (fileList && fileList.length > 0) {
@@ -196,31 +198,45 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
             }}
           />
         </div>
-        {fotoNome && <p className="foto-nome">{fotoNome}</p>}
+        {fotoNome && <p className="foto-nome mt-1 text-sm text-gray-700">{fotoNome}</p>}
       </div>
 
       <div>
         <label htmlFor="email" className="cadastro-label">Email</label>
-        <input {...register('email', { required: 'Email é obrigatório' })} id="email" type="email" placeholder="Digite seu email" className="cadastro-input" />
+        <input {...register('email', { required: 'Email é obrigatório' })} id="email" type="email" placeholder="Digite seu email" className="cadastro-input w-full" />
         {errors.email && <p className="error-message">{errors.email.message}</p>}
       </div>
 
       <div>
         <label htmlFor="senha" className="cadastro-label flex items-center gap-2">
           Senha
-          <div className="tooltip-container">
+          <div className="tooltip-container relative">
             <div className="tooltip-icon">?</div>
-            <div className="tooltip-text">
+            <div className="tooltip-text absolute left-6 top-0 w-48 bg-white text-gray-800 text-sm p-2 rounded shadow-md z-10 hidden group-hover:block">
               A senha deve conter:
-              <ul>
-                <li>- Pelo menos 1 caractere especial</li>
-                <li>- Pelo menos uma letra maiúscula</li>
-                <li>- No máximo 8 dígitos</li>
+              <ul className="list-disc ml-4">
+                <li>No máximo 8 dígitos</li>
               </ul>
             </div>
           </div>
         </label>
-        <input {...register('senha', { required: 'Senha é obrigatória' })} id="senha" type="password" placeholder="Digite sua senha" className="cadastro-input" />
+        <div className="relative">
+          <input
+            {...register('senha', { required: 'Senha é obrigatória' })}
+            id="senha"
+            type={mostrarSenha ? 'text' : 'password'}
+            placeholder="Digite sua senha"
+            className="cadastro-input w-full pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setMostrarSenha(!mostrarSenha)}
+            className="absolute right-3 inset-y-0 my-auto flex items-center text-[var(--color-blue7)]"
+            tabIndex={-1}
+          >
+            {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
         {errors.senha && <p className="error-message">{errors.senha.message}</p>}
       </div>
 
@@ -250,5 +266,6 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
         }}
       />
     </form>
+
   );
 }

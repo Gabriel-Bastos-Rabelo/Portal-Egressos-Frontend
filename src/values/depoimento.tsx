@@ -7,4 +7,5 @@ export type Depoimento = {
     descricao: string;
     anoConclusao: number | null;
     status: string;
+    foto: string | null;
   };

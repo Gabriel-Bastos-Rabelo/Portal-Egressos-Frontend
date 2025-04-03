@@ -74,7 +74,7 @@ const Oportunidades = () => {
   const paginatedOportunidades = paginate(oportunidadesFiltradas, page, itemsPerPage);
 
   return (
-    <div className="flex min-h-screen w-screen justify-center my-12">
+    <div className="flex min-h-screen w-full justify-center my-12">
       <div className="flex flex-col items-center gap-8">
         {showMessage && <OportunidadeMessage />}
 
@@ -98,12 +98,11 @@ const Oportunidades = () => {
             />
 
             {role === 'EGRESSO' && (
-              <div className="w-full flex justify-end pr-8 mt-4 mb-8">
+              <div className="w-full flex justify-end mb-8 max-[900px]:justify-center">
                 <BotaoEnviarOportunidade />
               </div>
             )}
 
-            {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
               {paginatedOportunidades.map((oportunidade) => (
                 <OportunidadeCard 

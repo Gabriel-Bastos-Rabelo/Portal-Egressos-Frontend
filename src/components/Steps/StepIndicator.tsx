@@ -7,23 +7,22 @@ export default function StepIndicator({
   steps: string[];
   currentStep: number;
 }) {
-  return (
-    <div className="w-full flex flex-col items-center gap-6">
-      {/* Steps, Labels, Line */}
-      <div className="relative flex justify-evenly w-full max-w-[600px]">
-        {/* Background line */}
-        <div className="w-90 absolute top-[50%] left-30 right-0 h-[2px] bg-gray-300 z-0" />
+  const progressPercent =
+    steps.length <= 1
+      ? "0%"
+      : `${((currentStep - 1) / (steps.length - 1)) * 65}%`;
 
-        {/* Progress line */}
+  return (
+    <div className="w-full flex flex-col items-center gap-6 ">
+
+      <div className="relative flex justify-between items-center w-full max-w-3xl px-4">
+        {/* Linha de fundo — começa após a 1ª bolinha e termina antes da última */}
+        <div className="absolute top-5 left-[17.5%] right-[17.5%] h-[2px] bg-gray-300 z-0" />
+
+        {/* Linha de progresso */}
         <div
-          className={`absolute top-[50%] left-30 right-0 h-[2px] bg-blue-900 z-10 transition-all duration-500`}
-          style={{
-            width: currentStep === 1
-              ? "0%"
-              : currentStep === 2
-                ? "32%"
-                : "62%",
-          }}
+          className="absolute top-5 left-[17.5%] h-[2px] bg-blue-900 z-10 transition-all duration-500"
+          style={{ width: progressPercent }}
         />
 
         {steps.map((step, index) => {
@@ -34,14 +33,12 @@ export default function StepIndicator({
           return (
             <div
               key={index}
-              className="relative z-20 flex flex-col items-center w-full max-w-[120px]"
+              className="relative z-20 flex flex-col items-center flex-1 min-w-[80px] mt-1"
             >
-              {/* Circle */}
               <div
-                className={`mt-7 flex items-center justify-center w-7 h-7 rounded-full text-white text-sm transition-all duration-300
-                  ${isCompleted ? 'bg-blue-900' : ''} 
-                  ${isActive ? 'bg-blue-900' : ''}
-                  ${!isCompleted && !isActive ? 'bg-gray-400' : ''}`}
+                className={`flex items-center justify-center w-8 h-8 rounded-full text-white text-sm transition-all duration-300
+                  ${isCompleted || isActive ? "bg-blue-900" : "bg-gray-400"}
+                `}
               >
                 {isCompleted ? (
                   <Check size={16} className="text-white" />
@@ -50,10 +47,9 @@ export default function StepIndicator({
                 )}
               </div>
 
-              {/* Label */}
               <span
-                className={`mt-2 text-sm text-center
-                  ${isActive ? 'text-black font-semibold' : 'text-gray-500'}
+                className={`mt-2 text-sm text-center min-h-[40px] flex items-center justify-center
+                  ${isActive ? "text-black font-semibold" : "text-gray-500"}
                 `}
               >
                 {step}
