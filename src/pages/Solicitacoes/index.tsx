@@ -16,7 +16,7 @@ function Solicitacoes() {
   return (
     <div className="w-full min-h-screen mb-10">
 
-      <div className="flex justify-around text-2xl my-8">
+      <div className="flex justify-around text-2xl my-8 max-[900px]:text-x1 max-[700px]:text-base">
         <h2 className={`cursor-pointer ${abaSelecionada === 'egresso' ? 'text-[#174a9d] border-b-2 border-[#174a9d]' : ''}`}
           onClick={() => setAbaSelecionada('egresso')}>
             Egressos

@@ -58,7 +58,7 @@ function Depoimentos() {
   }, [depoimentosFiltrados]);
 
   return (
-    <div className="flex min-h-screen w-screen justify-center my-12">
+    <div className="flex min-h-screen w-full justify-center my-12">
       <div className="flex flex-col items-center gap-8">
         <h1 className="text-3xl font-bold text-center">Depoimentos</h1>
 

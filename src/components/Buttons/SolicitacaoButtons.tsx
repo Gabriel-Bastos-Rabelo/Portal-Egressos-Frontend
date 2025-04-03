@@ -53,7 +53,7 @@ const SolicitacaoButtons = ({ isButtonDisabled, selected, urlApprove, urlDisappr
   };
 
   return (
-    <div className="flex justify-start gap-5 mx-40">
+    <div className="flex justify-start gap-5 mx-40 max-[900px]:mx-5">
       {success && <SuccessMessage qtd_solicitacoes={selected.length} tipo_solicitacao={type_solicitacao + "(s)"}/>}
       {reject && <RejectMessage qtd_solicitacoes={selected.length} tipo_solicitacao={type_solicitacao + "(s)"}/>}
       

@@ -29,7 +29,7 @@ const OportunidadeFilter = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-4 items-end justify-center mb-10">
+    <div className="flex flex-wrap gap-4 items-end justify-center mb-10 max-[900px]:flex-col max-[900px]:items-center">
       <div className="flex flex-col">
         <label htmlFor="titulo" className="block text-sm font-bold text-gray-700 mb-1">
           Título
@@ -40,7 +40,7 @@ const OportunidadeFilter = ({
           placeholder="Digite o título da oportunidade"
           value={tituloInput}
           onChange={(e) => setTituloInput(e.target.value)}
-          className="w-64 h-12 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          className="w-52 h-12 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
         />
       </div>
 
@@ -53,7 +53,7 @@ const OportunidadeFilter = ({
           type="date"
           value={dataInput}
           onChange={(e) => setDataInput(e.target.value)}
-          className="w-48 h-12 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          className="w-52 h-12 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
         />
       </div>
 
