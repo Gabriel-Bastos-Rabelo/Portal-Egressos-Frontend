@@ -30,7 +30,7 @@ function Egressos() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8080/api/egresso/buscarAprovados')
+      .get('http://44.205.22.49:8080/api/egresso/buscarAprovados')
       .then((response) => {
         const sortedEgressos = response.data.sort((a: Egresso, b: Egresso) =>
           a.nomeEgresso.localeCompare(b.nomeEgresso)

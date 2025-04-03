@@ -36,7 +36,7 @@ const Oportunidades = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/oportunidade/aprovadas')
+    axios.get('http://44.205.22.49:8080/api/oportunidade/aprovadas')
       .then(response => {
         setOportunidades(response.data);
         setTotalPages(Math.ceil(response.data.length / itemsPerPage));

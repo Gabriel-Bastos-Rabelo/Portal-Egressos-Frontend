@@ -48,7 +48,7 @@ const EgressoSolicitacoes = () => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       try {
-        const response = await axios.get(`http://localhost:8080/api/egresso/pendentes`, {
+        const response = await axios.get(`http://44.205.22.49:8080/api/egresso/pendentes`, {
           headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
@@ -131,8 +131,8 @@ const EgressoSolicitacoes = () => {
         <SolicitacaoButtons 
           isButtonDisabled={isButtonDisabled}
           selected={getSelectedIds()}
-          urlApprove='http://localhost:8080/api/egresso/aprovar'
-          urlDisapprove='http://localhost:8080/api/egresso/reprovar'
+          urlApprove='http://44.205.22.49:8080/api/egresso/aprovar'
+          urlDisapprove='http://44.205.22.49:8080/api/egresso/reprovar'
           type_solicitacao='egresso'
           onSuccess={carregarSolicitacoes}
         />)}

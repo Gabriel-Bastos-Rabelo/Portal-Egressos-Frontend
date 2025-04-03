@@ -66,7 +66,7 @@ const EditarPerfil = () => {
       if (!egressoId || !token) return;
   
       try {
-        const response = await axios.get(`http://localhost:8080/api/egresso/buscar/${egressoId}`, {
+        const response = await axios.get(`http://44.205.22.49:8080/api/egresso/buscar/${egressoId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const EditarPerfil = () => {
       if (!token) return;
 
       try {
-        const response = await axios.get('http://localhost:8080/api/cursos/listarCursos', {
+        const response = await axios.get('http://44.205.22.49:8080/api/cursos/listarCursos', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ const EditarPerfil = () => {
     setLoading(true); // <- AQUI
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/depoimento/buscar/${egressoId}`,
+        `http://44.205.22.49:8080/api/depoimento/buscar/${egressoId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -206,7 +206,7 @@ const EditarPerfil = () => {
   
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/egresso/atualizar/${egressoId}`,
+        `http://44.205.22.49:8080/api/egresso/atualizar/${egressoId}`,
         formDataToSend,
         {
           headers: {
@@ -245,7 +245,7 @@ const EditarPerfil = () => {
   
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/depoimento/atualizar/${formData.idDepoimento}`,
+        `http://44.205.22.49:8080/api/depoimento/atualizar/${formData.idDepoimento}`,
         payload,
         {
           headers: {
@@ -277,7 +277,7 @@ const EditarPerfil = () => {
           <img
             className="w-[120px] h-[120px] rounded-full object-cover mb-4"
             alt="Foto do Egresso"
-            src={formData.foto ? `http://localhost:8080/uploads/${formData.foto}` : egressoImg}
+            src={formData.foto ? `http://44.205.22.49:8080/uploads/${formData.foto}` : egressoImg}
           />
           <h2 className="font-normal text-2xl p-8">{nomeExibido || "Nome Egresso"}</h2>
         </div>

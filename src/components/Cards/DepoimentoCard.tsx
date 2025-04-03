@@ -5,7 +5,7 @@ const DepoimentoCard = ({ depoimento }: { depoimento: Depoimento }) => {
   return (
     <div className="rounded-lg shadow-xl flex items-center gap-4 py-5 px-10 my-5 mx-10 max-[900px]:flex-col max-[900px]:rounded">
       <img
-        src={depoimento.foto ? `http://localhost:8080/uploads/${depoimento.foto}` : egressoImg}
+        src={depoimento.foto ? `http://44.205.22.49:8080/uploads/${depoimento.foto}` : egressoImg}
         alt="Foto do egresso"
         className="w-[128px] h-[128px] object-cover rounded-full shrink-0"
       />

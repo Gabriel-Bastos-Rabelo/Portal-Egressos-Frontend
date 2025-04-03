@@ -45,7 +45,7 @@ const EditarPerfilCoordenador = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/coordenador/buscar/${coordenadorId}`,
+          `http://44.205.22.49:8080/api/coordenador/buscar/${coordenadorId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ const EditarPerfilCoordenador = () => {
       if (!token) return;
 
       try {
-        const response = await axios.get('http://localhost:8080/api/cursos/listarCursos', {
+        const response = await axios.get('http://44.205.22.49:8080/api/cursos/listarCursos', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const EditarPerfilCoordenador = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/coordenador/atualizar/${coordenadorId}`,
+        `http://44.205.22.49:8080/api/coordenador/atualizar/${coordenadorId}`,
         coordenadorData,
         {
           headers: {

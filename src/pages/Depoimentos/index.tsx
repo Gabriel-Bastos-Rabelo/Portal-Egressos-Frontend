@@ -29,7 +29,7 @@ function Depoimentos() {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/depoimento/aprovados')
+    axios.get('http://44.205.22.49:8080/api/depoimento/aprovados')
       .then(response => {
         const sortedDepoimentos = response.data.sort((a: Depoimento, b: Depoimento) =>
           a.nomeEgresso.localeCompare(b.nomeEgresso)

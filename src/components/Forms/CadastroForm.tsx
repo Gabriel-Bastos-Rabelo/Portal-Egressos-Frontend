@@ -42,7 +42,7 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
   useEffect(() => {
     const fetchCursos = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/cursos/listarCursos');
+        const response = await axios.get('http://44.205.22.49:8080/api/cursos/listarCursos');
         if (response.status === 200) {
           setCursos(response.data);
         } else {
@@ -78,7 +78,7 @@ export default function CadastroForm({ onNext }: { onNext: (egressoId: number) =
         formData.append('imagem', data.foto[0], data.foto[0].name);
       }
 
-      const response = await axios.post('http://localhost:8080/api/egresso/salvar', formData, {
+      const response = await axios.post('http://44.205.22.49:8080/api/egresso/salvar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }

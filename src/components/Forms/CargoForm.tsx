@@ -53,7 +53,7 @@ export default function CargoForm({
 
     try {
       const response = await axios.post(
-        'http://localhost:8080/api/cargo',
+        'http://44.205.22.49:8080/api/cargo',
         {
           egressoId: idEgresso,
           descricao: data.cargo,

@@ -12,7 +12,7 @@ const EgressoCard = ({ egresso }: { egresso: Egresso }) => {
   return (
     <div className="w-[250px] h-[300px] bg-white rounded-lg shadow-xl flex flex-col items-center justify-center text-center">
       <img
-        src={egresso.foto ? `http://localhost:8080/uploads/${egresso.foto}` : egressoImg}
+        src={egresso.foto ? `http://44.205.22.49:8080/uploads/${egresso.foto}` : egressoImg}
         alt="Foto do egresso"
         className="w-24 h-24 rounded-full object-cover mb-2"
       />

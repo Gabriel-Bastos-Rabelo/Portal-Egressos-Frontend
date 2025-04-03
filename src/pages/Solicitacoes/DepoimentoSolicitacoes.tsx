@@ -48,7 +48,7 @@ const DepoimentoSolicitacoes = () => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       try {
-        const response = await axios.get(`http://localhost:8080/api/depoimento/pendentes`, {
+        const response = await axios.get(`http://44.205.22.49:8080/api/depoimento/pendentes`, {
           headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
@@ -132,8 +132,8 @@ const DepoimentoSolicitacoes = () => {
         <SolicitacaoButtons 
           isButtonDisabled={isButtonDisabled}
           selected={getSelectedIds()}
-          urlApprove='http://localhost:8080/api/depoimento/aprovar'
-          urlDisapprove='http://localhost:8080/api/depoimento/reprovar'
+          urlApprove='http://44.205.22.49:8080/api/depoimento/aprovar'
+          urlDisapprove='http://44.205.22.49:8080/api/depoimento/reprovar'
           type_solicitacao='depoimento'
           onSuccess={carregarSolicitacoes}
         /> )}

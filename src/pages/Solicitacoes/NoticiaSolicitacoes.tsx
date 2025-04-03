@@ -48,7 +48,7 @@ const NoticiaSolicitacoes = () => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       try {
-        const response = await axios.get(`http://localhost:8080/api/noticia/pendentes`, {
+        const response = await axios.get(`http://44.205.22.49:8080/api/noticia/pendentes`, {
           headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
@@ -96,8 +96,8 @@ const NoticiaSolicitacoes = () => {
         <SolicitacaoButtons 
           isButtonDisabled={isButtonDisabled}
           selected={getSelectedIds()}
-          urlApprove='http://localhost:8080/api/noticia/aprovar'
-          urlDisapprove='http://localhost:8080/api/noticia/reprovar'
+          urlApprove='http://44.205.22.49:8080/api/noticia/aprovar'
+          urlDisapprove='http://44.205.22.49:8080/api/noticia/reprovar'
           type_solicitacao='noticia'
           onSuccess={carregarSolicitacoes}
         />)}
